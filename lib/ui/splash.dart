@@ -12,8 +12,10 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
+
     // TODO: implement initState
     super.initState();
+    LoadTimer();
   }
 
   //-> timer for launching screen after seconds
@@ -28,6 +30,43 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SafeArea(
+      child: Scaffold(
+        body: columnElements(),
+      ),
+    );
   }
+
+  //-----------------------------Widget Tree------------------------------------
+  Widget columnElements() {
+    return Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.05,
+        ),
+        imageBackground(),
+      ],
+    );
+  }
+
+  //--------------------------Logo background-----------------------------------
+  Widget imageBackground() {
+    return Center(
+      child: Container(
+        alignment: Alignment.center,
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: MediaQuery.of(context).size.height * 0.4,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(35.0),
+          image: DecorationImage(
+              image: AssetImage('assets/ui/splashscreen/appicon.png'),
+              fit: BoxFit.cover),
+        ),
+      ),
+    );
+  }
+
+  //----------------------------------------------------------------------------
+
+//------------------------------------------------------------------------------
 }

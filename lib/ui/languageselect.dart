@@ -8,6 +8,17 @@ class LanguageSelect extends StatefulWidget {
 class _LanguageSelectState extends State<LanguageSelect> {
   @override
   Widget build(BuildContext context) {
-    return Container();
-  }
-} // end class
+    return SafeArea(
+      child: Scaffold(
+        body: Container(
+          height: 25.0,
+          width: 50.0,
+          child: Text('Hello'),
+        ),
+      ),
+    );
+  } // end build
+
+}
+
+//TODO: Make Ui

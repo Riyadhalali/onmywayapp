@@ -12,8 +12,8 @@ class Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 197.0,
-      height: 52.0,
+      width: MediaQuery.of(context).size.width,
+      height: 1.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
         color: const Color(0xff2d2e39),

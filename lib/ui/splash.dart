@@ -12,7 +12,6 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-
     // TODO: implement initState
     super.initState();
     LoadTimer();
@@ -45,6 +44,16 @@ class _SplashScreenState extends State<SplashScreen> {
           height: MediaQuery.of(context).size.height * 0.05,
         ),
         imageBackground(),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.2,
+        ),
+        Container(
+          padding: EdgeInsets.all(50.0),
+          alignment: Alignment.bottomCenter,
+          child: CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+          ),
+        ),
       ],
     );
   }

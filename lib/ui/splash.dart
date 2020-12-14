@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:alatareekeh/services/sharedpref.dart';
+import 'package:alatareekeh/ui/home.dart';
+import 'package:alatareekeh/ui/languageselect.dart';
 import 'package:flutter/material.dart';
-
-import 'languageselect.dart';
 
 class SplashScreen extends StatefulWidget {
   static String id =
@@ -12,6 +13,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  SharedPref sharedPref = SharedPref(); // create object of the class
   @override
   void initState() {
     // TODO: implement initState
@@ -24,9 +26,19 @@ class _SplashScreenState extends State<SplashScreen> {
     return new Timer(Duration(seconds: 5), onDoneLoading);
   }
 
-  onDoneLoading() async {
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => LanguageSelect()));
+  Future onDoneLoading() async {
+    //
+    // Navigator.of(context).pushReplacement(
+    //     MaterialPageRoute(builder: (context) => LanguageSelect()));
+    // read shared preferences if  user selected language then go to home page else read shared for language else privacy
+    String selected_lang;
+    String privacypolicy;
+    selected_lang = await sharedPref.LoadData('selectedlanguage');
+    if (selected_lang == 'en' || selected_lang == 'ar') {
+      Navigator.pushNamed(context, HomePage.id);
+    } else {
+      Navigator.pushNamed(context, LanguageSelect.id);
+    }
   }
 
   @override

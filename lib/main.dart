@@ -1,3 +1,4 @@
+import 'package:alatareekeh/ui/home.dart';
 import 'package:alatareekeh/ui/languageselect.dart';
 import 'package:alatareekeh/ui/privacypolicy.dart';
 import 'package:alatareekeh/ui/splash.dart';
@@ -38,7 +39,8 @@ class MyApp extends StatelessWidget {
                 SplashScreen.id: (context) => SplashScreen(),
                 LanguageSelect.id: (context) => LanguageSelect(),
                 PrivacyPolicy.id: (context) =>
-                    PrivacyPolicy() // privacy policy route screen
+                    PrivacyPolicy(), // privacy policy route screen
+                HomePage.id: (context) => HomePage()
               },
             );
           },

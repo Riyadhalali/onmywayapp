@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'languageselect.dart';
 
 class SplashScreen extends StatefulWidget {
+  static String id =
+      'splash_screen'; // a global static for calling from any activity
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }

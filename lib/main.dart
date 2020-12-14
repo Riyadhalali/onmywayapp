@@ -1,3 +1,5 @@
+import 'package:alatareekeh/ui/languageselect.dart';
+import 'package:alatareekeh/ui/privacypolicy.dart';
 import 'package:alatareekeh/ui/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,8 @@ class MyApp extends StatelessWidget {
         return OrientationBuilder(
           //return OrientationBuilder
           builder: (context, orientation) {
+            var lang = context.locale.toString(); // get lang of app
+            print('your app language is:$lang');
             //initialize SizerUtil()
             SizerUtil().init(constraints, orientation); //initialize SizerUtil
             return MaterialApp(
@@ -27,8 +31,15 @@ class MyApp extends StatelessWidget {
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
+              initialRoute:
+                  SplashScreen.id, // the default screen that will start
               theme: ThemeData.light(),
-              home: SplashScreen(),
+              routes: {
+                SplashScreen.id: (context) => SplashScreen(),
+                LanguageSelect.id: (context) => LanguageSelect(),
+                PrivacyPolicy.id: (context) =>
+                    PrivacyPolicy() // privacy policy route screen
+              },
             );
           },
         );

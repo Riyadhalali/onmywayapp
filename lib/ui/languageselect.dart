@@ -127,7 +127,7 @@ class _LanguageSelectState extends State<LanguageSelect> {
           Locale("en"); // set language to English
       sharedPref.setData('selectedlanguage', 'en');
       Navigator.pushNamed(
-          context, PrivacyPolicy.id); // navigate to privacy policy screen
+          context, PrivacyPolicy.id); // navigate to Select Language screen
     });
   }
 
@@ -137,7 +137,7 @@ class _LanguageSelectState extends State<LanguageSelect> {
           Locale("ar"); // set language to English
       sharedPref.setData('selectedlanguage', 'ar');
       Navigator.pushNamed(
-          context, PrivacyPolicy.id); // navigate to privacy policy screen
+          context, PrivacyPolicy.id); // navigate to Select Language screen
     });
   }
 

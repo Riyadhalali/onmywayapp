@@ -1,8 +1,9 @@
 import 'dart:async';
 
 import 'package:alatareekeh/services/sharedpref.dart';
-import 'package:alatareekeh/ui/home.dart';
 import 'package:alatareekeh/ui/languageselect.dart';
+import 'package:alatareekeh/ui/privacypolicy.dart';
+import 'package:alatareekeh/ui/signin.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -34,8 +35,13 @@ class _SplashScreenState extends State<SplashScreen> {
     String selected_lang;
     String privacypolicy;
     selected_lang = await sharedPref.LoadData('selectedlanguage');
-    if (selected_lang == 'en' || selected_lang == 'ar') {
-      Navigator.pushNamed(context, HomePage.id);
+    privacypolicy = await sharedPref.LoadData('privacypolicystate');
+    if (selected_lang == 'en' ||
+        selected_lang == 'ar' && privacypolicy == 'privacypolicyaccepted') {
+      Navigator.pushNamed(context, SignIn.id);
+    } else if (selected_lang == 'en' ||
+        selected_lang == 'ar' && privacypolicy == null) {
+      Navigator.pushNamed(context, PrivacyPolicy.id);
     } else {
       Navigator.pushNamed(context, LanguageSelect.id);
     }

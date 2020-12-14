@@ -1,6 +1,7 @@
 import 'package:alatareekeh/ui/home.dart';
 import 'package:alatareekeh/ui/languageselect.dart';
 import 'package:alatareekeh/ui/privacypolicy.dart';
+import 'package:alatareekeh/ui/signin.dart';
 import 'package:alatareekeh/ui/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -40,7 +41,8 @@ class MyApp extends StatelessWidget {
                 LanguageSelect.id: (context) => LanguageSelect(),
                 PrivacyPolicy.id: (context) =>
                     PrivacyPolicy(), // privacy policy route screen
-                HomePage.id: (context) => HomePage()
+                HomePage.id: (context) => HomePage(),
+                SignIn.id: (context) => SignIn()
               },
             );
           },

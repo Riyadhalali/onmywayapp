@@ -42,6 +42,8 @@ flutter:
   - assets/ui/splashscreen/appicon.png
   - assets/resources/strings/en.json
   - assets/resources/strings/ar.json
+  - assets/ui/privacypolicy/
+  - assets/ui/login/
 
   # example:
   # fonts:

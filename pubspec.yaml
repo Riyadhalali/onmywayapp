@@ -15,6 +15,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
   easy_localization: ^2.3.3
   animated_text_kit: ^3.0.1
+  http: ^0.12.2
 
 
   # The following adds the Cupertino Icons font to your application.

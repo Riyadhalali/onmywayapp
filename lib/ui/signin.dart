@@ -58,7 +58,6 @@ class _SignInState extends State<SignIn> {
     return Container(
       padding: EdgeInsets.only(right: 55.0, left: 55.0),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.06,
       child: RaisedButton(
         color: Color(0xFF8949d8),
         child: Text(

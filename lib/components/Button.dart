@@ -13,7 +13,7 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 1.0,
+      height: 5.0.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
         color: const Color(0xff2d2e39),

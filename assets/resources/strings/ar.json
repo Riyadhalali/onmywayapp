@@ -10,6 +10,10 @@
   "forgetpassword": "نسيت كلمة السر؟",
   "iamnewuser": "مستخدم جديد.",
   "signup": "تسجيل",
-  "register": "التسجيل"
+  "register": "التسجيل",
+  "phone": "الهاتف",
+  "gender": "الجنس",
+  "male": "ذكر",
+  "female": "أنثى"
 
 }

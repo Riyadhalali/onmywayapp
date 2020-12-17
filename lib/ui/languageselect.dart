@@ -81,7 +81,7 @@ class _LanguageSelectState extends State<LanguageSelect> {
     return Container(
       padding: EdgeInsets.all(25.0),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.12,
+      // height: MediaQuery.of(context).size.height * 0.12,
       child: ElevatedButton(
         onPressed: selectEnglish,
         child: Text(
@@ -102,7 +102,7 @@ class _LanguageSelectState extends State<LanguageSelect> {
     return Container(
       padding: EdgeInsets.all(25.0),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.12,
+      // height: MediaQuery.of(context).size.height * 0.12,
       child: ElevatedButton(
         onPressed: selectArabic,
         child: Text(

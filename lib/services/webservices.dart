@@ -4,15 +4,16 @@ import 'package:alatareekeh/constants/constants.dart';
 import 'package:http/http.dart' as http;
 
 class WebServices {
-  //------------------------------Hello World Test------------------------------
-  Future<String> HelloWorld() async {
+  //------------------------------Register------------------------------
+  Future<String> registerUser(String username, String phone, String gender,
+      String password, String photo) async {
     http.Response response =
         await http.post(Constants.api_link + 'Register', body: {
-      "username": "ahmad",
-      "phone": "0947505094",
-      "gender": "female",
-      "password": "123456789",
-      "photo": "photo"
+      "username": username,
+      "phone": phone,
+      "gender": gender,
+      "password": password,
+      "photo": photo
     });
 
     if (response.statusCode == 200) {

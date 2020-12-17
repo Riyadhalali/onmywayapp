@@ -10,6 +10,11 @@
   "forgetpassword": "Forget Password?",
   "iamnewuser": "I am New User.",
   "signup": "Sign Up",
-  "register": "Register"
+  "register": "Register",
+  "phone": "Phone",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female"
+
 
 }

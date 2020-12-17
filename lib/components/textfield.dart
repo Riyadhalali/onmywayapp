@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class TextInputField extends StatelessWidget {
@@ -33,9 +32,9 @@ class TextInputField extends StatelessWidget {
           ),
 
           fillColor: Colors.white,
-          hintText: hint_text.tr().toString(),
+          hintText: hint_text,
           errorText: error_msg,
-          labelText: "username",
+          // labelText: label_text.tr().toString(),
           suffixIcon: icon_widget, // passing icon
 
           //   helperText: "Please put your password",

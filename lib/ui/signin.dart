@@ -1,6 +1,10 @@
 import 'dart:ui';
 
 import 'package:alatareekeh/components/textfield.dart';
+import 'package:alatareekeh/services/webservices.dart';
+import 'package:alatareekeh/ui/forgetpassword.dart';
+import 'package:alatareekeh/ui/register.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sizer/sizer.dart';
@@ -14,6 +18,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   final _usernamecontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
+  WebServices webServices = new WebServices();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +66,7 @@ class _SignInState extends State<SignIn> {
       child: RaisedButton(
         color: Color(0xFF8949d8),
         child: Text(
-          'Login',
+          "login".tr().toString(),
           style: TextStyle(fontSize: 20.0.sp, color: Colors.white),
         ),
         shape: RoundedRectangleBorder(
@@ -70,8 +75,9 @@ class _SignInState extends State<SignIn> {
             color: Colors.blueAccent,
           ),
         ),
-        onPressed: () {
-          print("Login Button is pressed");
+        onPressed: () async {
+          var message = await webServices.HelloWorld();
+          print(message);
         },
       ),
     );
@@ -79,12 +85,14 @@ class _SignInState extends State<SignIn> {
 
   //----------------------------------------------------------------------------
   //-> Flatted Button for forget password
-  Widget ForgetPassword() {
+  Widget forgetPassword() {
     return Container(
       width: MediaQuery.of(context).size.width, // take all space available
       child: FlatButton(
-        onPressed: () {},
-        child: Text("Forget Password?"),
+        onPressed: () {
+          Navigator.pushNamed(context, ForgetPassword.id);
+        },
+        child: Text("forgetpassword".tr().toString()),
       ),
     );
   }
@@ -96,15 +104,15 @@ class _SignInState extends State<SignIn> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          child: Text('I am New User.'),
+          child: Text("iamnewuser".tr().toString()),
         ),
         Container(
           child: FlatButton(
             onPressed: () {
-              print('Sign up pressed');
+              Navigator.pushNamed(context, Register.id);
             },
             child: Text(
-              'Sign up?',
+              'signup'.tr().toString(),
               style: TextStyle(
                   color: Color(0xFF8949d8), fontWeight: FontWeight.bold),
             ),
@@ -132,7 +140,7 @@ class _SignInState extends State<SignIn> {
               height: 5.0.h,
             ),
             Text(
-              "Sign in",
+              "signin".tr().toString(),
               style: TextStyle(
                   fontSize: 20.0.sp,
                   fontWeight: FontWeight.bold,
@@ -142,7 +150,8 @@ class _SignInState extends State<SignIn> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: "Username",
+              hint_text: "username".tr().toString(),
+              //label_text: "username",
               controller_text: _usernamecontroller,
               show_password: false,
             ),
@@ -150,7 +159,8 @@ class _SignInState extends State<SignIn> {
               height: 3.0.h,
             ),
             TextInputField(
-              hint_text: "Password",
+              hint_text: "password".tr().toString(),
+              // label_text: "password",
               controller_text: _passwordcontroller,
               icon_widget: Icon(Icons.remove_red_eye),
               show_password: true,
@@ -158,7 +168,7 @@ class _SignInState extends State<SignIn> {
             SizedBox(
               height: 1.0.h,
             ),
-            ForgetPassword(),
+            forgetPassword(),
             SizedBox(
               height: 1.0.h,
             ),

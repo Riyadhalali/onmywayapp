@@ -3,6 +3,12 @@
   "arabic": "العربية",
   "english": "English",
   "onwayapp": "On Way Application",
-  "username": "Username"
+  "username": "Username",
+  "password": "Password",
+  "signin": "Sign In",
+  "login": "Login",
+  "forgetpassword": "Forget Password?",
+  "iamnewuser": "I am New User.",
+  "signup": "Sign Up"
 
 }

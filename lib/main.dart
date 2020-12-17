@@ -1,6 +1,8 @@
+import 'package:alatareekeh/ui/forgetpassword.dart';
 import 'package:alatareekeh/ui/home.dart';
 import 'package:alatareekeh/ui/languageselect.dart';
 import 'package:alatareekeh/ui/privacypolicy.dart';
+import 'package:alatareekeh/ui/register.dart';
 import 'package:alatareekeh/ui/signin.dart';
 import 'package:alatareekeh/ui/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -37,12 +39,15 @@ class MyApp extends StatelessWidget {
                   SplashScreen.id, // the default screen that will start
               theme: ThemeData.light(),
               routes: {
+                //-> we must add all routes
                 SplashScreen.id: (context) => SplashScreen(),
                 LanguageSelect.id: (context) => LanguageSelect(),
                 PrivacyPolicy.id: (context) =>
                     PrivacyPolicy(), // privacy policy route screen
                 HomePage.id: (context) => HomePage(),
-                SignIn.id: (context) => SignIn()
+                SignIn.id: (context) => SignIn(),
+                Register.id: (context) => Register(),
+                ForgetPassword.id: (context) => ForgetPassword()
               },
             );
           },

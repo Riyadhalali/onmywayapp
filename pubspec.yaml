@@ -45,6 +45,7 @@ flutter:
   - assets/resources/strings/ar.json
   - assets/ui/privacypolicy/
   - assets/ui/login/
+  - assets/ui/register/
 
   # example:
   # fonts:

@@ -1,4 +1,5 @@
 import 'package:alatareekeh/components/textfield.dart';
+import 'package:alatareekeh/services/snackbar.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -12,21 +13,25 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _genderController = TextEditingController();
   final _phoneController = TextEditingController();
   WebServices webServices = new WebServices();
-  String dropDownMenu;
+  snackbarMessage _snackMessage = snackbarMessage();
+  String dropDownMenu =
+      ""; // very important or we will get a null message when fetching api services
   bool _saving = false;
-  String _usernameErrormsg;
-  String _passwordErrormsg;
-  String _phoneErrormsg;
+
+  bool _validateUsername = false;
+  bool _validatePassword = false;
+  bool _validatePhone = false;
 
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       child: Scaffold(
+        key: _scaffoldKey,
         body: columnElements(),
       ),
       inAsyncCall: _saving,
@@ -82,39 +87,48 @@ class _RegisterState extends State<Register> {
           ),
         ),
         onPressed: () async {
-          if (!_usernameController.text.isEmpty &&
-              !_passwordController.text.isEmpty &&
-              !_phoneController.text.isEmpty) {
-            setState(() {
-              _saving = true;
-            });
-            var message = await webServices.registerUser(
-                _usernameController.text,
-                _phoneController.text,
-                dropDownMenu,
-                _passwordController.text,
-                _phoneController.text);
+          //- To check the user already entered username and password
+          setState(() {
+            _usernameController.text.isEmpty
+                ? _validateUsername = true
+                : _validateUsername = false;
 
-            setState(() {
-              _saving = false;
-            });
-            print(message);
-          } // end if
-          // if (_usernameController.text.isEmpty) {
-          //   setState(() {
-          //     _usernameErrormsg = "please fill";
-          //   });
-          // }
-          // if (_passwordController.text.isEmpty) {
-          //   setState(() {
-          //     _passwordErrormsg = "please fill";
-          //   });
-          // }
-          // if (_phoneController.text.isEmpty) {
-          //   setState(() {
-          //     _phoneErrormsg = "please fill";
-          //   });
-          // }
+            _passwordController.text.isEmpty
+                ? _validatePassword = true
+                : _validatePassword = false;
+
+            _phoneController.text.isEmpty
+                ? _validatePhone = true
+                : _validatePhone = false;
+          });
+
+          //  if user didn't enter username or password or phone keep inside
+          if (_validateUsername || _validatePassword || _validatePhone) {
+            return;
+          }
+          // -> show progress bar if user already entered the required data
+          setState(() {
+            _saving = true;
+          });
+          // parse data to server
+          var message = await webServices.registerUser(_usernameController.text,
+              _phoneController.text, dropDownMenu, _passwordController.text);
+          print(message);
+
+          // data finished
+          setState(() {
+            _saving = false;
+          });
+
+          //-> Display snackbar message
+          _scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text(message),
+            duration: Duration(seconds: 3),
+          ));
+          //TODO: Test is register success go to login page and load the register data to login screen
+          if (message.toString().contains("successfully")) {
+            print("contains success");
+          }
         },
       ),
     );
@@ -149,30 +163,32 @@ class _RegisterState extends State<Register> {
             ),
             TextInputField(
               hint_text: "username".tr().toString(),
-              //label_text: "username",
               controller_text: _usernameController,
               show_password: false,
-              error_msg: _usernameErrormsg,
+              error_msg: _validateUsername
+                  ? "valuecannotbeempty".tr().toString()
+                  : null,
             ),
             SizedBox(
               height: 5.0.h,
             ),
             TextInputField(
               hint_text: "password".tr().toString(),
-              //label_text: "username",
               controller_text: _passwordController,
               show_password: false,
-              error_msg: _passwordErrormsg,
+              error_msg: _validatePassword
+                  ? "valuecannotbeempty".tr().toString()
+                  : null,
             ),
             SizedBox(
               height: 5.0.h,
             ),
             TextInputField(
               hint_text: "phone".tr().toString(),
-              //label_text: "username",
-              controller_text: _genderController,
+              controller_text: _phoneController,
               show_password: false,
-              error_msg: _phoneErrormsg,
+              error_msg:
+                  _validatePhone ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
               height: 5.0.h,

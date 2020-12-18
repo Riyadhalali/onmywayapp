@@ -20,6 +20,7 @@ class TextInputField extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.only(left: 55.0, right: 55.0),
       child: TextField(
+        //  autofocus: true,
         textAlign: TextAlign.start,
         obscureText: show_password, // to show password or not
         controller:

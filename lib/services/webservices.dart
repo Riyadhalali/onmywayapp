@@ -5,15 +5,15 @@ import 'package:http/http.dart' as http;
 
 class WebServices {
   //------------------------------Register------------------------------
-  Future<String> registerUser(String username, String phone, String gender,
-      String password, String photo) async {
+  Future<String> registerUser(
+      String username, String phone, String gender, String password) async {
     http.Response response =
         await http.post(Constants.api_link + 'Register', body: {
       "username": username,
       "phone": phone,
       "gender": gender,
       "password": password,
-      "photo": photo
+      "photo": "photo"
     });
 
     if (response.statusCode == 200) {

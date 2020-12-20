@@ -15,7 +15,9 @@
   "gender": "Gender",
   "male": "Male",
   "female": "Female",
-  "valuecannotbeempty": "Value Can't be empty!"
+  "valuecannotbeempty": "Value Can't be empty!",
+  "enteremailaddress": "Please Enter Your Email Address",
+  "submit": "Submit"
 
 
 }

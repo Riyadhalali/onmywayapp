@@ -49,6 +49,7 @@ flutter:
   - assets/ui/privacypolicy/
   - assets/ui/login/
   - assets/ui/register/
+  - assets/ui/forgetpassword/
 
   # example:
   # fonts:

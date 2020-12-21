@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sizer/sizer.dart';
 
-import 'home.dart';
+import 'navigationbar.dart';
 
 class SignIn extends StatefulWidget {
   static const id = 'sign_in';
@@ -78,7 +78,7 @@ class _SignInState extends State<SignIn> {
           ),
         ),
         onPressed: () async {
-          Navigator.pushNamed(context, HomePage.id);
+          Navigator.pushNamed(context, Navigation.id);
         },
       ),
     );

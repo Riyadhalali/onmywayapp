@@ -1,7 +1,13 @@
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
-class DateTimePickerClass extends StatelessWidget {
+class DateTimePickerClass extends StatefulWidget {
+  static String valueselected; // to access this variable from another class
+  @override
+  _DateTimePickerClassState createState() => _DateTimePickerClassState();
+}
+
+class _DateTimePickerClassState extends State<DateTimePickerClass> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -21,18 +27,21 @@ class DateTimePickerClass extends StatelessWidget {
             // if (date.weekday == 6 || date.weekday == 7) {
             //   return false;
             // }
-
             return true;
           },
-          onChanged: (val) => print(val),
+          onChanged: (val) => {DateTimePickerClass.valueselected = val},
+          // to set the variable and be accessed from another classes
           validator: (val) {
             print(val);
             return null;
           },
-          onSaved: (val) =>
-              print(" this is time" + val), // print when user hit ok
+          onSaved: (val) => {
+            DateTimePickerClass.valueselected = val
+            // to set the variable and be accessed from another classes
+          }, // pass data to the function
         ),
       ),
     );
-  } //end build
+  }
+//------------------------------------------------------------------------------
 } // end class

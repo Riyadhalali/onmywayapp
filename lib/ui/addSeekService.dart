@@ -1,4 +1,3 @@
-import 'package:alatareekeh/components/dropdownmenu.dart';
 import 'package:alatareekeh/components/rasidedbutton.dart';
 import 'package:alatareekeh/components/textfield.dart';
 import 'package:alatareekeh/components/timedatepicker.dart';
@@ -14,8 +13,16 @@ class AddSeekService extends StatefulWidget {
 }
 
 class _AddSeekServiceState extends State<AddSeekService> {
-  String dropDownMenu =
+  String dropDownMenuGender =
       ""; // very important or we will get a null message when fetching api services
+
+  String dropDownMenuType = "";
+
+  //-> this method to get selected time from datetimepicker statfull widget
+  void getdatetime() {
+    print(DateTimePickerClass.valueselected);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +42,6 @@ class _AddSeekServiceState extends State<AddSeekService> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-          
             addSeekServiceContainer(),
           ],
         ),
@@ -92,11 +98,11 @@ class _AddSeekServiceState extends State<AddSeekService> {
             SizedBox(
               height: 2.0.h,
             ),
-            DropDownMenuWidget(),
+            dropDownMenuGenderWidget(),
             SizedBox(
               height: 2.0.h,
             ),
-            DropDownMenuWidget(),
+            DropDownMenuType(),
             SizedBox(
               height: 2.0.h,
             ),
@@ -114,15 +120,98 @@ class _AddSeekServiceState extends State<AddSeekService> {
             SizedBox(
               height: 2.0.h,
             ),
-            RasiedButton(),
+            RasiedButton(
+              labeltext: "submit".tr().toString(),
+              FunctionToDO: getdatetime,
+            ),
           ],
         ),
       ],
     );
   }
+
   //----------------------------------------------------------------------------
+//-> Get Selected item from drop down menu from gender
+  Widget dropDownMenuGenderWidget() {
+    return Row(
+      children: [
+        Container(
+          padding: EdgeInsets.only(left: 50.0, right: 50.0),
+          child: Text(
+            "gender".tr().toString(),
+            style: TextStyle(
+                fontSize: 20.0.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black38),
+          ),
+        ),
+        SizedBox(
+          width: 20.0.w,
+        ),
+        new DropdownButton<String>(
+          value: "male".tr().toString(),
+          items: <String>[
+            'male'.tr().toString(),
+            'female'.tr().toString(),
+          ].map((String value) {
+            return new DropdownMenuItem<String>(
+              value: value,
+              child: new Text(
+                value,
+                style: TextStyle(fontSize: 15.0.sp),
+              ),
+            );
+          }).toList(),
+          onChanged: (String value1) {
+            setState(() {
+              dropDownMenuGender = value1;
+            });
+          },
+        )
+      ],
+    );
+  }
+
+  //-----------------------Drop Down Menu Widget Type---------------------------
+  Widget DropDownMenuType() {
+    return Row(
+      children: [
+        Container(
+          padding: EdgeInsets.only(left: 50.0, right: 50.0),
+          child: Text(
+            "type".tr().toString(),
+            style: TextStyle(
+                fontSize: 20.0.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black38),
+          ),
+        ),
+        SizedBox(
+          width: 20.0.w,
+        ),
+        new DropdownButton<String>(
+          value: "person".tr().toString(),
+          items: <String>[
+            'person'.tr().toString(),
+            'package'.tr().toString(),
+          ].map((String value) {
+            return new DropdownMenuItem<String>(
+              value: value,
+              child: new Text(
+                value,
+                style: TextStyle(fontSize: 15.0.sp),
+              ),
+            );
+          }).toList(),
+          onChanged: (String value2) {
+            setState(() {
+              dropDownMenuType = value2;
+            });
+          },
+        )
+      ],
+    );
+  }
+
+//------------------------------------------------------------------------------
 } //end class
-//TODO: 1- get the data from dropdown menu and datetimepicker
-//TODO : 2 -try to resize text input field and change the model
-//TODO: 3- i must save login id in shared pref
-//TODO: 4- work with rasied button class and drop down menu and time picker

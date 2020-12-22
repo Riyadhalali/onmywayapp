@@ -18,7 +18,10 @@
   "valuecannotbeempty": "Value Can't be empty!",
   "enteremailaddress": "Please Enter Your Email Address",
   "submit": "Submit",
-  "addseekservice": "Add or Seek Service"
+  "addseekservice": "Add or Seek Service",
+  "person": "Person",
+  "package": "Package",
+  "type": "Type"
 
 
 }

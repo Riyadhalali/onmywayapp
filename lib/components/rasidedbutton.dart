@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class RasiedButton extends StatelessWidget {
+  final String labeltext;
+  final Function FunctionToDO;
+
+  RasiedButton({@required this.labeltext, this.FunctionToDO});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,7 +15,7 @@ class RasiedButton extends StatelessWidget {
       child: RaisedButton(
         color: Color(0xFF8949d8),
         child: Text(
-          "login".tr().toString(),
+          labeltext.tr().toString(),
           style: TextStyle(fontSize: 20.0.sp, color: Colors.white),
         ),
         shape: RoundedRectangleBorder(
@@ -20,9 +24,7 @@ class RasiedButton extends StatelessWidget {
             color: Colors.blueAccent,
           ),
         ),
-        onPressed: () async {
-          //  Navigator.pushNamed(context, HomePage.id);
-        },
+        onPressed: FunctionToDO,
       ),
     );
   }

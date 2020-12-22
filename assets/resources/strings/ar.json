@@ -18,6 +18,9 @@
   "valuecannotbeempty": "يرجى تعبئة الحقل",
   "enteremailaddress": "يرجى إدخال عنوان بريدك الإلكتروني",
   "submit": "تسجيل",
-  "addseekservice": "إضافة أو طلب خدمة"
+  "addseekservice": "إضافة أو طلب خدمة",
+  "person": "شخص",
+  "package": "غرض",
+  "type": "النوع"
 
 }

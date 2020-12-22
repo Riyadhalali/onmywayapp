@@ -51,6 +51,7 @@ flutter:
   - assets/ui/login/
   - assets/ui/register/
   - assets/ui/forgetpassword/
+  - assets/ui/addseekservice/
 
   # example:
   # fonts:

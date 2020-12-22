@@ -17,6 +17,7 @@
   "female": "أنثى",
   "valuecannotbeempty": "يرجى تعبئة الحقل",
   "enteremailaddress": "يرجى إدخال عنوان بريدك الإلكتروني",
-  "submit": "تسجيل"
+  "submit": "تسجيل",
+  "addseekservice": "إضافة أو طلب خدمة"
 
 }

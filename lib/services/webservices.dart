@@ -38,6 +38,41 @@ class WebServices {
       return message; // to return message from server
     }
   }
-  //------------------------------Register User---------------------------------
+  //------------------------------Add Seek Service------------------------------
+
+  Future<String> addSeekService(
+      String userId,
+      int status,
+      int type,
+      String phone,
+      String space,
+      String date,
+      String gender,
+      String from,
+      String to,
+      String username) async {
+    http.Response response =
+        await http.post(Constants.api_link + 'AddOrSeek_Service', body: {
+      "user_id": userId,
+      "status": status.toString(),
+      "type": type.toString(),
+      "phone": phone,
+      "space": space,
+      "date": date,
+      "gender": gender,
+      "from": from,
+      "to": to,
+      "username": username
+    });
+
+    if (response.statusCode == 200) {
+      String data = response.body;
+      var decodedData = jsonDecode(data); // decoding data
+      var message = decodedData['message'];
+      return message;
+    }
+  }
+
+//------------------------------------------------------------------------------
 
 } // end class

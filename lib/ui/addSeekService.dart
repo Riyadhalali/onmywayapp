@@ -40,7 +40,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
     //-> to make sure that user select date
     if (DateTimePickerClass.valueselected == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text("Please Select Date"),
+        content: Text("Please fill or select date"),
         duration: Duration(seconds: 3),
         backgroundColor: Colors.amber,
       ));
@@ -258,3 +258,6 @@ class _AddSeekServiceState extends State<AddSeekService> {
   }
 //------------------------------------------------------------------------------
 } //end class
+
+//TODO: check the userid savid from login or register page
+//Todo: check what is the status

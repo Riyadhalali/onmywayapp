@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class DateTimePickerClass extends StatefulWidget {
   static String valueselected; // to access this variable from another class
+
   @override
   _DateTimePickerClassState createState() => _DateTimePickerClassState();
 }

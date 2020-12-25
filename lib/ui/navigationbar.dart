@@ -1,9 +1,9 @@
 import 'package:alatareekeh/ui/addSeekService.dart';
-import 'package:alatareekeh/ui/home.dart';
 import 'package:alatareekeh/ui/myservices.dart';
 import 'package:alatareekeh/ui/settings.dart';
 import 'package:flutter/material.dart';
 
+import 'home.dart';
 import 'myappointments.dart';
 
 class Navigation extends StatefulWidget {

@@ -1,7 +1,8 @@
 import 'package:alatareekeh/services/sharedpref.dart';
-import 'package:alatareekeh/ui/home.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
+import 'home.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   static String id = 'privacy_policy';

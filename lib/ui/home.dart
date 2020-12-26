@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchList();
   }
 
   @override
@@ -44,7 +43,6 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: Icon(Icons.directions_car),
             onPressed: () {
-              WebServices.Get_Provided_Services();
               // go to page seek service
             },
           ),
@@ -64,7 +62,10 @@ class _HomePageState extends State<HomePage> {
               if (snapshot.hasError)
                 return new Text('Error: ${snapshot.error}');
               else
-                return ProvidedServicesList();
+                return RefreshIndicator(
+                  onRefresh: fetchList,
+                  child: ProvidedServicesList(),
+                );
           }
         },
       ),
@@ -78,13 +79,31 @@ class _HomePageState extends State<HomePage> {
         itemCount: providedServicesList.length,
         itemBuilder: (context, index) {
           GetProvidedServices list = providedServicesList[index];
-          return ListTile(
-            title: Text(list.userName),
-            subtitle: Text(list.servicePickup +
-                " - " +
-                list.serviceDestination +
-                "   / Date: " +
-                list.serviceDate),
+          return Card(
+            child: ListTile(
+              isThreeLine: false,
+              onTap: () {
+                setState(() {});
+                print(index);
+              },
+              title: Text(list.userName),
+              subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(list.servicePickup + " - " + list.serviceDestination),
+                  Text(list.serviceDate),
+                  Text(list.serviceGender),
+                  Text(list.serviceSpace)
+                ],
+              ),
+              trailing: RaisedButton(
+                onPressed: () {
+                  print('button is pressed');
+                },
+                child: Text("حجز"),
+              ),
+            ),
+            borderOnForeground: true,
           );
         },
       ),

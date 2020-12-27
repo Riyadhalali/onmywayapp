@@ -47,3 +47,5 @@ class _MapsState extends State<Maps> {
 //------------------------------------------------------------------------------
 
 } // end class
+
+//TODO: use geoloactor

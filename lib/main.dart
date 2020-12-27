@@ -2,6 +2,7 @@ import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/forgetpassword.dart';
 import 'package:alatareekeh/ui/home.dart';
 import 'package:alatareekeh/ui/languageselect.dart';
+import 'package:alatareekeh/ui/maps.dart';
 import 'package:alatareekeh/ui/myappointments.dart';
 import 'package:alatareekeh/ui/myservices.dart';
 import 'package:alatareekeh/ui/navigationbar.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
                 MyServices.id: (context) => MyServices(),
                 Settings.id: (context) => Settings(),
                 SeekedServices.id: (context) => SeekedServices(),
+                Maps.id: (context) => Maps(),
               },
             );
           },

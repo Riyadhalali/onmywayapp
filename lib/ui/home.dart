@@ -40,12 +40,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.directions_car),
-            onPressed: () {
-              // go to page seek service
-            },
-          ),
+          // IconButton(
+          //   icon: Icon(Icons.directions_car),
+          //   onPressed: () {
+          //     // go to page seek service
+          //   },
+          // ),
           SizedBox(
             width: 5.0.w,
           ),

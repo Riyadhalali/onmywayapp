@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'home.dart';
 import 'myappointments.dart';
+import 'seekedServices.dart';
 
 class Navigation extends StatefulWidget {
   static const id = 'navigation';
@@ -17,6 +18,7 @@ class _NavigationState extends State<Navigation> {
   //-> list Pages
   final _pageOptions = [
     HomePage(), // this home page contains order or everythimg and contain a search button
+    SeekedServices(),
     AddSeekService(), // add service or seek service
     MyAppointment(), // get my appointments
     MyServices(),
@@ -29,13 +31,14 @@ class _NavigationState extends State<Navigation> {
       body: _pageOptions[selectedPage],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Provided'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Seeked'),
           BottomNavigationBarItem(
               icon: Icon(Icons.local_offer), label: 'Add/Seek'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: 'MyAppointment'),
+              icon: Icon(Icons.shopping_cart), label: 'Appointment'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: 'MyServices'),
+              icon: Icon(Icons.shopping_cart), label: 'Services'),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart), label: 'Settings'),
         ],

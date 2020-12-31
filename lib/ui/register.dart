@@ -113,6 +113,7 @@ class _RegisterState extends State<Register> {
           // parse data to server
           var message = await webServices.registerUser(_usernameController.text,
               _phoneController.text, dropDownMenu, _passwordController.text);
+
           print(message);
 
           // data finished
@@ -242,3 +243,5 @@ class _RegisterState extends State<Register> {
 
 //------------------------------------------------------------------------------
 } //end class
+
+//TODO: save returned id into sharedpref

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alatareekeh/constants/constants.dart';
+import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:http/http.dart' as http;
 
 import 'getprovdiedservices.dart';
@@ -30,15 +31,16 @@ class WebServices {
 
   //----------------------------------Login-------------------------------------
   //-> Login and post data to server
-  Future<String> LoginPost(String username, String password) async {
-    http.Response response = await http.post(Constants.api_link + 'Login',
-        body: {"username": username, "password": password});
+  Future<GetLoginData> LoginPost(String phone, String password) async {
+    final http.Response response = await http.post(
+        Constants.api_link + 'Login_Player',
+        body: {"phone": phone, "password": password});
     if (response.statusCode == 200) {
-      String data = response.body;
-      var decodedData = jsonDecode(data); // decoding data
-      var id = decodedData['customer_id'];
-      var message = decodedData['message'];
-      return message; // to return message from server
+      final GetLoginData getlogindata = getLoginDataFromJson(response.body);
+      //  print(getlogindata.message);
+      return getlogindata;
+    } else {
+      print('error');
     }
   }
   //------------------------------Add Seek Service------------------------------
@@ -56,7 +58,7 @@ class WebServices {
       String username) async {
     http.Response response =
         await http.post(Constants.api_link + 'AddOrSeek_Service', body: {
-      "user_id": userId,
+      "user_id": "YeIypCsC23Q=",
       "status": status.toString(),
       "type": type.toString(),
       "phone": phone,
@@ -72,6 +74,8 @@ class WebServices {
       String data = response.body;
       var decodedData = jsonDecode(data); // decoding data
       var message = decodedData['message'];
+      var userID = decodedData['user_id'];
+
       return message;
     }
   }

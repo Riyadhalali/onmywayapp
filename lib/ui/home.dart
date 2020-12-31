@@ -1,7 +1,6 @@
 import 'package:alatareekeh/services/getprovdiedservices.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/home/searchfield.dart';
-import 'package:alatareekeh/ui/maps.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 /*
@@ -17,11 +16,17 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<GetProvidedServices> providedServicesList;
-
+  Future<GetProvidedServices> getprov;
   Future<List<GetProvidedServices>> fetchList() async {
     providedServicesList = await WebServices.Get_Provided_Services();
-    //print(providedServicesList);
+    providedServicesList.elementAt(0);
     return providedServicesList;
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
   }
 
   @override
@@ -84,8 +89,7 @@ class _HomePageState extends State<HomePage> {
             child: ListTile(
               isThreeLine: false,
               onTap: () {
-                setState(() {});
-                print(index);
+                print(list.userId);
               },
               title: Text(list.userName),
               subtitle: Column(
@@ -99,8 +103,8 @@ class _HomePageState extends State<HomePage> {
               ),
               trailing: RaisedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, Maps.id);
-                  print('button is pressed');
+                  //Navigator.pushNamed(context, AddAppointment.id);
+                  print(list.userId);
                 },
                 child: Text("حجز"),
               ),

@@ -56,6 +56,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
           _fromController.text,
           _toController.text,
           _usernameController.text);
+      print(message);
 
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.amber,

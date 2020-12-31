@@ -1,15 +1,15 @@
 import 'dart:ui';
 
 import 'package:alatareekeh/components/textfield.dart';
+import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/forgetpassword.dart';
+import 'package:alatareekeh/ui/navigationbar.dart';
 import 'package:alatareekeh/ui/register.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sizer/sizer.dart';
-
-import 'navigationbar.dart';
 
 class SignIn extends StatefulWidget {
   static const id = 'sign_in';
@@ -18,9 +18,17 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final _usernamecontroller = TextEditingController();
+  GetLoginData getLogin;
+  final _phonecontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
   WebServices webServices = new WebServices();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +86,20 @@ class _SignInState extends State<SignIn> {
           ),
         ),
         onPressed: () async {
-          Navigator.pushNamed(context, Navigation.id);
+          // Navigator.pushNamed(
+          //     context, Navigation.id); // if user exists go to main page
+          var message;
+          WebServices webServices = WebServices();
+
+          GetLoginData fmain = await webServices.LoginPost(
+              _phonecontroller.text, _passwordcontroller.text);
+          message = fmain.message;
+          print(message);
+
+          if (message.toString().contains('login success')) {
+            Navigator.pushNamed(
+                context, Navigation.id); // if user exists go to main page
+          }
         },
       ),
     );
@@ -151,9 +172,9 @@ class _SignInState extends State<SignIn> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: "username".tr().toString(),
+              hint_text: "phone".tr().toString(),
               //label_text: "username",
-              controller_text: _usernamecontroller,
+              controller_text: _phonecontroller,
               show_password: false,
             ),
             SizedBox(
@@ -186,4 +207,7 @@ class _SignInState extends State<SignIn> {
 //------------------------------------------------------------------------------
 } // end class
 
-//TODO: save login id return by server and all data in shared preferences
+//TODO: load phone number and password from shared preference
+//TODO: save also id returned by server into shared pref if users cleared the program and must sign in
+
+//TODO: add snackbarMessage

@@ -21,7 +21,12 @@
   "addseekservice": "Add or Seek Service",
   "person": "Person",
   "package": "Package",
-  "type": "Type"
+  "type": "Type",
+  "addAppointment" : "Add Appointment",
+  "space": "Space",
+  "date": "Date",
+  "from": "From",
+  "to": "To"
 
 
 }

@@ -117,5 +117,50 @@ class WebServices {
       return List<GetSeekedServices>();
     }
   }
+
+//--------------------------Add Appointment-------------------------------------
+  Future<String> addAppointment(
+      String customer_id,
+      String provider_id,
+      String customer_name,
+      String provider_name,
+      String customer_phone,
+      String provider_phone,
+      String customer_gender,
+      String provider_gender,
+      String pickup_location,
+      String destination,
+      String date,
+      String space,
+      String latitude,
+      String longitude) async {
+    try {
+      http.Response response =
+          await http.post(Constants.api_link + 'Add_appointemnt', body: {
+        "customer_id": customer_id,
+        "provider_id": provider_id,
+        "customer_name": customer_name,
+        "provider_name": provider_name,
+        "customer_phone": customer_phone,
+        "provider_phone": provider_phone,
+        "customer_gender": customer_gender,
+        "provider_gender": provider_gender,
+        "pickup_location": pickup_location,
+        "destination": destination,
+        "date": date,
+        "space": space,
+        "latitude": latitude,
+        "longitude": longitude
+      });
+
+      if (response.statusCode == 200) {
+        String data = response.body;
+        var decodedData = jsonDecode(data); // decoding data
+        var message = decodedData['message'];
+
+        return message;
+      }
+    } catch (e) {}
+  }
 //------------------------------------------------------------------------------
 } // end class

@@ -21,6 +21,11 @@
   "addseekservice": "إضافة أو طلب خدمة",
   "person": "شخص",
   "package": "غرض",
-  "type": "النوع"
+  "type": "النوع",
+  "addAppointment" : "حجز",
+  "space": "المساحة",
+  "date": "التاريخ",
+  "from": "From",
+  "to": "To"
 
 }

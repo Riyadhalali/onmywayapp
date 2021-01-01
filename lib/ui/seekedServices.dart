@@ -1,11 +1,33 @@
 import 'package:alatareekeh/services/getseekedservices.dart';
 import 'package:alatareekeh/services/webservices.dart';
+import 'package:alatareekeh/ui/addappointment.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'home/searchfield.dart';
 
 class SeekedServices extends StatefulWidget {
   static const String id = 'seekedservices_page';
+
+  //Customer is the user and Provider is how added the order
+  final String providerUsername;
+  final int providerID;
+  final String providerPhone;
+  final String providerGender;
+  final String providerSpace;
+  final String date;
+  final String providerPickup;
+  final String providerDistination;
+
+  SeekedServices(
+      {this.providerUsername,
+      this.providerID,
+      this.providerPhone,
+      this.providerGender,
+      this.providerSpace,
+      this.date,
+      this.providerPickup,
+      this.providerDistination});
   @override
   _SeekedServicesState createState() => _SeekedServicesState();
 }
@@ -79,9 +101,23 @@ class _SeekedServicesState extends State<SeekedServices> {
               ),
               trailing: RaisedButton(
                 onPressed: () {
-                  print('تم الحجز');
+                  // go to Add Appointment page and pass params
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => AddAppointment(
+                        providerUsername: list.userName,
+                        providerID: list.userId,
+                        providerPhone: list.userPhone,
+                        providerGender: list.serviceGender,
+                        providerSpace: list.serviceSpace,
+                        date: list.serviceDate,
+                        providerPickup: list.servicePickup,
+                        providerDistination: list.serviceDestination,
+                      ),
+                    ),
+                  );
                 },
-                child: Text('حجز'),
+                child: Text('addappointment'.tr().toString()),
               ),
             ),
           );

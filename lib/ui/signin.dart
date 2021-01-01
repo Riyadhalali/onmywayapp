@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:alatareekeh/components/textfield.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
+import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/forgetpassword.dart';
 import 'package:alatareekeh/ui/navigationbar.dart';
@@ -19,14 +20,29 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   GetLoginData getLogin;
+  String phone_data, password_data; //variables for holding shared pref data
   final _phonecontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
   WebServices webServices = new WebServices();
+  SharedPref sharedPref = new SharedPref();
+
+  // load user phone number and password
+  Future loadLoginData() async {
+    phone_data = await sharedPref.LoadData('phone');
+    password_data = await sharedPref.LoadData('password');
+    if (phone_data != null && password_data != null) {
+      setState(() {
+        _phonecontroller.text = phone_data;
+        _passwordcontroller.text = password_data;
+      });
+    }
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    loadLoginData(); // load user data saved
   }
 
   @override
@@ -89,17 +105,26 @@ class _SignInState extends State<SignIn> {
           // Navigator.pushNamed(
           //     context, Navigation.id); // if user exists go to main page
           var message;
+          var user_id;
           WebServices webServices = WebServices();
 
           GetLoginData fmain = await webServices.LoginPost(
               _phonecontroller.text, _passwordcontroller.text);
           message = fmain.message;
+          user_id = fmain.id;
           print(message);
 
           if (message.toString().contains('login success')) {
             Navigator.pushNamed(
                 context, Navigation.id); // if user exists go to main page
           }
+
+          //-> save id to shared pref
+          sharedPref.setData('userID', user_id); // save user id to shared pref
+          sharedPref.setData(
+              'phone', _phonecontroller.text); // save the phone number of user
+          sharedPref.setData(
+              'password', _passwordcontroller.text); //save the password of user
         },
       ),
     );
@@ -207,7 +232,7 @@ class _SignInState extends State<SignIn> {
 //------------------------------------------------------------------------------
 } // end class
 
-//TODO: load phone number and password from shared preference
 //TODO: save also id returned by server into shared pref if users cleared the program and must sign in
 
 //TODO: add snackbarMessage
+//TODO: add circleprogressindicator

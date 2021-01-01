@@ -1,5 +1,6 @@
 import 'package:alatareekeh/services/getprovdiedservices.dart';
 import 'package:alatareekeh/services/webservices.dart';
+import 'package:alatareekeh/ui/addappointment.dart';
 import 'package:alatareekeh/ui/home/searchfield.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -50,6 +51,7 @@ class _HomePageState extends State<HomePage> {
           //   icon: Icon(Icons.directions_car),
           //   onPressed: () {
           //     // go to page seek service
+
           //   },
           // ),
           SizedBox(
@@ -103,7 +105,7 @@ class _HomePageState extends State<HomePage> {
               ),
               trailing: RaisedButton(
                 onPressed: () {
-                  //Navigator.pushNamed(context, AddAppointment.id);
+                  Navigator.pushNamed(context, AddAppointment.id);
                   print(list.userId);
                 },
                 child: Text("حجز"),

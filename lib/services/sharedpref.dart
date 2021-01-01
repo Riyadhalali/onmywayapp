@@ -10,8 +10,8 @@ class SharedPref {
   setData(String key, String data) async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     await sharedPreferences.setString(key, data);
-    print(key);
-    print(data);
+    //  print(key);
+    //  print(data);
   }
 
   //-> function for loading data from shared preferences

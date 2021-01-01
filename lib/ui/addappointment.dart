@@ -4,6 +4,9 @@ import 'package:sizer/sizer.dart';
 
 class AddAppointment extends StatefulWidget {
   static const id = 'add_appointment';
+  final String username;
+  AddAppointment({this.username});
+
   @override
   _AddAppointmentState createState() => _AddAppointmentState();
 }

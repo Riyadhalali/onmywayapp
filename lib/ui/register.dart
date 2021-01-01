@@ -1,6 +1,8 @@
 import 'package:alatareekeh/components/textfield.dart';
+import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/snackbar.dart';
 import 'package:alatareekeh/services/webservices.dart';
+import 'package:alatareekeh/ui/signin.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -19,8 +21,9 @@ class _RegisterState extends State<Register> {
   final _phoneController = TextEditingController();
   WebServices webServices = new WebServices();
   snackbarMessage _snackMessage = snackbarMessage();
+  SharedPref sharedPref = SharedPref();
   String dropDownMenu =
-      ""; // very important or we will get a null message when fetching api services
+      "male"; // very important or we will get a null message when fetching api services
   bool _saving = false;
 
   bool _validateUsername = false;
@@ -121,15 +124,36 @@ class _RegisterState extends State<Register> {
             _saving = false;
           });
 
+          //TODO: Test is register success go to login page and load the register data to login screen
+          if (message.toString().contains('login succussfully')) {
+            //-> if we have a success register go to the login page and save data to shared pref
+            sharedPref.setData(
+                'username', _usernameController.text); // save user name of user
+            sharedPref.setData(
+                'password', _passwordController.text); // save password of user
+            sharedPref.setData('gender', dropDownMenu); //save gender  of user
+
+            sharedPref.setData(
+                'phone', _phoneController.text); // save phone of gender
+
+            //-> send params to login screen
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => SignIn(
+                  phone_registerpage: _phoneController.text,
+                  password_registerpage: _passwordController.text,
+                ),
+              ),
+            );
+          } //end iff
+
           //-> Display snackbar message
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text(message),
             duration: Duration(seconds: 3),
           ));
-          //TODO: Test is register success go to login page and load the register data to login screen
-          if (message.toString().contains("successfully")) {
-            print("contains success");
-          }
+
+          //-> save
         },
       ),
     );
@@ -245,3 +269,4 @@ class _RegisterState extends State<Register> {
 } //end class
 
 //TODO: save returned id into sharedpref
+//TODO: after completing register go to home page with login data

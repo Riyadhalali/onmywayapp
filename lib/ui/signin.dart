@@ -15,6 +15,10 @@ import 'package:sizer/sizer.dart';
 
 class SignIn extends StatefulWidget {
   static const id = 'sign_in';
+  final String phone_registerpage;
+  final String password_registerpage;
+
+  SignIn({this.phone_registerpage, this.password_registerpage});
   @override
   _SignInState createState() => _SignInState();
 }
@@ -28,7 +32,7 @@ class _SignInState extends State<SignIn> {
   WebServices webServices = new WebServices();
   SharedPref sharedPref = new SharedPref();
 
-  // load user phone number and password
+  // load user phone number and password from shared pref
   Future loadLoginData() async {
     phone_data = await sharedPref.LoadData('phone');
     password_data = await sharedPref.LoadData('password');
@@ -38,6 +42,13 @@ class _SignInState extends State<SignIn> {
         _passwordcontroller.text = password_data;
       });
     }
+  }
+
+  // get the phone and password from register page
+
+  void getRegisterPage(String phone, String password) {
+    _phonecontroller.text = phone;
+    _passwordcontroller.text = password;
   }
 
   //-> Sign in Function
@@ -81,6 +92,8 @@ class _SignInState extends State<SignIn> {
     // TODO: implement initState
     super.initState();
     loadLoginData(); // load user data saved
+    getRegisterPage(widget.phone_registerpage,
+        widget.password_registerpage); // pass the data from register page
   }
 
   @override

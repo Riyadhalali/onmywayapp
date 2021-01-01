@@ -20,6 +20,7 @@ dependencies:
   google_maps_flutter: ^1.0.6
   date_time_picker: ^1.1.0
   geolocator: ^3.0.1
+  flutter_easyloading: ^2.2.2
 
 
   # The following adds the Cupertino Icons font to your application.

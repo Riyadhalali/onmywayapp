@@ -15,14 +15,32 @@ import 'package:alatareekeh/ui/signin.dart';
 import 'package:alatareekeh/ui/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sizer/sizer.dart';
 
-void main() => runApp(
-      EasyLocalization(
-          supportedLocales: [Locale('en'), Locale('ar')],
-          path: 'assets/resources/strings', // <-- change patch to your
-          child: MyApp()),
-    );
+void main() {
+  runApp(EasyLocalization(
+      supportedLocales: [Locale('en'), Locale('ar')],
+      path: 'assets/resources/strings', // <-- change patch to your
+      child: MyApp()));
+  configLoading();
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.light
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false;
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -39,6 +57,7 @@ class MyApp extends StatelessWidget {
             //initialize SizerUtil()
             SizerUtil().init(constraints, orientation); //initialize SizerUtil
             return MaterialApp(
+              builder: EasyLoading.init(), // init the easy loading
               debugShowCheckedModeBanner: false,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,

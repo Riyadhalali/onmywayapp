@@ -10,6 +10,7 @@ import 'package:alatareekeh/ui/register.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sizer/sizer.dart';
 
 class SignIn extends StatefulWidget {
@@ -19,6 +20,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GetLoginData getLogin;
   String phone_data, password_data; //variables for holding shared pref data
   final _phonecontroller = TextEditingController();
@@ -38,6 +40,42 @@ class _SignInState extends State<SignIn> {
     }
   }
 
+  //-> Sign in Function
+  //------------------------------SIgn in---------------------------------------
+  Future SignInFunction() async {
+    EasyLoading.show(
+      status: 'Loading...',
+    );
+    var message;
+    var user_id;
+    WebServices webServices = WebServices();
+
+    GetLoginData fmain = await webServices.LoginPost(
+        _phonecontroller.text, _passwordcontroller.text);
+    message = fmain.message;
+    user_id = fmain.id;
+
+    // show a snackbar message
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 3),
+    ));
+
+    if (message.toString().contains('login success')) {
+      EasyLoading.dismiss();
+      Navigator.pushNamed(
+          context, Navigation.id); // if user exists go to main page
+    }
+
+    //-> save id to shared pref
+    sharedPref.setData('userID', user_id); // save user id to shared pref
+    sharedPref.setData(
+        'phone', _phonecontroller.text); // save the phone number of user
+    sharedPref.setData(
+        'password', _passwordcontroller.text); //save the password of user
+  }
+  //----------------------------------------------------------------------------
+
   @override
   void initState() {
     // TODO: implement initState
@@ -48,6 +86,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: columnElements(),
     );
   } // end builder
@@ -101,31 +140,7 @@ class _SignInState extends State<SignIn> {
             color: Colors.blueAccent,
           ),
         ),
-        onPressed: () async {
-          // Navigator.pushNamed(
-          //     context, Navigation.id); // if user exists go to main page
-          var message;
-          var user_id;
-          WebServices webServices = WebServices();
-
-          GetLoginData fmain = await webServices.LoginPost(
-              _phonecontroller.text, _passwordcontroller.text);
-          message = fmain.message;
-          user_id = fmain.id;
-          print(message);
-
-          if (message.toString().contains('login success')) {
-            Navigator.pushNamed(
-                context, Navigation.id); // if user exists go to main page
-          }
-
-          //-> save id to shared pref
-          sharedPref.setData('userID', user_id); // save user id to shared pref
-          sharedPref.setData(
-              'phone', _phonecontroller.text); // save the phone number of user
-          sharedPref.setData(
-              'password', _passwordcontroller.text); //save the password of user
-        },
+        onPressed: SignInFunction,
       ),
     );
   }
@@ -231,8 +246,3 @@ class _SignInState extends State<SignIn> {
   }
 //------------------------------------------------------------------------------
 } // end class
-
-//TODO: save also id returned by server into shared pref if users cleared the program and must sign in
-
-//TODO: add snackbarMessage
-//TODO: add circleprogressindicator

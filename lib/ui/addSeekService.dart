@@ -4,6 +4,7 @@ import 'package:alatareekeh/components/timedatepicker.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sizer/sizer.dart';
 
 //-> this page for adding or sekking service so i am a customer or provider
@@ -45,6 +46,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
         backgroundColor: Colors.amber,
       ));
     } else {
+      EasyLoading.show(status: "Loading");
       message = await webServices.addSeekService(
           userid,
           status2,
@@ -64,6 +66,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
         duration: Duration(seconds: 3),
       ));
     }
+    EasyLoading.dismiss();
   }
 
   @override

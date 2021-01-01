@@ -91,7 +91,9 @@ class _HomePageState extends State<HomePage> {
           return Card(
             child: ListTile(
               isThreeLine: false,
-              onTap: () {},
+              onTap: () {
+                print(list.userId);
+              },
               title: Text(list.userName),
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

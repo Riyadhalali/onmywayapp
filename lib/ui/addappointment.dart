@@ -64,6 +64,7 @@ class _AddAppointmentState extends State<AddAppointment> {
 
   //-> add the appointment
   void submitAppointment() async {
+    print(widget.providerID);
     EasyLoading.show(
       status: 'Loading...',
     );

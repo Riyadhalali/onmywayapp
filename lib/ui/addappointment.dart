@@ -13,7 +13,7 @@ class AddAppointment extends StatefulWidget {
   static const id = 'add_appointment';
   //Customer is the user and Provider is how added the order
   final String providerUsername;
-  final int providerID;
+  final String providerID;
   final String providerPhone;
   final String providerGender;
   final String providerSpace;
@@ -36,6 +36,7 @@ class AddAppointment extends StatefulWidget {
 }
 
 class _AddAppointmentState extends State<AddAppointment> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String customerID; // load user_id from shared pref
   String customerUsername;
   String customerPhone;
@@ -48,10 +49,12 @@ class _AddAppointmentState extends State<AddAppointment> {
 
   //-> Load user Data profile
   void LoadUserDate() async {
-    customerID = await sharedPref.LoadData('user_id');
+    customerID = await sharedPref.LoadData('userID');
     customerUsername = await sharedPref.LoadData('username');
     customerPhone = await sharedPref.LoadData('phone');
     customerGender = await sharedPref.LoadData('gender');
+    print("customerID:$customerID");
+    print("customerUsername:$customerUsername");
   }
 
 //-> get the location of this device
@@ -60,11 +63,12 @@ class _AddAppointmentState extends State<AddAppointment> {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     longitude = position.longitude;
     latitude = position.latitude;
+    print(latitude);
   }
 
   //-> add the appointment
   void submitAppointment() async {
-    print(widget.providerID);
+    // print(widget.providerID);
     EasyLoading.show(
       status: 'Loading...',
     );
@@ -85,7 +89,10 @@ class _AddAppointmentState extends State<AddAppointment> {
         latitude.toString(),
         longitude.toString());
 
-    print(messageResponse);
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(messageResponse),
+      duration: Duration(seconds: 3),
+    ));
 
     EasyLoading.dismiss();
   }
@@ -94,12 +101,14 @@ class _AddAppointmentState extends State<AddAppointment> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    LoadUserDate();
     GetLocation(); // get location of user
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: ColumnElements(),
     );
   } // end build

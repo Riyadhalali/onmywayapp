@@ -98,9 +98,11 @@ class _HomePageState extends State<HomePage> {
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(list.servicePickup + " - " + list.serviceDestination),
+                  Text(list.servicePickup.toString() +
+                      " - " +
+                      list.serviceDestination.toString()),
                   Text(list.serviceDate),
-                  Text(list.serviceGender),
+                  Text(list.serviceGender.toString()),
                   Text(list.serviceSpace)
                 ],
               ),
@@ -111,13 +113,13 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(
                       builder: (context) => AddAppointment(
                         providerUsername: list.userName,
-                        providerID: list.userId,
-                        providerPhone: list.userPhone,
-                        providerGender: list.serviceGender,
+                        providerID: list.userId.toString(),
+                        providerPhone: list.userPhone.toString(),
+                        providerGender: list.serviceGender.toString(),
                         providerSpace: list.serviceSpace,
                         date: list.serviceDate,
-                        providerPickup: list.servicePickup,
-                        providerDistination: list.serviceDestination,
+                        providerPickup: list.servicePickup.toString(),
+                        providerDistination: list.serviceDestination.toString(),
                       ),
                     ),
                   );

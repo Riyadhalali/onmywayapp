@@ -27,7 +27,7 @@ class GetSeekedServices {
     this.serviceType,
   });
 
-  int userId;
+  String userId;
   int serviceId;
   int serviceStatus;
   String servicePickup;

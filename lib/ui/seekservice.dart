@@ -1,22 +1,25 @@
 import 'package:alatareekeh/components/rasidedbutton.dart';
 import 'package:alatareekeh/components/textfield.dart';
 import 'package:alatareekeh/components/timedatepicker.dart';
+import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sizer/sizer.dart';
 
-//-> this page for adding or sekking service so i am a customer or provider
-class AddSeekService extends StatefulWidget {
-  static const id = 'addSeekService';
+//-> this page for sekking service so i am a customer or provider
+class SeekService extends StatefulWidget {
+  static const id = 'seekservice';
   @override
-  _AddSeekServiceState createState() => _AddSeekServiceState();
+  _SeekServiceState createState() => _SeekServiceState();
 }
 
-class _AddSeekServiceState extends State<AddSeekService> {
+class _SeekServiceState extends State<SeekService> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   WebServices webServices = new WebServices();
+  SharedPref sharedPref = new SharedPref();
+  String userID;
   var message;
   String dropDownMenuGender =
       ""; // very important or we will get a null message when fetching api services
@@ -26,14 +29,14 @@ class _AddSeekServiceState extends State<AddSeekService> {
   final _toController = TextEditingController();
   final _spaceController = TextEditingController();
   final _phoneController = TextEditingController();
-  String userid = '1';
+
   int status2 = 111;
 
   static const Map<String, int> typeOptions = {
     "Person": 1,
     "Package": 2,
   };
-  int typeOptionDefault = 1; // one is for adding service
+  int typeOptionDefault = 2; // 2 is for seeking service
   // List<User> users = <User>[const User(1, 'Foo'), const User(2, 'Bar')];
 
   //-> this method to get selected time from datetimepicker statfull widget
@@ -48,7 +51,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
     } else {
       EasyLoading.show(status: "Loading");
       message = await webServices.addSeekService(
-          userid,
+          userID,
           status2,
           typeOptionDefault, // value of dropdown menu
           _phoneController.text,
@@ -69,14 +72,30 @@ class _AddSeekServiceState extends State<AddSeekService> {
     EasyLoading.dismiss();
   }
 
+//-------------------------------Load User Data---------------------------------
+  //-> Shared Preferences for Loading User id
+  void LoadUserData() async {
+    userID =
+        await sharedPref.LoadData('userID'); // load user id from shared pref
+    print(userID);
+  }
+
+//----------------------------Init State----------------------------------------
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    LoadUserData(); // shared pref
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color(0xFF8949d8),
+        backgroundColor: Colors.blueAccent,
         title: Text(
-          'addseekservice'.tr().toString(),
+          'seekservice'.tr().toString(),
         ),
       ),
       body: columnElements(),
@@ -263,5 +282,4 @@ class _AddSeekServiceState extends State<AddSeekService> {
 //------------------------------------------------------------------------------
 } //end class
 
-//TODO: check the userid savid from login or register page
 //Todo: check what is the status

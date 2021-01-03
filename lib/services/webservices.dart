@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:alatareekeh/constants/constants.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
+import 'package:alatareekeh/services/getmyappointments.dart';
 import 'package:http/http.dart' as http;
 
 import 'getprovdiedservices.dart';
@@ -58,7 +59,7 @@ class WebServices {
       String username) async {
     http.Response response =
         await http.post(Constants.api_link + 'AddOrSeek_Service', body: {
-      "user_id": "YeIypCsC23Q=",
+      "user_id": userId,
       "status": status.toString(),
       "type": type.toString(),
       "phone": phone,
@@ -162,5 +163,26 @@ class WebServices {
       }
     } catch (e) {}
   }
+
+//----------------------Get My Appointments-------------------------------------
+  //-> pass user id to the function
+  static Future<List<GetMyAppointments>> Get_My_Appointments(
+      String userId) async {
+    try {
+      final response = await http.get(
+        Constants.api_link + 'Get_My_Appointments?user_id=$userId',
+      ); // pass user id
+      // print(response);
+      if (response.statusCode == 200) {
+        final List<GetMyAppointments> getAppointmentServices =
+            getMyAppointmentsFromJson(response.body);
+
+        return getAppointmentServices;
+      }
+    } catch (e) {
+      return List<GetMyAppointments>();
+    }
+  }
+
 //------------------------------------------------------------------------------
 } // end class

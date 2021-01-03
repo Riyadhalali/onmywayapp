@@ -10,6 +10,7 @@ import 'package:alatareekeh/ui/navigationbar.dart';
 import 'package:alatareekeh/ui/privacypolicy.dart';
 import 'package:alatareekeh/ui/register.dart';
 import 'package:alatareekeh/ui/seekedServices.dart';
+import 'package:alatareekeh/ui/seekservice.dart';
 import 'package:alatareekeh/ui/settings.dart';
 import 'package:alatareekeh/ui/signin.dart';
 import 'package:alatareekeh/ui/splash.dart';
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
                 SeekedServices.id: (context) => SeekedServices(),
                 Maps.id: (context) => Maps(),
                 AddAppointment.id: (context) => AddAppointment(),
+                SeekService.id: (context) => SeekService(),
               },
             );
           },

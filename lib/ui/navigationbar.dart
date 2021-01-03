@@ -1,5 +1,6 @@
 import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/myservices.dart';
+import 'package:alatareekeh/ui/seekservice.dart';
 import 'package:alatareekeh/ui/settings.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,7 @@ class _NavigationState extends State<Navigation> {
     HomePage(), // this home page contains order or everythimg and contain a search button
     SeekedServices(),
     AddSeekService(), // add service or seek service
+    SeekService(),
     MyAppointment(), // get my appointments
     MyServices(),
     Settings(),
@@ -33,8 +35,8 @@ class _NavigationState extends State<Navigation> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Provided'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Seeked'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.local_offer), label: 'Add/Seek'),
+          BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Add'),
+          BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Seek'),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart), label: 'Appointment'),
           BottomNavigationBarItem(

@@ -18,10 +18,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<GetProvidedServices> providedServicesList;
-  Future<GetProvidedServices> getprov;
+
   Future<List<GetProvidedServices>> fetchList() async {
     providedServicesList = await WebServices.Get_Provided_Services();
-    providedServicesList.elementAt(0);
+
     return providedServicesList;
   }
 

@@ -18,7 +18,7 @@
   "valuecannotbeempty": "Value Can't be empty!",
   "enteremailaddress": "Please Enter Your Email Address",
   "submit": "Submit",
-  "addseekservice": "Add or Seek Service",
+  "addseekservice": "Add Service",
   "person": "Person",
   "package": "Package",
   "type": "Type",
@@ -26,7 +26,9 @@
   "space": "Space",
   "date": "Date",
   "from": "From",
-  "to": "To"
+  "to": "To",
+  "myappointments": "My Appointments",
+  "seekservice":"Seek Service"
 
 
 }

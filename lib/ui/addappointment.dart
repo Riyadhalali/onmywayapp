@@ -53,8 +53,6 @@ class _AddAppointmentState extends State<AddAppointment> {
     customerUsername = await sharedPref.LoadData('username');
     customerPhone = await sharedPref.LoadData('phone');
     customerGender = await sharedPref.LoadData('gender');
-    print("customerID:$customerID");
-    print("customerUsername:$customerUsername");
   }
 
 //-> get the location of this device
@@ -63,7 +61,6 @@ class _AddAppointmentState extends State<AddAppointment> {
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     longitude = position.longitude;
     latitude = position.latitude;
-    print(latitude);
   }
 
   //-> add the appointment

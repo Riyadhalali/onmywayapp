@@ -18,7 +18,7 @@
   "valuecannotbeempty": "يرجى تعبئة الحقل",
   "enteremailaddress": "يرجى إدخال عنوان بريدك الإلكتروني",
   "submit": "تسجيل",
-  "addseekservice": "إضافة أو طلب خدمة",
+  "addseekservice": "إضافة خدمة",
   "person": "شخص",
   "package": "غرض",
   "type": "النوع",
@@ -26,6 +26,8 @@
   "space": "المساحة",
   "date": "التاريخ",
   "from": "From",
-  "to": "To"
+  "to": "To",
+  "myappointments": "مواعيدي",
+  "seekservice": "طلب خدمة"
 
 }

@@ -1,7 +1,8 @@
+import 'package:alatareekeh/ui/seekedtab.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-//-> this class will be a tabBar
+//-> this class will be a tabBar and it contain two tabs on is the seekedServices tab and the other is provided services.
 class MyServices extends StatefulWidget {
   static const id = 'myServices';
   @override
@@ -22,15 +23,15 @@ class _MyServicesState extends State<MyServices> {
                 text: 'seeked'.tr().toString(),
               ),
               Tab(
-                text: 'proivided'.tr().toString(),
+                text: 'provided'.tr().toString(),
               ),
             ],
           ),
         ),
         body: TabBarView(
           children: [
-            Text('2018'), // Seeked Page
-            Text('2019'), //Provided Service
+            SeekedTab(), // return SeekedTab page
+            Text('2019'),
           ],
         ),
       ),

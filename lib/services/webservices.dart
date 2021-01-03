@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:alatareekeh/constants/constants.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/getmyappointments.dart';
+import 'package:alatareekeh/services/getmyservices.dart';
 import 'package:http/http.dart' as http;
 
 import 'getprovdiedservices.dart';
@@ -181,6 +182,24 @@ class WebServices {
       }
     } catch (e) {
       return List<GetMyAppointments>();
+    }
+  }
+
+//--------------------------Get My Services-------------------------------------
+//-> pass user id and type to the function
+  static Future<List<GetMyServices>> Get_My_Services(
+      String userID, String type) async {
+    try {
+      final response = await http.get(Constants.api_link +
+          'Get_My_services?user_id=$userID' +
+          '&type=$type'); // pass user id and type if seeked or provided
+      if (response.statusCode == 200) {
+        final List<GetMyServices> getMyServices =
+            getMyServicesFromJson(response.body);
+        return getMyServices;
+      }
+    } catch (e) {
+      return List<GetMyServices>();
     }
   }
 

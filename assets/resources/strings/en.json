@@ -28,7 +28,10 @@
   "from": "From",
   "to": "To",
   "myappointments": "My Appointments",
-  "seekservice":"Seek Service"
+  "seekservice":"Seek Service",
+  "myservices": "My Services",
+  "seeked": "Seeked",
+  "provided": "Provided"
 
 
 }

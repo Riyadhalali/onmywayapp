@@ -28,6 +28,9 @@
   "from": "From",
   "to": "To",
   "myappointments": "مواعيدي",
-  "seekservice": "طلب خدمة"
+  "seekservice": "طلب خدمة",
+  "myservices": "خدماتي",
+  "seeked": "المطلوبة",
+  "provided": "المقدمة"
 
 }

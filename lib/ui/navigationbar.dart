@@ -1,7 +1,6 @@
 import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/myservices.dart';
 import 'package:alatareekeh/ui/seekservice.dart';
-import 'package:alatareekeh/ui/settings.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -24,7 +23,7 @@ class _NavigationState extends State<Navigation> {
     SeekService(),
     MyAppointment(), // get my appointments
     MyServices(),
-    Settings(),
+    //Settings(),
   ];
 
   @override
@@ -41,8 +40,8 @@ class _NavigationState extends State<Navigation> {
               icon: Icon(Icons.shopping_cart), label: 'Appointment'),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart), label: 'Services'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: 'Settings'),
+          // BottomNavigationBarItem(
+          //     icon: Icon(Icons.shopping_cart), label: 'Settings'),
         ],
         currentIndex: selectedPage,
         showUnselectedLabels: true,

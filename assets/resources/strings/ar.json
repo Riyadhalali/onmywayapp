@@ -31,6 +31,12 @@
   "seekservice": "طلب خدمة",
   "myservices": "خدماتي",
   "seeked": "المطلوبة",
-  "provided": "المقدمة"
+  "provided": "المقدمة",
+  "serviceid": "معرف الخدمة: ",
+  "servivestatus": "حالة الخدمة: ",
+  "servicepickup": "مكان الانطلاق: ",
+  "servicedistination": "مكان الوصول: ",
+  "servicedate": "تاريخ الخدمة: ",
+  "servicespace": "مساحة الخدمة: "
 
 }

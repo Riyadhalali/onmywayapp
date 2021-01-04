@@ -1,6 +1,7 @@
 import 'package:alatareekeh/services/getmyservices.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SeekedTab extends StatefulWidget {
@@ -80,7 +81,25 @@ class _SeekedTabState extends State<SeekedTab> {
               // title: Text(list.providerName),
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[],
+                children: <Widget>[
+                  Text(
+                    'serviceid'.tr().toString() + list.serviceId.toString(),
+                  ),
+                  Text(
+                    'servicestatus'.tr().toString() +
+                        list.serviceStatus.toString(),
+                  ),
+                  Text('servicepickup'.tr().toString() +
+                      list.servicePickup.toString()),
+                  Text(
+                    'servicedestination'.tr().toString() +
+                        list.serviceDestination.toString(),
+                  ),
+                  Text(
+                    'servicedate'.tr().toString() + list.serviceDate.toString(),
+                  ),
+                  Text('servicespace'.tr().toString() + list.serviceSpace),
+                ],
               ),
             ),
             borderOnForeground: true,

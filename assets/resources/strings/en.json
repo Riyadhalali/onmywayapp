@@ -31,7 +31,14 @@
   "seekservice":"Seek Service",
   "myservices": "My Services",
   "seeked": "Seeked",
-  "provided": "Provided"
+  "provided": "Provided",
+  "serviceid": "Service ID: ",
+  "servivestatus": "Service Status: ",
+  "servicepickup": "Service Pickup: ",
+  "servicedistination": "Service Distination: ",
+  "servicedate": "Service Date: ",
+  "servicespace": "Service Space: "
+
 
 
 }

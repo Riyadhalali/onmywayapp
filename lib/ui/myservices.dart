@@ -12,6 +12,8 @@ class MyServices extends StatefulWidget {
 
 class _MyServicesState extends State<MyServices>
     with SingleTickerProviderStateMixin {
+  final PageStorageBucket bucket = PageStorageBucket();
+
   TabController _tabController;
   @override
   void initState() {
@@ -45,12 +47,19 @@ class _MyServicesState extends State<MyServices>
             ],
           ),
         ),
-        body: TabBarView(
-          /// controller: _tabController,
-          children: <Widget>[
-            SeekedTab(), // return SeekedTab page
-            ProvidedTab(), // return provided tab
-          ],
+        body: PageStorage(
+          bucket: bucket,
+          child: TabBarView(
+            // controller: _tabController,
+            children: <Widget>[
+              SeekedTab(
+                key: PageStorageKey('seekedtab'),
+              ), // return SeekedTab page
+              ProvidedTab(
+                key: PageStorageKey('providedTab'),
+              ), // return provided tab
+            ],
+          ),
         ),
       ),
     );

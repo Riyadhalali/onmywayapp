@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ProvidedTab extends StatefulWidget {
+  ProvidedTab({Key key});
   static const id = 'provided_tab';
   @override
   _ProvidedTabState createState() => _ProvidedTabState();

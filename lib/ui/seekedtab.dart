@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SeekedTab extends StatefulWidget {
+  SeekedTab({Key key});
   static const id = 'seeked_tab';
   @override
   _SeekedTabState createState() => _SeekedTabState();

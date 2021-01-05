@@ -31,6 +31,7 @@ class _NavigationState extends State<Navigation> {
     return Scaffold(
       body: _pageOptions[selectedPage],
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Provided'),
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Seeked'),

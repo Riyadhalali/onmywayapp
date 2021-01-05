@@ -190,12 +190,14 @@ class WebServices {
   static Future<List<GetMyServices>> Get_My_Services(
       String userID, String type) async {
     try {
+      print(userID);
       final response = await http.get(Constants.api_link +
           'Get_My_services?user_id=$userID' +
           '&type=$type'); // pass user id and type if seeked or provided
       if (response.statusCode == 200) {
         final List<GetMyServices> getMyServices =
             getMyServicesFromJson(response.body);
+        //  print(response.body);
         return getMyServices;
       }
     } catch (e) {

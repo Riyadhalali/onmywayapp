@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
+
             case ConnectionState.waiting:
               return Center(child: new CircularProgressIndicator());
             default:

@@ -33,7 +33,7 @@
   "seeked": "Seeked",
   "provided": "Provided",
   "serviceid": "Service ID: ",
-  "servivestatus": "Service Status: ",
+  "servicestatus": "Service Status: ",
   "servicepickup": "Service Pickup: ",
   "servicedistination": "Service Distination: ",
   "servicedate": "Service Date: ",

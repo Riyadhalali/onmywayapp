@@ -1,3 +1,4 @@
+import 'package:alatareekeh/ui/providedtab.dart';
 import 'package:alatareekeh/ui/seekedtab.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,23 @@ class MyServices extends StatefulWidget {
   _MyServicesState createState() => _MyServicesState();
 }
 
-class _MyServicesState extends State<MyServices> {
+class _MyServicesState extends State<MyServices>
+    with SingleTickerProviderStateMixin {
+  TabController _tabController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _tabController = TabController(vsync: this, length: 2);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _tabController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -29,9 +46,10 @@ class _MyServicesState extends State<MyServices> {
           ),
         ),
         body: TabBarView(
-          children: [
+          /// controller: _tabController,
+          children: <Widget>[
             SeekedTab(), // return SeekedTab page
-            Text('2019'),
+            ProvidedTab(), // return provided tab
           ],
         ),
       ),

@@ -18,14 +18,13 @@ class _SeekedTabState extends State<SeekedTab> {
   //------------------------------Functions-------------------------------------
   //->
   Future<List<GetMyServices>> fetchSeekedServices() async {
+    user_Id = await sharedPref.LoadData(
+        'userID'); // it is best to load shared pref inside the same async task
     getMyServices =
         await WebServices.Get_My_Services(user_Id, '2'); // two is for seeked
+    print('getmyservices is started');
+    print(getMyServices);
     return getMyServices;
-  }
-
-  //-> Load User id from shared pref
-  void LoadUserData() async {
-    user_Id = await sharedPref.LoadData('userID');
   }
 
   //----------------------------------------------------------------------------
@@ -33,13 +32,12 @@ class _SeekedTabState extends State<SeekedTab> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    LoadUserData();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: FutureMethod(),
+    return Scaffold(
+      body: FutureMethod(),
     );
   } // end build
 
@@ -80,7 +78,6 @@ class _SeekedTabState extends State<SeekedTab> {
               },
               // title: Text(list.providerName),
               subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(
                     'serviceid'.tr().toString() + list.serviceId.toString(),

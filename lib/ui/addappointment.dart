@@ -50,6 +50,7 @@ class _AddAppointmentState extends State<AddAppointment> {
   //-> Load user Data profile
   void LoadUserDate() async {
     customerID = await sharedPref.LoadData('userID');
+
     customerUsername = await sharedPref.LoadData('username');
     customerPhone = await sharedPref.LoadData('phone');
     customerGender = await sharedPref.LoadData('gender');
@@ -70,14 +71,16 @@ class _AddAppointmentState extends State<AddAppointment> {
       status: 'Loading...',
     );
     var messageResponse;
+
+    //TODO: check if it not null
     messageResponse = await webServices.addAppointment(
         customerID,
         widget.providerID.toString(),
-        customerUsername,
+        'riyad',
         widget.providerUsername,
         customerPhone,
         widget.providerPhone,
-        customerGender,
+        'male',
         widget.providerGender,
         widget.providerPickup,
         widget.providerDistination,
@@ -86,12 +89,12 @@ class _AddAppointmentState extends State<AddAppointment> {
         latitude.toString(),
         longitude.toString());
 
+    EasyLoading.dismiss();
+
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(messageResponse),
       duration: Duration(seconds: 3),
     ));
-
-    EasyLoading.dismiss();
   }
 
   @override
@@ -151,7 +154,7 @@ class _AddAppointmentState extends State<AddAppointment> {
                 child: Row(
                   children: [
                     Text(
-                      'Username'.tr().toString(),
+                      'username'.tr().toString(),
                       style: TextStyle(fontSize: 13.0.sp),
                     ),
                     containerData(widget.providerUsername),

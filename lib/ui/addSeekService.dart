@@ -18,10 +18,10 @@ class AddSeekService extends StatefulWidget {
 class _AddSeekServiceState extends State<AddSeekService> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   WebServices webServices = new WebServices();
-  SharedPref sharedPref=SharedPref();
+  SharedPref sharedPref = SharedPref();
   var message;
   String dropDownMenuGender =
-      ""; // very important or we will get a null message when fetching api services
+      'Male'; // very important or we will get a null message when fetching api services
   String dropDownMenuType = "";
   final _usernameController = TextEditingController();
   final _fromController = TextEditingController();
@@ -36,6 +36,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
     "Package": 2,
   };
   int typeOptionDefault = 1; // one is for adding service
+  String dropdownValue = 'One';
   // List<User> users = <User>[const User(1, 'Foo'), const User(2, 'Bar')];
 //------------------------------------------------------------------------------
   //-> this method to get selected time from datetimepicker statfull widget
@@ -61,21 +62,24 @@ class _AddSeekServiceState extends State<AddSeekService> {
           _toController.text,
           _usernameController.text);
 
+      print("Started add Appointment");
+      print(userID);
+
+      EasyLoading.dismiss();
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.amber,
         content: Text(message),
         duration: Duration(seconds: 3),
       ));
     }
-    EasyLoading.dismiss();
   }
+
 //------------------------------------------------------------------------------
   //-------------------------------Load User Data---------------------------------
   //-> Shared Preferences for Loading User id
   void LoadUserData() async {
     userID =
-    await sharedPref.LoadData('userID'); // load user id from shared pref
-    print(userID);
+        await sharedPref.LoadData('userID'); // load user id from shared pref
   }
 
 //----------------------------Init State----------------------------------------
@@ -211,24 +215,27 @@ class _AddSeekServiceState extends State<AddSeekService> {
           width: 20.0.w,
         ),
         new DropdownButton<String>(
-          value: "male".tr().toString(),
-          items: <String>[
-            'male'.tr().toString(),
-            'female'.tr().toString(),
-          ].map((String value) {
-            return new DropdownMenuItem<String>(
-              value: value,
-              child: new Text(
-                value,
-                style: TextStyle(fontSize: 15.0.sp),
-              ),
-            );
-          }).toList(),
-          onChanged: (String value1) {
+          value: dropDownMenuGender,
+          icon: Icon(Icons.arrow_downward),
+          iconSize: 24,
+          elevation: 16,
+          style: TextStyle(color: Colors.deepPurple),
+          underline: Container(
+            height: 2,
+            color: Colors.deepPurpleAccent,
+          ),
+          onChanged: (String newValue) {
             setState(() {
-              dropDownMenuGender = value1;
+              dropDownMenuGender = newValue;
             });
           },
+          items: <String>['Male', 'Female']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
         )
       ],
     );
@@ -279,6 +286,5 @@ class _AddSeekServiceState extends State<AddSeekService> {
   }
 //------------------------------------------------------------------------------
 } //end class
-
 
 //Todo: check what is the status

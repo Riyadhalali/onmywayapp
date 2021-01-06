@@ -47,19 +47,16 @@ class _MyServicesState extends State<MyServices>
             ],
           ),
         ),
-        body: PageStorage(
-          bucket: bucket,
-          child: TabBarView(
-            // controller: _tabController,
-            children: <Widget>[
-              SeekedTab(
-                key: PageStorageKey('seekedtab'),
-              ), // return SeekedTab page
-              ProvidedTab(
-                key: PageStorageKey('providedTab'),
-              ), // return provided tab
-            ],
-          ),
+        body: TabBarView(
+          // controller: _tabController,
+          children: <Widget>[
+            SeekedTab(
+
+            ), // return SeekedTab page
+            ProvidedTab(
+
+            ), // return provided tab
+          ],
         ),
       ),
     );

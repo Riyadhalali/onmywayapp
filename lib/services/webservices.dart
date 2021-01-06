@@ -205,5 +205,21 @@ class WebServices {
     }
   }
 
-//------------------------------------------------------------------------------
+//----------------------------Delete Appointment--------------------------------
+  static Future<String> deleteAppointment(String appointment_id) async {
+    try {
+      http.Response response = await http.get(Constants.api_link +
+          'Delete_Appointment?appointment_id=$appointment_id');
+
+      if (response.statusCode == 200) {
+        String data = response.body;
+        var decodedData = jsonDecode(data); // decoding data
+        var message = decodedData['message'];
+
+        return message;
+      }
+    } catch (e) {}
+  }
+  //----------------------------------
+
 } // end class

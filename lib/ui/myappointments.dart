@@ -11,32 +11,44 @@ class MyAppointment extends StatefulWidget {
 }
 
 class _MyAppointmentState extends State<MyAppointment> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String user_Id;
   List<GetMyAppointments> getMyAppointments;
   SharedPref sharedPref = SharedPref();
+  WebServices webServices = WebServices();
   //-------------------------Functions------------------------------------------
   //-> this method for getting data for server
   Future<List<GetMyAppointments>> fetchAppointmentList() async {
+    user_Id = await sharedPref.LoadData('userID');
     getMyAppointments = await WebServices.Get_My_Appointments(user_Id);
     return getMyAppointments;
   }
 
-  //-> this method for loading user id from shared preferences
-  void LoadUserData() async {
-    user_Id = await sharedPref.LoadData('userID');
+  //-> delete appointment
+  void deleteAppoimtment(String appointmentId) async {
+    var message;
+
+    message = await WebServices.deleteAppointment(appointmentId.toString());
+
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(message),
+      duration: Duration(seconds: 3),
+    ));
   }
+
+  //-> show alert dialog
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    LoadUserData(); // load user id from shared pref
   }
 
   //----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text("myappointments".tr().toString()),
@@ -96,9 +108,41 @@ class _MyAppointmentState extends State<MyAppointment> {
                 spacing: 5,
                 children: [
                   IconButton(
+                    onPressed: () =>
+                        deleteAppoimtment(list.appointmentId.toString()),
                     icon: Icon(Icons.delete),
                   ),
                   IconButton(
+                    onPressed: () {
+                      return showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Are you Sure?"),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: [Text('Location')],
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Text("Sure"),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      print('sure');
+                                      Navigator.of(context)
+                                          .pop(); // close the dialog
+                                    },
+                                    child: Text('Cancel'))
+                              ],
+                            );
+                          });
+
+                      // make get location of the id
+                    },
                     icon: Icon(Icons.add_location),
                   ),
                 ],

@@ -117,7 +117,7 @@ class _SeekedServicesState extends State<SeekedServices> {
                     ),
                   );
                 },
-                child: Text('addappointment'.tr().toString()),
+                child: Text('addAppointment'.tr().toString()),
               ),
             ),
           );

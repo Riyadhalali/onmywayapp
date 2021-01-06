@@ -1,8 +1,7 @@
 import 'package:alatareekeh/services/sharedpref.dart';
+import 'package:alatareekeh/ui/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
-import 'home.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   static String id = 'privacy_policy';
@@ -104,7 +103,8 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
             if (_checked == true) {
               sharedPref.setData('privacypolicystate',
                   'privacypolicyaccepted'); // saving privacy policy accept to shared pref
-              Navigator.pushNamed(context, HomePage.id);
+              Navigator.pushNamed(
+                  context, SignIn.id); // navigate to login in screen
             }
           });
         },

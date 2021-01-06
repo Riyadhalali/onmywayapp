@@ -99,7 +99,6 @@ class _AddAppointmentState extends State<AddAppointment> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     LoadUserDate();
     GetLocation(); // get location of user

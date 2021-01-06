@@ -22,7 +22,7 @@ class _SeekServiceState extends State<SeekService> {
   String userID;
   var message;
   String dropDownMenuGender =
-      ""; // very important or we will get a null message when fetching api services
+      "Male"; // very important or we will get a null message when fetching api services
   String dropDownMenuType = "";
   final _usernameController = TextEditingController();
   final _fromController = TextEditingController();
@@ -213,24 +213,27 @@ class _SeekServiceState extends State<SeekService> {
           width: 20.0.w,
         ),
         new DropdownButton<String>(
-          value: "male".tr().toString(),
-          items: <String>[
-            'male'.tr().toString(),
-            'female'.tr().toString(),
-          ].map((String value) {
-            return new DropdownMenuItem<String>(
-              value: value,
-              child: new Text(
-                value,
-                style: TextStyle(fontSize: 15.0.sp),
-              ),
-            );
-          }).toList(),
-          onChanged: (String value1) {
+          value: dropDownMenuGender,
+          icon: Icon(Icons.arrow_downward),
+          iconSize: 24,
+          elevation: 16,
+          style: TextStyle(color: Colors.deepPurple),
+          underline: Container(
+            height: 2,
+            color: Colors.deepPurpleAccent,
+          ),
+          onChanged: (String newValue) {
             setState(() {
-              dropDownMenuGender = value1;
+              dropDownMenuGender = newValue;
             });
           },
+          items: <String>['Male', 'Female']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
         )
       ],
     );

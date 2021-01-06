@@ -113,10 +113,10 @@ class _AddAppointmentState extends State<AddAppointment> {
     EasyLoading.dismiss();
 
     print(messageResponse);
-    // _scaffoldKey.currentState.showSnackBar(SnackBar(
-    //   content: Text(messageResponse),
-    //   duration: Duration(seconds: 3),
-    // ));
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(messageResponse),
+      duration: Duration(seconds: 3),
+    ));
   }
 
   //----------------------------------------------------------------------------
@@ -143,7 +143,7 @@ class _AddAppointmentState extends State<AddAppointment> {
   @override
   void initState() {
     LoadUserDate();
-    // GetLocation(); // get location of user
+    GetLocation(); // get location of user
     super.initState();
   }
 

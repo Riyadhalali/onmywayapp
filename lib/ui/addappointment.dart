@@ -60,7 +60,7 @@ class _AddAppointmentState extends State<AddAppointment> {
   }
 
 //-> get the location of this device
-  void GetLocation() async {
+  Future<Position> GetLocation() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     double longitude_data = position.longitude;
@@ -71,6 +71,8 @@ class _AddAppointmentState extends State<AddAppointment> {
       latitude = latitude_data;
       longitude = longitude_data;
     });
+
+    return position;
   }
 
   //-> add the appointment
@@ -117,10 +119,31 @@ class _AddAppointmentState extends State<AddAppointment> {
     // ));
   }
 
+  //----------------------------------------------------------------------------
+  //-------------------------Future Method----------------------------------------
+  Widget FutureMethod() {
+    return FutureBuilder(
+      future: GetLocation(), // any future function
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+            return Center(child: new CircularProgressIndicator());
+          default:
+            if (snapshot.hasError)
+              return new Text('Error: ${snapshot.error}');
+            else
+              return ColumnElements();
+        }
+      },
+    );
+  }
+  //----------------------------------------------------------------------------
+
   @override
   void initState() {
     LoadUserDate();
-    GetLocation(); // get location of user
+    // GetLocation(); // get location of user
     super.initState();
   }
 
@@ -128,7 +151,13 @@ class _AddAppointmentState extends State<AddAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      body: ColumnElements(),
+      body: latitude == null
+          ? Container(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : ColumnElements(),
     );
   } // end build
 

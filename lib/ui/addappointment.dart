@@ -49,59 +49,79 @@ class _AddAppointmentState extends State<AddAppointment> {
 
   //-> Load user Data profile
   void LoadUserDate() async {
-    customerID = await sharedPref.LoadData('userID');
+    String customerID2 = await sharedPref.LoadData('userID');
 
     customerUsername = await sharedPref.LoadData('username');
     customerPhone = await sharedPref.LoadData('phone');
     customerGender = await sharedPref.LoadData('gender');
+    setState(() {
+      this.customerID = customerID2;
+    });
   }
 
 //-> get the location of this device
   void GetLocation() async {
     Position position = await Geolocator()
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    longitude = position.longitude;
-    latitude = position.latitude;
+    double longitude_data = position.longitude;
+    double latitude_data = position.latitude;
+
+    print(latitude_data);
+    setState(() {
+      latitude = latitude_data;
+      longitude = longitude_data;
+    });
   }
 
   //-> add the appointment
   void submitAppointment() async {
-    // print(widget.providerID);
+    print(customerID);
     EasyLoading.show(
       status: 'Loading...',
     );
     var messageResponse;
 
-    //TODO: check if it not null
-    messageResponse = await webServices.addAppointment(
-        customerID,
-        widget.providerID.toString(),
-        'riyad',
-        widget.providerUsername,
-        customerPhone,
-        widget.providerPhone,
-        'male',
-        widget.providerGender,
-        widget.providerPickup,
-        widget.providerDistination,
-        widget.date,
-        widget.providerSpace,
-        latitude.toString(),
-        longitude.toString());
+    if (customerID != null &&
+        latitude.toString() != null &&
+        longitude.toString() != null) {
+      messageResponse = await webServices.addAppointment(
+          'YeIypCsC23Q=',
+          widget.providerID.toString(),
+          'riyad',
+          widget.providerUsername,
+          '0947505094',
+          widget.providerPhone,
+          'male',
+          widget.providerGender,
+          widget.providerPickup,
+          widget.providerDistination,
+          widget.date,
+          widget.providerSpace,
+          latitude.toString(),
+          longitude.toString());
+
+      //TODO: how to make the api call submit waits until geto locator get the data
+
+      print(widget.providerID);
+    } else {
+      return;
+      print("customerId is empty");
+    }
 
     EasyLoading.dismiss();
 
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(messageResponse),
-      duration: Duration(seconds: 3),
-    ));
+    print(messageResponse);
+    // _scaffoldKey.currentState.showSnackBar(SnackBar(
+    //   content: Text(messageResponse),
+    //   duration: Duration(seconds: 3),
+    // ));
   }
 
   @override
   void initState() {
-    super.initState();
     LoadUserDate();
     GetLocation(); // get location of user
+    super.initState();
   }
 
   @override
@@ -250,7 +270,7 @@ class _AddAppointmentState extends State<AddAppointment> {
 
               //*************************Submit and add appointment***************
               RasiedButton(
-                labeltext: "submit".tr().toString(),
+                labeltext: "Submit".tr().toString(),
                 FunctionToDO: submitAppointment,
               ),
             ],

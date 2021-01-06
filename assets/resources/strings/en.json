@@ -37,7 +37,10 @@
   "servicepickup": "Service Pickup: ",
   "servicedestination": "Service Distination: ",
   "servicedate": "Service Date: ",
-  "servicespace": "Service Space: "
+  "servicespace": "Service Space: ",
+  "areyousure": "Are you Sure?",
+  "sure" : "Sure",
+  "cancel": "Cancel"
 
 
 

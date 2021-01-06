@@ -11,6 +11,8 @@ class MyAppointment extends StatefulWidget {
 }
 
 class _MyAppointmentState extends State<MyAppointment> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String user_Id;
   List<GetMyAppointments> getMyAppointments;
@@ -32,8 +34,10 @@ class _MyAppointmentState extends State<MyAppointment> {
 
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(message),
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 5),
     ));
+
+    Navigator.of(context).pop();
   }
 
   //-> show alert dialog
@@ -71,6 +75,7 @@ class _MyAppointmentState extends State<MyAppointment> {
               return new Text('Error: ${snapshot.error}');
             else
               return RefreshIndicator(
+                key: _refreshIndicatorKey,
                 onRefresh: fetchAppointmentList,
                 child: MyAppointmentList(),
               );
@@ -108,9 +113,8 @@ class _MyAppointmentState extends State<MyAppointment> {
                 spacing: 5,
                 children: [
                   IconButton(
-                    onPressed: () =>
-                        deleteAppoimtment(list.appointmentId.toString()),
-                    icon: Icon(Icons.delete),
+                    onPressed: () {},
+                    icon: Icon(Icons.add_location),
                   ),
                   IconButton(
                     onPressed: () {
@@ -119,7 +123,7 @@ class _MyAppointmentState extends State<MyAppointment> {
                           barrierDismissible: false,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("Are you Sure?"),
+                              title: Text("areyousure".tr().toString()),
                               content: SingleChildScrollView(
                                 child: ListBody(
                                   children: [Text('Location')],
@@ -127,23 +131,26 @@ class _MyAppointmentState extends State<MyAppointment> {
                               ),
                               actions: [
                                 TextButton(
-                                  onPressed: () {},
-                                  child: Text("Sure"),
+                                  onPressed: () => deleteAppoimtment(
+                                      list.appointmentId.toString()),
+                                  child: Text("sure".tr().toString()),
                                 ),
                                 TextButton(
-                                    onPressed: () {
-                                      print('sure');
-                                      Navigator.of(context)
-                                          .pop(); // close the dialog
-                                    },
-                                    child: Text('Cancel'))
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // close the dialog
+                                  },
+                                  child: Text(
+                                    'cancel'.tr().toString(),
+                                  ),
+                                )
                               ],
                             );
                           });
 
                       // make get location of the id
                     },
-                    icon: Icon(Icons.add_location),
+                    icon: Icon(Icons.delete),
                   ),
                 ],
               ),

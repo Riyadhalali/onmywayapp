@@ -1,6 +1,8 @@
+import 'package:alatareekeh/services/GetServiceLocation.dart';
 import 'package:alatareekeh/services/getmyappointments.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
+import 'package:alatareekeh/ui/maps.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,7 @@ class _MyAppointmentState extends State<MyAppointment> {
   List<GetMyAppointments> getMyAppointments;
   SharedPref sharedPref = SharedPref();
   WebServices webServices = WebServices();
+
   //-------------------------Functions------------------------------------------
   //-> this method for getting data for server
   Future<List<GetMyAppointments>> fetchAppointmentList() async {
@@ -101,6 +104,7 @@ class _MyAppointmentState extends State<MyAppointment> {
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
+                  Text('Appointment Id:' + list.appointmentId.toString()),
                   Text('Phone: ' + list.providerPhone),
                   Text('Gender: ' + list.providerGender),
                   Text('From: ' + list.pickupLocation),
@@ -113,7 +117,27 @@ class _MyAppointmentState extends State<MyAppointment> {
                 spacing: 5,
                 children: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      //get the lat and long from service and then pass it to the map ui
+                      var lat, long;
+                      GetServiceLocation getServiceLocation =
+                          await WebServices.Get_Service_Location(
+                              list.appointmentId.toString());
+                      lat = getServiceLocation.lat;
+                      long = getServiceLocation.lon;
+
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => Maps(
+                            appointmentId: list.appointmentId.toString(),
+                            latitudePassed: lat,
+                            longitudePassed: long,
+                            // latitudePassed: lat,
+//                            ),
+                          ),
+                        ),
+                      );
+                    },
                     icon: Icon(Icons.add_location),
                   ),
                   IconButton(
@@ -123,10 +147,12 @@ class _MyAppointmentState extends State<MyAppointment> {
                           barrierDismissible: false,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text("areyousure".tr().toString()),
+                              title: Text("delete".tr().toString()),
                               content: SingleChildScrollView(
                                 child: ListBody(
-                                  children: [Text('Location')],
+                                  children: [
+                                    Text('areyousure'.tr().toString())
+                                  ],
                                 ),
                               ),
                               actions: [

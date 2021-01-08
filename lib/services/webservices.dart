@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alatareekeh/constants/constants.dart';
+import 'package:alatareekeh/services/GetServiceLocation.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/getmyappointments.dart';
 import 'package:alatareekeh/services/getmyservices.dart';
@@ -220,6 +221,25 @@ class WebServices {
       }
     } catch (e) {}
   }
-  //----------------------------------
+
+  //-------------------------Get Service Location-------------------------------
+//-> this ,ethod will get the service Location
+  static Future<GetServiceLocation> Get_Service_Location(
+      String appointment_id) async {
+    try {
+      http.Response response = await http.get(Constants.api_link +
+          'Get_Service_location?appointment_id=$appointment_id');
+
+      if (response.statusCode == 200) {
+        String data = response.body;
+        final GetServiceLocation getServiceLocation =
+            getServiceLocationFromJson(response.body);
+        return getServiceLocation;
+      }
+    } catch (e) {
+      print("error in geting data from service location api ");
+    }
+  }
+  //---------------------------------------------------------------------------
 
 } // end class

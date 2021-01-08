@@ -104,7 +104,6 @@ class _AddAppointmentState extends State<AddAppointment> {
 
       //TODO: how to make the api call submit waits until geto locator get the data
 
-      print(widget.providerID);
     } else {
       return;
       print("customerId is empty");
@@ -120,25 +119,6 @@ class _AddAppointmentState extends State<AddAppointment> {
   }
 
   //----------------------------------------------------------------------------
-  //-------------------------Future Method----------------------------------------
-  Widget FutureMethod() {
-    return FutureBuilder(
-      future: GetLocation(), // any future function
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-            return Center(child: new CircularProgressIndicator());
-          default:
-            if (snapshot.hasError)
-              return new Text('Error: ${snapshot.error}');
-            else
-              return ColumnElements();
-        }
-      },
-    );
-  }
-  //----------------------------------------------------------------------------
 
   @override
   void initState() {
@@ -151,10 +131,11 @@ class _AddAppointmentState extends State<AddAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      body: latitude == null
+      body: latitude == null || longitude == null
           ? Container(
               child: Center(
-                child: CircularProgressIndicator(),
+                child:
+                    CircularProgressIndicator(), // because the geolocator is taking time so the best is the wrap it with container
               ),
             )
           : ColumnElements(),
@@ -324,5 +305,3 @@ class _AddAppointmentState extends State<AddAppointment> {
   }
 //-----------------------------------------------------------------------------
 } // end class
-
-//TODO: check server response

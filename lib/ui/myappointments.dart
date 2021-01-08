@@ -1,4 +1,3 @@
-import 'package:alatareekeh/services/GetServiceLocation.dart';
 import 'package:alatareekeh/services/getmyappointments.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
@@ -120,18 +119,17 @@ class _MyAppointmentState extends State<MyAppointment> {
                     onPressed: () async {
                       //get the lat and long from service and then pass it to the map ui
                       var lat, long;
-                      GetServiceLocation getServiceLocation =
-                          await WebServices.Get_Service_Location(
-                              list.appointmentId.toString());
-                      lat = getServiceLocation.lat;
-                      long = getServiceLocation.lon;
+                      // GetServiceLocation getServiceLocation =
+                      // await WebServices.Get_Service_Location(
+                      //     list.appointmentId.toString());
+                      // lat = getServiceLocation.lat;
+                      // long = getServiceLocation.lon;
 
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => Maps(
                             appointmentId: list.appointmentId.toString(),
-                            latitudePassed: lat,
-                            longitudePassed: long,
+
                             // latitudePassed: lat,
 //                            ),
                           ),

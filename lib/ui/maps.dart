@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:alatareekeh/services/GetServiceLocation.dart';
+import 'package:alatareekeh/services/webservices.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -20,11 +22,11 @@ class _MapsState extends State<Maps> {
   List<Marker> _markers = <Marker>[];
 
   void getLocation() async {
-    // GetServiceLocation getServiceLocation =
-    //     await WebServices.Get_Service_Location(widget.appointmentId);
+    GetServiceLocation getServiceLocation =
+        await WebServices.Get_Service_Location(widget.appointmentId);
     setState(() {
-      lat = widget.latitudePassed;
-      long = widget.longitudePassed;
+      lat = getServiceLocation.lat;
+      long = getServiceLocation.lon;
     });
 
     _markers.add(Marker(

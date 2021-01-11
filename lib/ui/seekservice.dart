@@ -85,7 +85,6 @@ class _SeekServiceState extends State<SeekService> {
       EasyLoading.show(status: "Loading");
       message = await webServices.addSeekService(
           userID,
-          status2,
           typeOptionDefault, // value of dropdown menu
           _phoneController.text,
           _spaceController.text,
@@ -94,15 +93,14 @@ class _SeekServiceState extends State<SeekService> {
           _fromController.text,
           _toController.text,
           _usernameController.text);
-      print(message);
-
+      // print(message);
+      EasyLoading.dismiss();
       _scaffoldKey.currentState.showSnackBar(SnackBar(
         backgroundColor: Colors.amber,
         content: Text(message),
         duration: Duration(seconds: 3),
       ));
     }
-    EasyLoading.dismiss();
   }
 
 //-------------------------------Load User Data---------------------------------

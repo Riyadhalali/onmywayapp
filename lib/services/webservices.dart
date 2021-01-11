@@ -53,7 +53,6 @@ class WebServices {
 
   Future<String> addSeekService(
       String userId,
-      int status,
       int type,
       String phone,
       String space,
@@ -65,7 +64,6 @@ class WebServices {
     http.Response response =
         await http.post(Constants.api_link + 'AddOrSeek_Service', body: {
       "user_id": userId,
-      "status": status.toString(),
       "type": type.toString(),
       "phone": phone,
       "space": space,

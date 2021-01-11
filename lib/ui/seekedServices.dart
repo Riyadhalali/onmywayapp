@@ -50,7 +50,7 @@ class _SeekedServicesState extends State<SeekedServices> {
         automaticallyImplyLeading: false,
         title: Row(
           children: [
-            SearchField(), //search box for seeked services
+            //SearchField(), //search box for seeked services
           ],
         ),
       ),
@@ -113,6 +113,7 @@ class _SeekedServicesState extends State<SeekedServices> {
                         date: list.serviceDate,
                         providerPickup: list.servicePickup,
                         providerDistination: list.serviceDestination,
+                        providerServiceId: list.serviceId.toString(),
                       ),
                     ),
                   );

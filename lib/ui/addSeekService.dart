@@ -86,7 +86,6 @@ class _AddSeekServiceState extends State<AddSeekService> {
       EasyLoading.show(status: "Loading");
       message = await webServices.addSeekService(
           userID,
-          status2,
           typeOptionDefault, // value of dropdown menu
           _phoneController.text,
           _spaceController.text,

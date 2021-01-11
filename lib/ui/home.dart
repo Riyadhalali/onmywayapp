@@ -1,7 +1,6 @@
 import 'package:alatareekeh/services/getprovdiedservices.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/addappointment.dart';
-import 'package:alatareekeh/ui/home/searchfield.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -44,7 +43,7 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false, // to delete back button
         title: Row(
           children: [
-            SearchField(),
+            // SearchField(),
           ],
         ),
         actions: <Widget>[

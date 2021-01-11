@@ -2,15 +2,18 @@ import 'dart:convert';
 
 import 'package:alatareekeh/constants/constants.dart';
 import 'package:alatareekeh/services/GetServiceLocation.dart';
+import 'package:alatareekeh/services/GetUserInfo.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/getmyappointments.dart';
 import 'package:alatareekeh/services/getmyservices.dart';
+import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:http/http.dart' as http;
 
 import 'getprovdiedservices.dart';
 import 'getseekedservices.dart';
 
 class WebServices {
+  SharedPref sharedPref = SharedPref();
   //------------------------------Register------------------------------
   Future<String> registerUser(
       String username, String phone, String gender, String password) async {
@@ -136,7 +139,8 @@ class WebServices {
       String date,
       String space,
       String latitude,
-      String longitude) async {
+      String longitude,
+      String service_id) async {
     try {
       http.Response response =
           await http.post(Constants.api_link + 'Add_appointemnt', body: {
@@ -153,7 +157,8 @@ class WebServices {
         "date": date,
         "space": space,
         "latitude": latitude,
-        "longitude": longitude
+        "longitude": longitude,
+        "service_id": service_id
       });
 
       if (response.statusCode == 200) {
@@ -207,10 +212,12 @@ class WebServices {
   }
 
 //----------------------------Delete Appointment--------------------------------
-  static Future<String> deleteAppointment(String appointment_id) async {
+  static Future<String> deleteAppointment(
+      String appointment_id, String service_id) async {
     try {
       http.Response response = await http.get(Constants.api_link +
-          'Delete_Appointment?appointment_id=$appointment_id');
+          'Delete_Appointment?appointment_id=$appointment_id' +
+          '&service_id=$service_id');
 
       if (response.statusCode == 200) {
         String data = response.body;
@@ -240,6 +247,22 @@ class WebServices {
       print("error in geting data from service location api ");
     }
   }
-  //---------------------------------------------------------------------------
 
+  //---------------------------Get Login Data-----------------------------------
+  static Future<GetUserInfo> Get_User_Info(String userId) async {
+    try {
+      http.Response response =
+          await http.get(Constants.api_link + 'Get_User_Info?user_id=$userId');
+
+      if (response.statusCode == 200) {
+        String data = response.body;
+        final GetUserInfo getUserInfo = getUserInfoFromJson(response.body);
+
+        return getUserInfo;
+      }
+    } catch (e) {
+      print("error in geting data from userinfo service ");
+    }
+  }
+  //----------------------------------------------------------------------------
 } // end class

@@ -267,6 +267,3 @@ class _RegisterState extends State<Register> {
 
 //------------------------------------------------------------------------------
 } //end class
-
-//TODO: save returned id into sharedpref
-//TODO: after completing register go to home page with login data

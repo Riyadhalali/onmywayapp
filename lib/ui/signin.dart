@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:alatareekeh/components/textfield.dart';
+import 'package:alatareekeh/services/GetUserInfo.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
@@ -27,6 +28,12 @@ class _SignInState extends State<SignIn> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GetLoginData getLogin;
   String phone_data, password_data; //variables for holding shared pref data
+  String
+      usernameData; // this variable to store data returned from getUserInfo Api
+  String
+      userPhoneData; // this variable to store data returned from getUserInfo Api
+  String
+      userGenderData; // this variable to store data returned from getUserInfo Api
   final _phonecontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
   WebServices webServices = new WebServices();
@@ -66,6 +73,11 @@ class _SignInState extends State<SignIn> {
     message = fmain.message;
     user_id = fmain.id;
 
+    //-> get user info from server and then save it to shared pref
+    final GetUserInfo getUserInfo = await WebServices.Get_User_Info(user_id);
+    usernameData = getUserInfo.username;
+    userGenderData = getUserInfo.usergender;
+
     // show a snackbar message
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(message),
@@ -84,6 +96,10 @@ class _SignInState extends State<SignIn> {
         'phone', _phonecontroller.text); // save the phone number of user
     sharedPref.setData(
         'password', _passwordcontroller.text); //save the password of user
+
+    // //-> save user profile to shared pref
+    sharedPref.setData('username', usernameData); // save the username
+    sharedPref.setData('gender', userGenderData); //save gender
   }
   //----------------------------------------------------------------------------
 

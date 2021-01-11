@@ -17,6 +17,7 @@ class _MyAppointmentState extends State<MyAppointment> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String user_Id;
   List<GetMyAppointments> getMyAppointments;
+
   SharedPref sharedPref = SharedPref();
   WebServices webServices = WebServices();
 
@@ -25,19 +26,27 @@ class _MyAppointmentState extends State<MyAppointment> {
   Future<List<GetMyAppointments>> fetchAppointmentList() async {
     user_Id = await sharedPref.LoadData('userID');
     getMyAppointments = await WebServices.Get_My_Appointments(user_Id);
+
     return getMyAppointments;
   }
 
   //-> delete appointment
-  void deleteAppoimtment(String appointmentId) async {
+  void deleteAppoimtment(
+      String appointmentId, int index, String service_id) async {
     var message;
 
-    message = await WebServices.deleteAppointment(appointmentId.toString());
+    message = await WebServices.deleteAppointment(
+        appointmentId.toString(), service_id);
 
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(message),
-      duration: Duration(seconds: 5),
-    ));
+    // _scaffoldKey.currentState.showSnackBar(SnackBar(
+    //   content: Text(message),
+    //   duration: Duration(seconds: 5),
+    // ));
+
+    setState(() {
+      getMyAppointments.removeAt(
+          index); // to delete the item that have been deleted from api call
+    });
 
     Navigator.of(context).pop();
   }
@@ -90,6 +99,7 @@ class _MyAppointmentState extends State<MyAppointment> {
   Widget MyAppointmentList() {
     return Container(
       child: ListView.builder(
+        physics: AlwaysScrollableScrollPhysics(),
         itemCount: getMyAppointments.length,
         itemBuilder: (context, index) {
           GetMyAppointments list = getMyAppointments[index];
@@ -97,7 +107,7 @@ class _MyAppointmentState extends State<MyAppointment> {
             child: ListTile(
               isThreeLine: false,
               onTap: () {
-                print(list.providerId);
+                print(list.serviceId);
               },
               title: Text(list.providerName),
               subtitle: Column(
@@ -110,6 +120,7 @@ class _MyAppointmentState extends State<MyAppointment> {
                   Text('To: ' + list.destination),
                   Text('Date: ' + list.date),
                   Text('Space: ' + list.space),
+                  Text('Service Id:' + list.serviceId.toString())
                 ],
               ),
               trailing: Wrap(
@@ -156,7 +167,9 @@ class _MyAppointmentState extends State<MyAppointment> {
                               actions: [
                                 TextButton(
                                   onPressed: () => deleteAppoimtment(
-                                      list.appointmentId.toString()),
+                                      list.appointmentId.toString(),
+                                      index,
+                                      list.serviceId.toString()),
                                   child: Text("sure".tr().toString()),
                                 ),
                                 TextButton(

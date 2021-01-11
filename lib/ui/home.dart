@@ -121,6 +121,7 @@ class _HomePageState extends State<HomePage> {
                         date: list.serviceDate,
                         providerPickup: list.servicePickup.toString(),
                         providerDistination: list.serviceDestination.toString(),
+                        providerServiceId: list.serviceId.toString(),
                       ),
                     ),
                   );

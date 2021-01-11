@@ -16,6 +16,7 @@ class GetMyAppointments {
     this.customerId,
     this.providerId,
     this.appointmentId,
+    this.serviceId,
     this.customerName,
     this.customerPhone,
     this.customerGender,
@@ -33,6 +34,7 @@ class GetMyAppointments {
   int customerId;
   int providerId;
   int appointmentId;
+  int serviceId;
   String customerName;
   String customerPhone;
   String customerGender;
@@ -51,6 +53,7 @@ class GetMyAppointments {
         customerId: json["customer_id"],
         providerId: json["provider_id"],
         appointmentId: json["appointment_id"],
+        serviceId: json["service_id"],
         customerName: json["customer_name"],
         customerPhone: json["customer_phone"],
         customerGender: json["customer_gender"],
@@ -69,6 +72,7 @@ class GetMyAppointments {
         "customer_id": customerId,
         "provider_id": providerId,
         "appointment_id": appointmentId,
+        "service_id": serviceId,
         "customer_name": customerName,
         "customer_phone": customerPhone,
         "customer_gender": customerGender,

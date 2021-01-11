@@ -30,6 +30,11 @@ class _AddSeekServiceState extends State<AddSeekService> {
   final _phoneController = TextEditingController();
   String userID;
   int status2 = 111;
+  bool validateUsername = false;
+  bool validateFrom = false;
+  bool validateTo = false;
+  bool validateSpace = false;
+  bool validatephone = false;
 
   static const Map<String, int> typeOptions = {
     "Person": 1,
@@ -48,7 +53,36 @@ class _AddSeekServiceState extends State<AddSeekService> {
         duration: Duration(seconds: 3),
         backgroundColor: Colors.amber,
       ));
+
+      //
     } else {
+      setState(() {
+        _usernameController.text.isEmpty
+            ? validateUsername = true
+            : validateUsername = false;
+
+        _fromController.text.isEmpty
+            ? validateFrom = true
+            : validateFrom = false;
+
+        _toController.text.isEmpty ? validateTo = true : validateTo = false;
+
+        _spaceController.text.isEmpty
+            ? validateSpace = true
+            : validateSpace = false;
+
+        _phoneController.text.isEmpty
+            ? validatephone = true
+            : validatephone = false;
+      });
+
+      if (validateUsername ||
+          validateFrom ||
+          validateTo ||
+          validateSpace ||
+          validatephone) {
+        return;
+      }
       EasyLoading.show(status: "Loading");
       message = await webServices.addSeekService(
           userID,
@@ -138,6 +172,9 @@ class _AddSeekServiceState extends State<AddSeekService> {
               hint_text: 'Username',
               show_password: false,
               controller_text: _usernameController,
+              error_msg: validateUsername
+                  ? "valuecannotbeempty".tr().toString()
+                  : null,
             ),
             SizedBox(
               height: 2.0.h,
@@ -146,6 +183,8 @@ class _AddSeekServiceState extends State<AddSeekService> {
               hint_text: 'From',
               show_password: false,
               controller_text: _fromController,
+              error_msg:
+                  validateFrom ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
               height: 2.0.h,
@@ -154,6 +193,8 @@ class _AddSeekServiceState extends State<AddSeekService> {
               hint_text: 'To',
               show_password: false,
               controller_text: _toController,
+              error_msg:
+                  validateTo ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
               height: 2.0.h,
@@ -174,6 +215,8 @@ class _AddSeekServiceState extends State<AddSeekService> {
               hint_text: 'Space',
               show_password: false,
               controller_text: _spaceController,
+              error_msg:
+                  validateSpace ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
               height: 2.0.h,
@@ -182,6 +225,8 @@ class _AddSeekServiceState extends State<AddSeekService> {
               hint_text: 'Phone ',
               show_password: false,
               controller_text: _phoneController,
+              error_msg:
+                  validatephone ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
               height: 2.0.h,

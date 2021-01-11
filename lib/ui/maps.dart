@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alatareekeh/services/GetServiceLocation.dart';
 import 'package:alatareekeh/services/webservices.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -32,7 +33,7 @@ class _MapsState extends State<Maps> {
     _markers.add(Marker(
         markerId: MarkerId('Location'),
         position: LatLng(lat, long),
-        infoWindow: InfoWindow(title: 'Location')));
+        infoWindow: InfoWindow(title: 'Location'.tr().toString())));
   }
 
   @override
@@ -50,12 +51,14 @@ class _MapsState extends State<Maps> {
               child: CircularProgressIndicator(),
             )
           : GoogleMap(
-              mapType: MapType.normal,
+              mapType: MapType.hybrid,
               initialCameraPosition: CameraPosition(
                 target: LatLng(lat, long),
                 zoom: 15.0,
               ),
               markers: Set<Marker>.of(_markers),
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
               onMapCreated: (GoogleMapController controller) {
                 _controller.complete(controller);
               },

@@ -37,6 +37,12 @@
   "servicepickup": "مكان الانطلاق: ",
   "servicedestination": "مكان الوصول: ",
   "servicedate": "تاريخ الخدمة: ",
-  "servicespace": "مساحة الخدمة: "
+  "servicespace": "مساحة الخدمة: ",
+  "areyousure": "Are you Sure?",
+  "sure" : "تأكيد",
+  "cancel": "إلغاء",
+  "delete": "حذف",
+  "location": "موقع الخدمة"
+
 
 }

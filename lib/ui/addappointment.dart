@@ -20,6 +20,7 @@ class AddAppointment extends StatefulWidget {
   final String date;
   final String providerPickup;
   final String providerDistination;
+  final String providerServiceId;
 
   AddAppointment(
       {this.providerUsername,
@@ -29,7 +30,8 @@ class AddAppointment extends StatefulWidget {
       this.providerSpace,
       this.date,
       this.providerPickup,
-      this.providerDistination});
+      this.providerDistination,
+      this.providerServiceId});
 
   @override
   _AddAppointmentState createState() => _AddAppointmentState();
@@ -49,13 +51,19 @@ class _AddAppointmentState extends State<AddAppointment> {
 
   //-> Load user Data profile
   void LoadUserDate() async {
-    String customerID2 = await sharedPref.LoadData('userID');
+    String id_data, username_data, phone_data, gender_data;
 
-    customerUsername = await sharedPref.LoadData('username');
-    customerPhone = await sharedPref.LoadData('phone');
-    customerGender = await sharedPref.LoadData('gender');
+    id_data = await sharedPref.LoadData('userID');
+
+    username_data = await sharedPref.LoadData('username');
+    phone_data = await sharedPref.LoadData('phone');
+    gender_data = await sharedPref.LoadData('gender');
+
     setState(() {
-      this.customerID = customerID2;
+      customerID = id_data;
+      customerUsername = username_data;
+      customerPhone = phone_data;
+      customerGender = gender_data;
     });
   }
 
@@ -77,7 +85,7 @@ class _AddAppointmentState extends State<AddAppointment> {
 
   //-> add the appointment
   void submitAppointment() async {
-    print(customerID);
+    // print(customerID);
     EasyLoading.show(
       status: 'Loading...',
     );
@@ -87,20 +95,21 @@ class _AddAppointmentState extends State<AddAppointment> {
         latitude.toString() != null &&
         longitude.toString() != null) {
       messageResponse = await webServices.addAppointment(
-          'YeIypCsC23Q=',
+          customerID,
           widget.providerID.toString(),
-          'riyad',
+          customerUsername,
           widget.providerUsername,
-          '0947505094',
+          customerPhone,
           widget.providerPhone,
-          'male',
+          customerGender,
           widget.providerGender,
           widget.providerPickup,
           widget.providerDistination,
           widget.date,
           widget.providerSpace,
           latitude.toString(),
-          longitude.toString());
+          longitude.toString(),
+          widget.providerServiceId);
 
       //TODO: how to make the api call submit waits until geto locator get the data
 
@@ -111,7 +120,7 @@ class _AddAppointmentState extends State<AddAppointment> {
 
     EasyLoading.dismiss();
 
-    print(messageResponse);
+    //print(messageResponse);
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       content: Text(messageResponse),
       duration: Duration(seconds: 3),
@@ -280,7 +289,7 @@ class _AddAppointmentState extends State<AddAppointment> {
 
               //*************************Submit and add appointment***************
               RasiedButton(
-                labeltext: "Submit".tr().toString(),
+                labeltext: "submit".tr().toString(),
                 FunctionToDO: submitAppointment,
               ),
             ],

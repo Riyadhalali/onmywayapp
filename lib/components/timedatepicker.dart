@@ -2,7 +2,8 @@ import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 
 class DateTimePickerClass extends StatefulWidget {
-  static String valueselected; // to access this variable from another class
+  static String valueselected =
+      DateTime.now().toString(); // to access this variable from another class
 
   @override
   _DateTimePickerClassState createState() => _DateTimePickerClassState();

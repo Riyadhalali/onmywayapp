@@ -39,6 +39,9 @@ class _SignInState extends State<SignIn> {
   WebServices webServices = new WebServices();
   SharedPref sharedPref = new SharedPref();
 
+  bool validatePhone = false;
+  bool validatePassword = false;
+
   // load user phone number and password from shared pref
   Future loadLoginData() async {
     phone_data = await sharedPref.LoadData('phone');
@@ -61,13 +64,26 @@ class _SignInState extends State<SignIn> {
   //-> Sign in Function
   //------------------------------SIgn in---------------------------------------
   Future SignInFunction() async {
-    EasyLoading.show(
-      status: 'Loading...',
-    );
     var message;
     var user_id;
     WebServices webServices = WebServices();
 
+    setState(() {
+      _phonecontroller.text.isEmpty
+          ? validatePhone = true
+          : validatePhone = false;
+
+      _passwordcontroller.text.isEmpty
+          ? validatePassword = true
+          : validatePassword = false;
+    });
+
+    if (validatePhone || validatePassword) {
+      return;
+    }
+    EasyLoading.show(
+      status: 'Loading...',
+    );
     GetLoginData fmain = await webServices.LoginPost(
         _phonecontroller.text, _passwordcontroller.text);
     message = fmain.message;
@@ -85,10 +101,11 @@ class _SignInState extends State<SignIn> {
     ));
 
     if (message.toString().contains('login success')) {
-      EasyLoading.dismiss();
       Navigator.pushNamed(
           context, Navigation.id); // if user exists go to main page
     }
+
+    EasyLoading.dismiss();
 
     //-> save id to shared pref
     sharedPref.setData('userID', user_id); // save user id to shared pref
@@ -245,6 +262,8 @@ class _SignInState extends State<SignIn> {
               //label_text: "username",
               controller_text: _phonecontroller,
               show_password: false,
+              error_msg:
+                  validatePhone ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
               height: 3.0.h,
@@ -255,11 +274,14 @@ class _SignInState extends State<SignIn> {
               controller_text: _passwordcontroller,
               icon_widget: Icon(Icons.remove_red_eye),
               show_password: true,
+              error_msg: validatePassword
+                  ? "valuecannotbeempty".tr().toString()
+                  : null,
             ),
             SizedBox(
               height: 1.0.h,
             ),
-            forgetPassword(),
+            // forgetPassword(),
             SizedBox(
               height: 1.0.h,
             ),

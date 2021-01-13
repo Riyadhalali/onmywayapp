@@ -91,6 +91,15 @@ class _AddAppointmentState extends State<AddAppointment> {
     );
     var messageResponse;
 
+    //-> check that user is not adding appointment to him self
+    if (customerID == widget.providerID) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text("youcannotaddappointment".tr().toString()),
+        duration: Duration(seconds: 3),
+      ));
+      return;
+    }
+
     if (customerID != null &&
         latitude.toString() != null &&
         longitude.toString() != null) {

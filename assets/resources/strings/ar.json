@@ -42,7 +42,8 @@
   "sure" : "تأكيد",
   "cancel": "إلغاء",
   "delete": "حذف",
-  "location": "موقع الخدمة"
+  "location": "موقع الخدمة",
+  "youcannotaddappointment": "لا يمكنك إضافة موعد لنفسك، يرجى اختيار خدمة أخرى!"
 
 
 }

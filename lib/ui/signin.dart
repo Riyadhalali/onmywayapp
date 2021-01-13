@@ -81,9 +81,11 @@ class _SignInState extends State<SignIn> {
     if (validatePhone || validatePassword) {
       return;
     }
+
     EasyLoading.show(
       status: 'Loading...',
     );
+
     GetLoginData fmain = await webServices.LoginPost(
         _phonecontroller.text, _passwordcontroller.text);
     message = fmain.message;

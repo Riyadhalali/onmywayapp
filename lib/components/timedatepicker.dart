@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 
 class DateTimePickerClass extends StatefulWidget {
   static String valueselected =
-      DateTime.now().toString(); // to access this variable from another class
+      null; // to access this variable from another class
+
+  // static DateTime now = DateTime.now();
+  // static String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
 
   @override
   _DateTimePickerClassState createState() => _DateTimePickerClassState();
 }
 
 class _DateTimePickerClassState extends State<DateTimePickerClass> {
+  //---------------------Function to round time--------------------------------
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -18,7 +23,8 @@ class _DateTimePickerClassState extends State<DateTimePickerClass> {
         child: DateTimePicker(
           type: DateTimePickerType.dateTimeSeparate,
           dateMask: 'd MMM, yyyy',
-          initialValue: DateTime.now().toString(),
+          // initialValue: DateTime.now().toString(),
+          initialValue: null,
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
           icon: Icon(Icons.event),

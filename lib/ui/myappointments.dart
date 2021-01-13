@@ -4,6 +4,7 @@ import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/maps.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyAppointment extends StatefulWidget {
   static const id = 'myAppointments';
@@ -51,7 +52,14 @@ class _MyAppointmentState extends State<MyAppointment> {
     Navigator.of(context).pop();
   }
 
-  //-> show alert dialog
+  //-> make a phone call
+  Future<void> callnow(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'call not possible';
+    }
+  }
 
   @override
   void initState() {
@@ -114,8 +122,8 @@ class _MyAppointmentState extends State<MyAppointment> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text('Appointment Id:' + list.appointmentId.toString()),
-                  Text('Phone: ' + list.providerPhone),
-                  Text('Gender: ' + list.providerGender),
+                  Text('Phone: ' + list.customerPhone),
+                  Text('Gender: ' + list.customerGender),
                   Text('From: ' + list.pickupLocation),
                   Text('To: ' + list.destination),
                   Text('Date: ' + list.date),
@@ -188,6 +196,10 @@ class _MyAppointmentState extends State<MyAppointment> {
                       // make get location of the id
                     },
                     icon: Icon(Icons.delete),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.call),
+                    onPressed: () => callnow(list.customerPhone),
                   ),
                 ],
               ),

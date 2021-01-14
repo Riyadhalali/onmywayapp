@@ -43,7 +43,8 @@
   "cancel": "Cancel",
   "delete": "Delete",
   "location": "Location of appointment",
-  "youcannotaddappointment": "You can't add Appointment to your self please select other user"
+  "youcannotaddappointment": "You can't add Appointment to your self please select other user",
+  "deleting": "Deleting ... "
 
 
 

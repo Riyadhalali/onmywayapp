@@ -97,6 +97,7 @@ class _AddAppointmentState extends State<AddAppointment> {
         content: Text("youcannotaddappointment".tr().toString()),
         duration: Duration(seconds: 3),
       ));
+      EasyLoading.dismiss();
       return;
     }
 

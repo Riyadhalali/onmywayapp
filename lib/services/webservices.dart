@@ -262,5 +262,22 @@ class WebServices {
       print("error in geting data from userinfo service ");
     }
   }
-  //----------------------------------------------------------------------------
-} // end class
+
+  //--------------------------Delete Service------------------------------------
+  static Future<String> Delete_Service(String serviceId) async {
+    try {
+      http.Response response = await http
+          .get(Constants.api_link + 'Delete_Service?service_id=$serviceId');
+      if (response.statusCode == 200) {
+        String data = response.body;
+        var decodedData = jsonDecode(data); // decoding data
+        var message = decodedData['message'];
+
+        return message;
+      }
+    } catch (e) {
+      print('Error in delete service ' + e);
+    }
+  }
+//------------------------------------------------------------------------------
+} // end cla

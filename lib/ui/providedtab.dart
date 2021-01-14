@@ -3,6 +3,8 @@ import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:sizer/sizer.dart';
 
 class ProvidedTab extends StatefulWidget {
   ProvidedTab({Key key});
@@ -24,6 +26,61 @@ class _ProvidedTabState extends State<ProvidedTab> {
         await WebServices.Get_My_Services(user_Id, '1'); // two is for provided
     return getMyServices;
   }
+
+  //--------------------------Show Processing Dialog------------------------------
+  void showProcessingDialog() async {
+    return showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            contentPadding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+            content: Container(
+              width: 80.0.w,
+              height: 15.0.h,
+              child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                CircularProgressIndicator(),
+                SizedBox(
+                  width: 5.0.w,
+                ),
+                Text("deleting".tr().toString(),
+                    style: TextStyle(
+                        fontFamily: "OpenSans", color: Color(0xFF5B6978)))
+              ]),
+            ),
+          );
+        });
+  }
+
+//--------------------------Delete Service--------------------------------------
+  void deleteService(String serviceId, int index) async {
+    var message;
+    // popping the confirm dialog
+    Navigator.of(context).pop();
+
+    showProcessingDialog();
+
+    message = await WebServices.Delete_Service(serviceId);
+
+    setState(() {
+      getMyServices.removeAt(
+          index); // to delete the item that have been deleted from api call
+    });
+
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0);
+    Navigator.of(context).pop();
+  }
+
+  //----------------------------------------------------------------------------
 
   //----------------------------------------------------------------------------
   @override
@@ -95,6 +152,51 @@ class _ProvidedTabState extends State<ProvidedTab> {
                     'servicedate'.tr().toString() + list.serviceDate.toString(),
                   ),
                   Text('servicespace'.tr().toString() + list.serviceSpace),
+                ],
+              ),
+              trailing: Wrap(
+                spacing: 5,
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      return showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("delete".tr().toString()),
+                              content: SingleChildScrollView(
+                                child: ListBody(
+                                  children: [
+                                    Text('areyousure'.tr().toString())
+                                  ],
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => deleteService(
+                                    list.serviceId.toString(),
+                                    index,
+                                  ),
+                                  child: Text("sure".tr().toString()),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // close the dialog
+                                  },
+                                  child: Text(
+                                    'cancel'.tr().toString(),
+                                  ),
+                                )
+                              ],
+                            );
+                          });
+
+                      // make get location of the id
+                    },
+                    icon: Icon(Icons.delete),
+                  ),
                 ],
               ),
             ),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/ui/languageselect.dart';
+import 'package:alatareekeh/ui/navigationbar.dart';
 import 'package:alatareekeh/ui/privacypolicy.dart';
 import 'package:alatareekeh/ui/signin.dart';
 import 'package:flutter/material.dart';
@@ -28,25 +29,31 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future onDoneLoading() async {
-    //
-    // Navigator.of(context).pushReplacement(
-    //     MaterialPageRoute(builder: (context) => LanguageSelect()));
-    // read shared preferences if  user selected language then go to home page else read shared for language else privacy
+    String userId;
     String selected_lang;
     String privacypolicy;
+    userId = await sharedPref.LoadData('userID');
     selected_lang = await sharedPref.LoadData('selectedlanguage');
     privacypolicy = await sharedPref.LoadData('privacypolicystate');
-    if (selected_lang == 'en' ||
-        selected_lang == 'ar' && privacypolicy == 'privacypolicyaccepted') {
+    print('user id from splash screen' + userId.toString());
+    print('privacy policy is: ' + privacypolicy.toString());
+    print('language selected by user ' + selected_lang.toString());
+
+    if ((selected_lang == 'en' || selected_lang == 'ar') &&
+        (privacypolicy == 'privacypolicyaccepted' && userId != null)) {
+      Navigator.pushNamed(context, Navigation.id);
+    } else if ((selected_lang == 'en' || selected_lang == 'ar') &&
+        (privacypolicy == 'privacypolicyaccepted' && userId == null)) {
       Navigator.pushNamed(context, SignIn.id);
-    } else if (selected_lang == 'en' ||
-        selected_lang == 'ar' && privacypolicy == null) {
+    } else if ((selected_lang == 'en' || selected_lang == 'ar') &&
+        (privacypolicy == null && userId == null)) {
       Navigator.pushNamed(context, PrivacyPolicy.id);
     } else {
       Navigator.pushNamed(context, LanguageSelect.id);
     }
-  }
+  } // end if
 
+  //----------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
     return SafeArea(

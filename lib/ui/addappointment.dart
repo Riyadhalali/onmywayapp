@@ -120,9 +120,6 @@ class _AddAppointmentState extends State<AddAppointment> {
           latitude.toString(),
           longitude.toString(),
           widget.providerServiceId);
-
-      //TODO: how to make the api call submit waits until geto locator get the data
-
     } else {
       return;
       print("customerId is empty");

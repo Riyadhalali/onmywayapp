@@ -1,5 +1,6 @@
 import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/myservices.dart';
+import 'package:alatareekeh/ui/search.dart';
 import 'package:alatareekeh/ui/seekservice.dart';
 import 'package:flutter/material.dart';
 
@@ -23,7 +24,7 @@ class _NavigationState extends State<Navigation> {
     SeekService(),
     MyAppointment(), // get my appointments
     MyServices(),
-    //Settings(),
+    Search(),
   ];
 
   @override
@@ -41,16 +42,17 @@ class _NavigationState extends State<Navigation> {
               icon: Icon(Icons.shopping_cart), label: 'Appointment'),
           BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart), label: 'Services'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           // BottomNavigationBarItem(
           //     icon: Icon(Icons.shopping_cart), label: 'Settings'),
         ],
         currentIndex: selectedPage,
         showUnselectedLabels: true,
         unselectedItemColor: Color(0xFFB1B1B1),
-        selectedItemColor: Colors.amber,
+        selectedItemColor: Colors.purpleAccent,
         selectedFontSize: 10.0,
         unselectedFontSize: 10.0,
-        backgroundColor: Color(0xFF707070),
+        backgroundColor: Colors.white,
         onTap: (index) {
           setState(() {
             selectedPage = index;

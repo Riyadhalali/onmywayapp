@@ -58,6 +58,7 @@ flutter:
   - assets/ui/forgetpassword/
   - assets/ui/addseekservice/
   - assets/ui/addappointment/
+  - assets/ui/search/
 
   # example:
   # fonts:

@@ -10,6 +10,7 @@ import 'package:alatareekeh/ui/navigationbar.dart';
 import 'package:alatareekeh/ui/privacypolicy.dart';
 import 'package:alatareekeh/ui/providedtab.dart';
 import 'package:alatareekeh/ui/register.dart';
+import 'package:alatareekeh/ui/search.dart';
 import 'package:alatareekeh/ui/seekedServices.dart';
 import 'package:alatareekeh/ui/seekedtab.dart';
 import 'package:alatareekeh/ui/seekservice.dart';
@@ -89,6 +90,7 @@ class MyApp extends StatelessWidget {
                 SeekService.id: (context) => SeekService(),
                 SeekedTab.id: (context) => SeekedTab(),
                 ProvidedTab.id: (context) => ProvidedTab(),
+                Search.id: (context) => Search(),
               },
             );
           },

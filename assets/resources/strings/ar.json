@@ -44,7 +44,8 @@
   "delete": "حذف",
   "location": "موقع الخدمة",
   "youcannotaddappointment": "لا يمكنك إضافة موعد لنفسك، يرجى اختيار خدمة أخرى!",
-  "deleting": "جاري الحذف ..."
+  "deleting": "جاري الحذف ...",
+  "search": "بحث"
 
 
 }

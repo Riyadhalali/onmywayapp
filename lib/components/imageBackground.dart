@@ -10,7 +10,7 @@ class ImageBackground extends StatelessWidget {
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.3,
         decoration: BoxDecoration(
           image:
               DecorationImage(image: AssetImage(assetImage), fit: BoxFit.cover),

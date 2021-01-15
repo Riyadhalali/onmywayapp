@@ -35,9 +35,9 @@ class _SplashScreenState extends State<SplashScreen> {
     userId = await sharedPref.LoadData('userID');
     selected_lang = await sharedPref.LoadData('selectedlanguage');
     privacypolicy = await sharedPref.LoadData('privacypolicystate');
-    print('user id from splash screen' + userId.toString());
-    print('privacy policy is: ' + privacypolicy.toString());
-    print('language selected by user ' + selected_lang.toString());
+    // print('user id from splash screen' + userId.toString());
+    // print('privacy policy is: ' + privacypolicy.toString());
+    // print('language selected by user ' + selected_lang.toString());
 
     if ((selected_lang == 'en' || selected_lang == 'ar') &&
         (privacypolicy == 'privacypolicyaccepted' && userId != null)) {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alatareekeh/constants/constants.dart';
+import 'package:alatareekeh/services/GetSearchResults.dart';
 import 'package:alatareekeh/services/GetServiceLocation.dart';
 import 'package:alatareekeh/services/GetUserInfo.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
@@ -279,5 +280,28 @@ class WebServices {
       print('Error in delete service ' + e);
     }
   }
+
+//---------------------------Search Services------------------------------------
+  static Future<List<GetSearchResults>> Search_Services(
+      String type, String from, String to, String gender, String date) async {
+    try {
+      final response = await http.get(Constants.api_link +
+          'Search_services?type=$type' +
+          '&from=$from' +
+          '&to=$to' +
+          '&gender=$gender' +
+          '&date=$date');
+
+      if (response.statusCode == 200) {
+        final List<GetSearchResults> getSearchResults =
+            getSearchResultsFromJson(response.body);
+        print(response.body);
+        return getSearchResults;
+      }
+    } catch (e) {
+      return List<GetSearchResults>();
+    }
+  }
+
 //------------------------------------------------------------------------------
 } // end cla

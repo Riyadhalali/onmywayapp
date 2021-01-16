@@ -40,12 +40,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false, // to delete back button
-        title: Row(
-          children: [
-            // SearchField(),
-          ],
-        ),
+        automaticallyImplyLeading: true, // to delete back button
+        title: Text('provided'.tr().toString()),
         actions: <Widget>[
           // IconButton(
           //   icon: Icon(Icons.directions_car),
@@ -92,9 +88,16 @@ class _HomePageState extends State<HomePage> {
             child: ListTile(
               isThreeLine: false,
               onTap: () {
-                print(list.userId);
+                // print(list.userId);
               },
-              title: Text(list.userName),
+              title: Text(
+                list.userName,
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14.0.sp,
+                    fontStyle: FontStyle.italic),
+              ),
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
@@ -103,10 +106,11 @@ class _HomePageState extends State<HomePage> {
                       list.serviceDestination.toString()),
                   Text(list.serviceDate),
                   Text(list.serviceGender.toString()),
-                  Text(list.serviceSpace)
+                  Text('space'.tr().toString() + ': ' + list.serviceSpace)
                 ],
               ),
-              trailing: RaisedButton(
+              trailing: OutlineButton(
+                color: Colors.blue,
                 onPressed: () {
                   // go to Add Appointment page and pass params
                   Navigator.of(context).push(
@@ -125,7 +129,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                child: Text('addAppointment'.tr().toString()),
+                child: Text(
+                  'addAppointment'.tr().toString(),
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
               ),
             ),
             borderOnForeground: true,

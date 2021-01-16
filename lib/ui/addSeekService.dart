@@ -270,7 +270,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               dropDownMenuGender = newValue;
             });
           },
-          items: <String>['Male', 'Female']
+          items: <String>['Male'.tr().toString(), 'Female'.tr().toString()]
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,

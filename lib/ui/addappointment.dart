@@ -87,7 +87,7 @@ class _AddAppointmentState extends State<AddAppointment> {
   void submitAppointment() async {
     // print(customerID);
     EasyLoading.show(
-      status: 'Loading...',
+      status: 'loading'.tr().toString(),
     );
     var messageResponse;
 

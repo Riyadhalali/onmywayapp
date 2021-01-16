@@ -47,7 +47,8 @@
   "deleting": "جاري الحذف ...",
   "search": "بحث",
   "pleasefillalldata": "يرجى تعبئة المعلومات والتاريخ",
-  "searchresults": "نتائج البحث"
+  "searchresults": "نتائج البحث",
+  "loading": "جاري التحميل .. "
 
 
 }

@@ -49,7 +49,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
     //-> to make sure that user select date
     if (DateTimePickerClass.valueselected == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text("Please fill or select date"),
+        content: Text("pleasefillalldata".tr().toString()),
         duration: Duration(seconds: 3),
         backgroundColor: Colors.amber,
       ));
@@ -94,9 +94,6 @@ class _AddSeekServiceState extends State<AddSeekService> {
           _fromController.text,
           _toController.text,
           _usernameController.text);
-
-      print("Started add Appointment");
-      print(userID);
 
       EasyLoading.dismiss();
       _scaffoldKey.currentState.showSnackBar(SnackBar(
@@ -168,7 +165,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: 'Username',
+              hint_text: 'username'.tr().toString(),
               show_password: false,
               controller_text: _usernameController,
               error_msg: validateUsername
@@ -179,7 +176,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: 'From',
+              hint_text: 'from'.tr().toString(),
               show_password: false,
               controller_text: _fromController,
               error_msg:
@@ -189,7 +186,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: 'To',
+              hint_text: 'to'.tr().toString(),
               show_password: false,
               controller_text: _toController,
               error_msg:
@@ -211,7 +208,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: 'Space',
+              hint_text: 'space'.tr().toString(),
               show_password: false,
               controller_text: _spaceController,
               error_msg:
@@ -221,7 +218,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: 'Phone ',
+              hint_text: 'phone'.tr().toString(),
               show_password: false,
               controller_text: _phoneController,
               error_msg:
@@ -330,5 +327,3 @@ class _AddSeekServiceState extends State<AddSeekService> {
   }
 //------------------------------------------------------------------------------
 } //end class
-
-//Todo: check what is the status

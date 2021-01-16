@@ -30,8 +30,8 @@
   "myappointments": "My Appointments",
   "seekservice":"Seek Service",
   "myservices": "My Services",
-  "seeked": "Seeked",
-  "provided": "Provided",
+  "seeked": "Seeked Service",
+  "provided": "Provided Service",
   "serviceid": "Service ID: ",
   "servicestatus": "Service Status: ",
   "servicepickup": "Service Pickup: ",
@@ -45,7 +45,9 @@
   "location": "Location of appointment",
   "youcannotaddappointment": "You can't add Appointment to your self please select other user",
   "deleting": "Deleting ... ",
-  "search": "Search"
+  "search": "Search",
+  "pleasefillalldata": "Please Fill all Data and Date",
+  "searchresults": "Search Results"
 
 
 

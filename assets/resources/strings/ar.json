@@ -30,8 +30,8 @@
   "myappointments": "مواعيدي",
   "seekservice": "طلب خدمة",
   "myservices": "خدماتي",
-  "seeked": "المطلوبة",
-  "provided": "المقدمة",
+  "seeked": "الخدمات المطلوبة",
+  "provided": "الخدمات المقدمة",
   "serviceid": "معرف الخدمة: ",
   "servivestatus": "حالة الخدمة: ",
   "servicepickup": "مكان الانطلاق: ",
@@ -45,7 +45,9 @@
   "location": "موقع الخدمة",
   "youcannotaddappointment": "لا يمكنك إضافة موعد لنفسك، يرجى اختيار خدمة أخرى!",
   "deleting": "جاري الحذف ...",
-  "search": "بحث"
+  "search": "بحث",
+  "pleasefillalldata": "يرجى تعبئة المعلومات والتاريخ",
+  "searchresults": "نتائج البحث"
 
 
 }

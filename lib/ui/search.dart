@@ -2,7 +2,7 @@ import 'package:alatareekeh/components/imageBackground.dart';
 import 'package:alatareekeh/components/rasidedbutton.dart';
 import 'package:alatareekeh/components/textfield.dart';
 import 'package:alatareekeh/components/timedatepicker.dart';
-import 'package:alatareekeh/services/webservices.dart';
+import 'package:alatareekeh/ui/searchresults.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -54,8 +54,18 @@ class _SearchState extends State<Search> {
     if (validateTo || validateFrom) {
       return;
     }
-    WebServices.Search_Services(serviceType.toString(), _fromController.text,
-        _toController.text, gender, datetobesend);
+
+    //-> pass data of required search to search page
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => SearchResults(
+              serviceType: serviceType.toString(),
+              from: _fromController.text,
+              to: _toController.text,
+              gender: gender,
+              date: datetobesend,
+            ),),);
+    // WebServices.Search_Services(serviceType.toString(), _fromController.text,
+    //     _toController.text, gender, datetobesend);
   }
 
 //------------------------------------------------------------------------------
@@ -130,7 +140,7 @@ class _SearchState extends State<Search> {
                           children: [
                             Icon(Icons.car_rental),
                             Text(
-                              'Provided Service',
+                              'provided'.tr().toString(),
                               style: TextStyle(fontSize: 16),
                             ),
                           ],
@@ -142,7 +152,7 @@ class _SearchState extends State<Search> {
                           children: [
                             Icon(Icons.car_rental),
                             Text(
-                              'Seeked Service',
+                              'seeked'.tr().toString(),
                               style: TextStyle(fontSize: 16),
                             ),
                           ],

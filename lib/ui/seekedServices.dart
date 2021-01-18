@@ -4,8 +4,6 @@ import 'package:alatareekeh/ui/addappointment.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import 'home/searchfield.dart';
-
 class SeekedServices extends StatefulWidget {
   static const String id = 'seekedservices_page';
 
@@ -46,14 +44,14 @@ class _SeekedServicesState extends State<SeekedServices> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: [
-            //SearchField(), //search box for seeked services
-          ],
-        ),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: Row(
+      //     children: [
+      //       //SearchField(), //search box for seeked services
+      //     ],
+      //   ),
+      // ),
       body: FutureMethod(),
     );
   } // end build

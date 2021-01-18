@@ -2,7 +2,7 @@
   "selectlanguage": "اختر اللغة",
   "arabic": "العربية",
   "english": "English",
-  "onwayapp": "On Way Application",
+  "onwayapp": "على طريقي",
   "username": "اسم المستخدم",
   "password": "كلمة السر",
   "login": "تسجيل الدخول",
@@ -25,8 +25,8 @@
   "addAppointment" : "حجز",
   "space": "المساحة",
   "date": "التاريخ",
-  "from": "From",
-  "to": "To",
+  "from": "من",
+  "to": "إلى",
   "myappointments": "مواعيدي",
   "seekservice": "طلب خدمة",
   "myservices": "خدماتي",
@@ -48,7 +48,9 @@
   "search": "بحث",
   "pleasefillalldata": "يرجى تعبئة المعلومات والتاريخ",
   "searchresults": "نتائج البحث",
-  "loading": "جاري التحميل .. "
+  "loading": "جاري التحميل .. ",
+  "hour": "الساعة"
+
 
 
 }

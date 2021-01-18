@@ -39,22 +39,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: true, // to delete back button
-        title: Text('provided'.tr().toString()),
-        actions: <Widget>[
-          // IconButton(
-          //   icon: Icon(Icons.directions_car),
-          //   onPressed: () {
-          //     // go to page seek service
-
-          //   },
-          // ),
-          SizedBox(
-            width: 5.0.w,
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   //automaticallyImplyLeading: false, // to delete back button
+      //   title: Text('provided'.tr().toString()),
+      // ),
       body: FutureBuilder(
         future: fetchList(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

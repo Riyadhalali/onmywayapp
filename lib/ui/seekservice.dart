@@ -50,7 +50,7 @@ class _SeekServiceState extends State<SeekService> {
     //-> to make sure that user select date
     if (DateTimePickerClass.valueselected == null) {
       _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text("Please fill or select date"),
+        content: Text("pleasefillalldata".tr().toString()),
         duration: Duration(seconds: 3),
         backgroundColor: Colors.amber,
       ));
@@ -82,7 +82,7 @@ class _SeekServiceState extends State<SeekService> {
           validatephone) {
         return;
       }
-      EasyLoading.show(status: "Loading");
+      EasyLoading.show(status: "loading".tr().toString());
       message = await webServices.addSeekService(
           userID,
           typeOptionDefault, // value of dropdown menu
@@ -164,7 +164,7 @@ class _SeekServiceState extends State<SeekService> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: 'Username',
+              hint_text: 'username'.tr().toString(),
               show_password: false,
               controller_text: _usernameController,
               error_msg: validateUsername
@@ -172,59 +172,59 @@ class _SeekServiceState extends State<SeekService> {
                   : null,
             ),
             SizedBox(
-              height: 2.0.h,
+              height: 1.0.h,
             ),
             TextInputField(
-              hint_text: 'From',
+              hint_text: 'from'.tr().toString(),
               show_password: false,
               controller_text: _fromController,
               error_msg:
                   validateFrom ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
-              height: 2.0.h,
+              height: 1.0.h,
             ),
             TextInputField(
-              hint_text: 'To',
+              hint_text: 'to'.tr().toString(),
               show_password: false,
               controller_text: _toController,
               error_msg:
                   validateTo ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
-              height: 2.0.h,
+              height: 1.0.h,
             ),
             DateTimePickerClass(),
             SizedBox(
-              height: 2.0.h,
+              height: 1.0.h,
             ),
             dropDownMenuGenderWidget(),
             SizedBox(
-              height: 2.0.h,
+              height: 1.0.h,
             ),
             DropDownMenuType(),
             SizedBox(
-              height: 2.0.h,
+              height: 1.0.h,
             ),
             TextInputField(
-              hint_text: 'Space',
+              hint_text: 'space'.tr().toString(),
               show_password: false,
               controller_text: _spaceController,
               error_msg:
                   validateSpace ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
-              height: 2.0.h,
+              height: 1.0.h,
             ),
             TextInputField(
-              hint_text: 'Phone ',
+              hint_text: 'phone'.tr().toString(),
               show_password: false,
               controller_text: _phoneController,
               error_msg:
                   validatephone ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
-              height: 2.0.h,
+              height: 1.0.h,
             ),
             RasiedButton(
               labeltext: "submit".tr().toString(),
@@ -326,5 +326,4 @@ class _SeekServiceState extends State<SeekService> {
   }
 //------------------------------------------------------------------------------
 } //end class
-
-//Todo: check what is the status
+//done

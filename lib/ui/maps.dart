@@ -31,7 +31,7 @@ class _MapsState extends State<Maps> {
     });
 
     _markers.add(Marker(
-        markerId: MarkerId('Location'),
+        markerId: MarkerId('Location'.tr().toString()),
         position: LatLng(lat, long),
         infoWindow: InfoWindow(title: 'Location'.tr().toString())));
   }
@@ -66,3 +66,4 @@ class _MapsState extends State<Maps> {
     );
   }
 }
+//done

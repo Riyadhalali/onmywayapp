@@ -1,4 +1,5 @@
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class DateTimePickerClass extends StatefulWidget {
@@ -28,8 +29,8 @@ class _DateTimePickerClassState extends State<DateTimePickerClass> {
           firstDate: DateTime(2000),
           lastDate: DateTime(2100),
           icon: Icon(Icons.event),
-          dateLabelText: 'Date',
-          timeLabelText: "Hour",
+          dateLabelText: 'date'.tr().toString(),
+          timeLabelText: 'hour'.tr().toString(),
           selectableDayPredicate: (date) {
             // Disable weekend days to select from the calendar
             // if (date.weekday == 6 || date.weekday == 7) {

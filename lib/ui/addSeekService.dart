@@ -83,7 +83,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
           validatephone) {
         return;
       }
-      EasyLoading.show(status: "Loading");
+      EasyLoading.show(status: "loading".tr().toString());
       message = await webServices.addSeekService(
           userID,
           typeOptionDefault, // value of dropdown menu
@@ -176,7 +176,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: 'from'.tr().toString(),
+              hint_text: "from".tr().toString(),
               show_password: false,
               controller_text: _fromController,
               error_msg:
@@ -186,7 +186,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               height: 2.0.h,
             ),
             TextInputField(
-              hint_text: 'to'.tr().toString(),
+              hint_text: "to".tr().toString(),
               show_password: false,
               controller_text: _toController,
               error_msg:
@@ -270,7 +270,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               dropDownMenuGender = newValue;
             });
           },
-          items: <String>['Male'.tr().toString(), 'Female'.tr().toString()]
+          items: <String>['Male', 'Female']
               .map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
@@ -327,3 +327,4 @@ class _AddSeekServiceState extends State<AddSeekService> {
   }
 //------------------------------------------------------------------------------
 } //end class
+//done

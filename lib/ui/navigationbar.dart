@@ -2,6 +2,7 @@ import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/myservices.dart';
 import 'package:alatareekeh/ui/search.dart';
 import 'package:alatareekeh/ui/seekservice.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'home.dart';
@@ -15,34 +16,42 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
+  GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   int selectedPage = 0;
   //-> list Pages
   final _pageOptions = [
     HomePage(), // this home page contains order or everythimg and contain a search button
     SeekedServices(),
-    AddSeekService(), // add service or seek service
-    SeekService(),
+    //  AddSeekService(), // add service
+    //SeekService(), //seek service
     MyAppointment(), // get my appointments
-    MyServices(),
-    Search(),
+    //   MyServices(),
+    // Search(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("onwayapp".tr().toString()),
+      ),
+      key: _drawerKey,
       body: _pageOptions[selectedPage],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Provided'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Seeked'),
-          BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Add'),
-          BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Seek'),
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: 'Appointment'),
+              icon: Icon(Icons.home), label: 'provided'.tr().toString()),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart), label: 'Services'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+              icon: Icon(Icons.home), label: 'seeked'.tr().toString()),
+          // BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Add'),
+          //BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Seek'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.shopping_cart),
+              label: 'myappointments'.tr().toString()),
+          // BottomNavigationBarItem(
+          //     icon: Icon(Icons.shopping_cart), label: 'Services'),
+          //BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           // BottomNavigationBarItem(
           //     icon: Icon(Icons.shopping_cart), label: 'Settings'),
         ],
@@ -58,6 +67,47 @@ class _NavigationState extends State<Navigation> {
             selectedPage = index;
           });
         },
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(color: Colors.blue),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              leading: Icon(Icons.search),
+              title: Text(
+                'search'.tr().toString(),
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, Search.id);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.add),
+              title: Text('addAppointment'.tr().toString()),
+              onTap: () {
+                Navigator.pushNamed(context, AddSeekService.id); // add service
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.car_repair),
+              title: Text('seekservice'.tr().toString()),
+              onTap: () {
+                Navigator.pushNamed(context, SeekService.id); // seek service
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.person_pin),
+              title: Text('myservices'.tr().toString()),
+              onTap: () {
+                Navigator.pushNamed(context, MyServices.id);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

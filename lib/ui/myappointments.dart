@@ -3,6 +3,7 @@ import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/maps.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
@@ -118,10 +119,10 @@ class _MyAppointmentState extends State<MyAppointment> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text("myappointments".tr().toString()),
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: Text("myappointments".tr().toString()),
+      // ),
       body: FutureMethod(),
     );
   } // end build
@@ -161,21 +162,85 @@ class _MyAppointmentState extends State<MyAppointment> {
             child: ListTile(
               isThreeLine: false,
               onTap: () {
-                print(list.serviceId);
+                // print(list.serviceId);
               },
-              title: Text(list.providerName),
-              subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Text('Appointment Id:' + list.appointmentId.toString()),
-                  Text('Phone: ' + list.customerPhone),
-                  Text('Gender: ' + list.customerGender),
-                  Text('From: ' + list.pickupLocation),
-                  Text('To: ' + list.destination),
-                  Text('Date: ' + list.date),
-                  Text('Space: ' + list.space),
-                  Text('Service Id:' + list.serviceId.toString())
-                ],
+              title: Text(
+                list.providerName,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                    color: Colors.blue),
+              ),
+              subtitle: Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    //Text('Appointment Id:' + list.appointmentId.toString()),
+                    Row(
+                      children: [
+                        Text(
+                          'phone'.tr().toString() + ': ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Text(list.customerPhone)
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'gender'.tr().toString() + ' :',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Text(list.customerGender),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'from'.tr().toString() + ': ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Text(list.pickupLocation),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'to'.tr().toString() + ': ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Text(list.destination),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'date'.tr().toString() + ': ',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Flexible(
+                            child: Text(list
+                                .date)), // be cause if the date is long ot will overflow
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'space'.tr().toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                        Text(list.space),
+                      ],
+                    ),
+                    //Text('Service Id:' + list.serviceId.toString())
+                  ],
+                ),
               ),
               trailing: Wrap(
                 spacing: 5,
@@ -259,3 +324,4 @@ class _MyAppointmentState extends State<MyAppointment> {
 
 //------------------------------------------------------------------------------
 } // end class
+//done

@@ -50,15 +50,12 @@ class _MyServicesState extends State<MyServices>
         body: TabBarView(
           // controller: _tabController,
           children: <Widget>[
-            SeekedTab(
-
-            ), // return SeekedTab page
-            ProvidedTab(
-
-            ), // return provided tab
+            SeekedTab(), // return SeekedTab page
+            ProvidedTab(), // return provided tab
           ],
         ),
       ),
     );
   }
 }
+//done

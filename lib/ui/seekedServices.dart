@@ -88,16 +88,57 @@ class _SeekedServicesState extends State<SeekedServices> {
           return Card(
             child: ListTile(
               onTap: () {},
-              title: Text(list.userName),
+              title: Text(
+                list.userName,
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold),
+              ),
               subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(list.servicePickup + " - " + list.serviceDestination),
-                  Text(list.serviceDate),
-                  Text(list.serviceGender),
-                  Text(list.serviceSpace)
+                  Row(
+                    children: [
+                      Text(
+                        list.servicePickup.toString() +
+                            ' - ' +
+                            list.serviceDestination.toString(),
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'date'.tr().toString() + ': ' + list.serviceDate,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'gender'.tr().toString() + ': ' + list.serviceGender,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'space'.tr().toString() + ': ' + list.serviceSpace,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )
                 ],
               ),
-              trailing: RaisedButton(
+              trailing: OutlineButton(
                 onPressed: () {
                   // go to Add Appointment page and pass params
                   Navigator.of(context).push(
@@ -116,7 +157,10 @@ class _SeekedServicesState extends State<SeekedServices> {
                     ),
                   );
                 },
-                child: Text('addAppointment'.tr().toString()),
+                child: Text(
+                  'addAppointment'.tr().toString(),
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
               ),
             ),
           );
@@ -128,3 +172,4 @@ class _SeekedServicesState extends State<SeekedServices> {
 //------------------------------------------------------------------------------
 
 } // end class
+//done

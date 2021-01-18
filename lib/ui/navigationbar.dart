@@ -2,8 +2,10 @@ import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/myservices.dart';
 import 'package:alatareekeh/ui/search.dart';
 import 'package:alatareekeh/ui/seekservice.dart';
+import 'package:alatareekeh/ui/signin.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import 'home.dart';
 import 'myappointments.dart';
@@ -43,11 +45,11 @@ class _NavigationState extends State<Navigation> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home), label: 'provided'.tr().toString()),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: 'seeked'.tr().toString()),
+              icon: Icon(Icons.car_rental), label: 'seeked'.tr().toString()),
           // BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Add'),
           //BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Seek'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart),
+              icon: Icon(Icons.date_range),
               label: 'myappointments'.tr().toString()),
           // BottomNavigationBarItem(
           //     icon: Icon(Icons.shopping_cart), label: 'Services'),
@@ -73,8 +75,15 @@ class _NavigationState extends State<Navigation> {
           padding: EdgeInsets.zero,
           children: <Widget>[
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text('Drawer Header'),
+              decoration: BoxDecoration(color: Colors.white),
+              child: Container(
+                width: 100.0.w,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/ui/splashscreen/appicon.png"),
+                      fit: BoxFit.contain),
+                ),
+              ),
             ),
             ListTile(
               leading: Icon(Icons.search),
@@ -106,9 +115,25 @@ class _NavigationState extends State<Navigation> {
                 Navigator.pushNamed(context, MyServices.id);
               },
             ),
+            ListTile(
+              leading: Icon(Icons.update),
+              title: Text('checkforupdates'.tr().toString()),
+              onTap: () {
+                //  Navigator.pushNamed(context, SignIn.id);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('logout'.tr().toString()),
+              onTap: () {
+                Navigator.pushNamed(context, SignIn.id);
+              },
+            ),
           ],
         ),
       ),
     );
   }
 }
+
+//done

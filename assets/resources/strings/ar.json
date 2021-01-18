@@ -38,7 +38,7 @@
   "servicedestination": "مكان الوصول: ",
   "servicedate": "تاريخ الخدمة: ",
   "servicespace": "مساحة الخدمة: ",
-  "areyousure": "Are you Sure?",
+  "areyousure": "هل انت متأكد من الحذف؟",
   "sure" : "تأكيد",
   "cancel": "إلغاء",
   "delete": "حذف",
@@ -49,7 +49,9 @@
   "pleasefillalldata": "يرجى تعبئة المعلومات والتاريخ",
   "searchresults": "نتائج البحث",
   "loading": "جاري التحميل .. ",
-  "hour": "الساعة"
+  "hour": "الساعة",
+  "logout": "تسجيل الخروج",
+  "checkforupdates": "التحقق من التحديثات"
 
 
 

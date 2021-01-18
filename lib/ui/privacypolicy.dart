@@ -113,3 +113,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
   }
 //------------------------------------------------------------------------------
 } // end class
+//done
+
+//TODO: write app privacy

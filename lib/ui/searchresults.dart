@@ -2,6 +2,7 @@ import 'package:alatareekeh/services/GetSearchResults.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/addappointment.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SearchResults extends StatefulWidget {
@@ -71,19 +72,69 @@ class _SearchResultsState extends State<SearchResults> {
               onTap: () {
                 print(list.userId);
               },
-              title: Text(list.userName),
+              title: Text(
+                list.userName,
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold),
+              ),
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(list.servicePickup.toString() +
-                      " - " +
-                      list.serviceDestination.toString()),
-                  Text(list.serviceDate),
-                  Text(list.serviceGender.toString()),
-                  Text(list.serviceSpace)
+                  Row(
+                    children: [
+                      Text(
+                        'servicepickup'.tr().toString() +
+                            ': ' +
+                            list.servicePickup.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'servicedestination'.tr().toString() +
+                            ': ' +
+                            list.serviceDestination.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'servicedate'.tr().toString() +
+                              ': ' +
+                              list.serviceDate.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'servicespace'.tr().toString() +
+                            ': ' +
+                            list.serviceSpace,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              trailing: RaisedButton(
+              trailing: OutlineButton(
                 onPressed: () {
                   // go to Add Appointment page and pass params
                   Navigator.of(context).push(
@@ -102,7 +153,10 @@ class _SearchResultsState extends State<SearchResults> {
                     ),
                   );
                 },
-                child: Text('addAppointment'.tr().toString()),
+                child: Text(
+                  'addAppointment'.tr().toString(),
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
               ),
             ),
             borderOnForeground: true,
@@ -114,3 +168,4 @@ class _SearchResultsState extends State<SearchResults> {
 
   //----------------------------------------------------------------------------
 }
+//done

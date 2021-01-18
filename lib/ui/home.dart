@@ -2,6 +2,7 @@ import 'package:alatareekeh/services/getprovdiedservices.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/addappointment.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 /*
@@ -89,12 +90,44 @@ class _HomePageState extends State<HomePage> {
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(list.servicePickup.toString() +
-                      " - " +
-                      list.serviceDestination.toString()),
-                  Text(list.serviceDate),
-                  Text(list.serviceGender.toString()),
-                  Text('space'.tr().toString() + ': ' + list.serviceSpace)
+                  Row(
+                    children: [
+                      Text(
+                        list.servicePickup.toString() +
+                            ' - ' +
+                            list.serviceDestination.toString(),
+                        style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'date'.tr().toString() + ': ' + list.serviceDate,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'gender'.tr().toString() + ': ' + list.serviceGender,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'space'.tr().toString() + ': ' + list.serviceSpace,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  )
                 ],
               ),
               trailing: OutlineButton(
@@ -132,3 +165,4 @@ class _HomePageState extends State<HomePage> {
 
 //------------------------------------------------------------------------------
 } // end class
+//done

@@ -171,76 +171,74 @@ class _MyAppointmentState extends State<MyAppointment> {
                     fontStyle: FontStyle.italic,
                     color: Colors.blue),
               ),
-              subtitle: Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    //Text('Appointment Id:' + list.appointmentId.toString()),
-                    Row(
-                      children: [
-                        Text(
-                          'phone'.tr().toString() + ': ',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(list.customerPhone)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'gender'.tr().toString() + ' :',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(list.customerGender),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'from'.tr().toString() + ': ',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(list.pickupLocation),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'to'.tr().toString() + ': ',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(list.destination),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'date'.tr().toString() + ': ',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Flexible(
-                            child: Text(list
-                                .date)), // be cause if the date is long ot will overflow
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'space'.tr().toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                        Text(list.space),
-                      ],
-                    ),
-                    //Text('Service Id:' + list.serviceId.toString())
-                  ],
-                ),
+              subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  //Text('Appointment Id:' + list.appointmentId.toString()),
+                  Row(
+                    children: [
+                      Text(
+                        'phone'.tr().toString() + ': ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      Text(list.customerPhone)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'gender'.tr().toString() + ' :',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      Text(list.customerGender),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'from'.tr().toString() + ': ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      Text(list.pickupLocation),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'to'.tr().toString() + ': ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      Text(list.destination),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'date'.tr().toString() + ': ',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      Flexible(
+                          child: Text(list
+                              .date)), // be cause if the date is long ot will overflow
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'space'.tr().toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, color: Colors.black),
+                      ),
+                      Text(list.space),
+                    ],
+                  ),
+                  //Text('Service Id:' + list.serviceId.toString())
+                ],
               ),
               trailing: Wrap(
                 spacing: 5,

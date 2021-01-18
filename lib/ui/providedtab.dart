@@ -2,6 +2,7 @@ import 'package:alatareekeh/services/getmyservices.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
@@ -135,23 +136,64 @@ class _ProvidedTabState extends State<ProvidedTab> {
               subtitle: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'serviceid'.tr().toString() + list.serviceId.toString(),
+                  // Text(
+                  //   'serviceid'.tr().toString() + list.serviceId.toString(),
+                  // ),
+                  // Text(
+                  //   'servicestatus'.tr().toString() +
+                  //       list.serviceStatus.toString(),
+                  // ),
+                  Row(
+                    children: [
+                      Text(
+                        'servicepickup'.tr().toString() +
+                            ': ' +
+                            list.servicePickup.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'servicestatus'.tr().toString() +
-                        list.serviceStatus.toString(),
+                  Row(
+                    children: [
+                      Text(
+                        'servicedestination'.tr().toString() +
+                            ': ' +
+                            list.serviceDestination.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
                   ),
-                  Text('servicepickup'.tr().toString() +
-                      list.servicePickup.toString()),
-                  Text(
-                    'servicedestination'.tr().toString() +
-                        list.serviceDestination.toString(),
+
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'servicedate'.tr().toString() +
+                              ': ' +
+                              list.serviceDate.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'servicedate'.tr().toString() + list.serviceDate.toString(),
+                  Row(
+                    children: [
+                      Text(
+                        'servicespace'.tr().toString() +
+                            ': ' +
+                            list.serviceSpace,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
                   ),
-                  Text('servicespace'.tr().toString() + list.serviceSpace),
                 ],
               ),
               trailing: Wrap(
@@ -208,3 +250,4 @@ class _ProvidedTabState extends State<ProvidedTab> {
   }
 //------------------------------------------------------------------------------
 } // end class
+//done

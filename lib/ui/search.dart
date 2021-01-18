@@ -56,14 +56,17 @@ class _SearchState extends State<Search> {
     }
 
     //-> pass data of required search to search page
-    Navigator.of(context).push(MaterialPageRoute(
+    Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (context) => SearchResults(
-              serviceType: serviceType.toString(),
-              from: _fromController.text,
-              to: _toController.text,
-              gender: gender,
-              date: datetobesend,
-            ),),);
+          serviceType: serviceType.toString(),
+          from: _fromController.text,
+          to: _toController.text,
+          gender: gender,
+          date: datetobesend,
+        ),
+      ),
+    );
     // WebServices.Search_Services(serviceType.toString(), _fromController.text,
     //     _toController.text, gender, datetobesend);
   }
@@ -72,6 +75,10 @@ class _SearchState extends State<Search> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.purple,
+        title: Text('search'.tr().toString()),
+      ),
       body: columnElements(),
     );
   }
@@ -245,3 +252,4 @@ class _SearchState extends State<Search> {
   //----------------------------------------------------------------------------
 
 }
+//done

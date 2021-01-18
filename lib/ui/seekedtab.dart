@@ -134,24 +134,66 @@ class _SeekedTabState extends State<SeekedTab> {
               },
               // title: Text(list.providerName),
               subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'serviceid'.tr().toString() + list.serviceId.toString(),
+                  // Text(
+                  //   'serviceid'.tr().toString() + list.serviceId.toString(),
+                  // ),
+                  // Text(
+                  //   'servicestatus'.tr().toString() +
+                  //       list.serviceStatus.toString(),
+                  // ),
+                  Row(
+                    children: [
+                      Text(
+                        'servicepickup'.tr().toString() +
+                            ': ' +
+                            list.servicePickup.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'servicestatus'.tr().toString() +
-                        list.serviceStatus.toString(),
+                  Row(
+                    children: [
+                      Text(
+                        'servicedestination'.tr().toString() +
+                            ': ' +
+                            list.serviceDestination.toString(),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
                   ),
-                  Text('servicepickup'.tr().toString() +
-                      list.servicePickup.toString()),
-                  Text(
-                    'servicedestination'.tr().toString() +
-                        list.serviceDestination.toString(),
+
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          'servicedate'.tr().toString() +
+                              ': ' +
+                              list.serviceDate.toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic),
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'servicedate'.tr().toString() + list.serviceDate.toString(),
+                  Row(
+                    children: [
+                      Text(
+                        'servicespace'.tr().toString() +
+                            ': ' +
+                            list.serviceSpace,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ],
                   ),
-                  Text('servicespace'.tr().toString() + list.serviceSpace),
                 ],
               ),
               trailing: Wrap(
@@ -209,3 +251,4 @@ class _SeekedTabState extends State<SeekedTab> {
 
 //------------------------------------------------------------------------------
 } //end class
+//done

@@ -62,107 +62,110 @@ class _SearchResultsState extends State<SearchResults> {
   //----------------------------My Search Results-------------------------------
   Widget MySearchResults() {
     return Container(
-      child: ListView.builder(
-        itemCount: searchResultsList.length,
-        itemBuilder: (context, index) {
-          GetSearchResults list = searchResultsList[index];
-          return Card(
-            child: ListTile(
-              isThreeLine: false,
-              onTap: () {
-                print(list.userId);
-              },
-              title: Text(
-                list.userName,
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Text(
-                        'servicepickup'.tr().toString() +
-                            ': ' +
-                            list.servicePickup.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'servicedestination'.tr().toString() +
-                            ': ' +
-                            list.serviceDestination.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          'servicedate'.tr().toString() +
-                              ': ' +
-                              list.serviceDate.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic),
+      child: searchResultsList.isEmpty
+          ? Center(child: Text('noresultsfound'))
+          : ListView.builder(
+              itemCount: searchResultsList.length,
+              itemBuilder: (context, index) {
+                GetSearchResults list = searchResultsList[index];
+                return Card(
+                  child: ListTile(
+                    isThreeLine: false,
+                    onTap: () {
+                      print(list.userId);
+                    },
+                    title: Text(
+                      list.userName,
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Text(
+                              'servicepickup'.tr().toString() +
+                                  ': ' +
+                                  list.servicePickup.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'servicespace'.tr().toString() +
-                            ': ' +
-                            list.serviceSpace,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              trailing: OutlineButton(
-                onPressed: () {
-                  // go to Add Appointment page and pass params
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => AddAppointment(
-                        providerUsername: list.userName,
-                        providerID: list.userId.toString(),
-                        providerPhone: list.userPhone.toString(),
-                        providerGender: list.serviceGender.toString(),
-                        providerSpace: list.serviceSpace,
-                        date: list.serviceDate,
-                        providerPickup: list.servicePickup.toString(),
-                        providerDistination: list.serviceDestination.toString(),
-                        providerServiceId: list.serviceId.toString(),
+                        Row(
+                          children: [
+                            Text(
+                              'servicedestination'.tr().toString() +
+                                  ': ' +
+                                  list.serviceDestination.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'servicedate'.tr().toString() +
+                                    ': ' +
+                                    list.serviceDate.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'servicespace'.tr().toString() +
+                                  ': ' +
+                                  list.serviceSpace,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    trailing: OutlineButton(
+                      onPressed: () {
+                        // go to Add Appointment page and pass params
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AddAppointment(
+                              providerUsername: list.userName,
+                              providerID: list.userId.toString(),
+                              providerPhone: list.userPhone.toString(),
+                              providerGender: list.serviceGender.toString(),
+                              providerSpace: list.serviceSpace,
+                              date: list.serviceDate,
+                              providerPickup: list.servicePickup.toString(),
+                              providerDistination:
+                                  list.serviceDestination.toString(),
+                              providerServiceId: list.serviceId.toString(),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'addAppointment'.tr().toString(),
+                        style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
-                  );
-                },
-                child: Text(
-                  'addAppointment'.tr().toString(),
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
+                  ),
+                  borderOnForeground: true,
+                );
+              },
             ),
-            borderOnForeground: true,
-          );
-        },
-      ),
     );
   }
 

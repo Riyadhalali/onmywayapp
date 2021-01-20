@@ -57,7 +57,8 @@
   "update": "Update",
   "updateavailables": "Updates Available",
   "noupdatesavailable": "No Updates Found",
-  "ok": "OK"
+  "ok": "OK",
+  "noresultsfound" : "No Results Found"
 
 
 

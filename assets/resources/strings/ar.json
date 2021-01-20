@@ -57,7 +57,8 @@
   "update": "تحديث",
   "updateavailables": "يتوفر تحديثات",
   "noupdatesavailable": "لا يوجد تحديثات",
-  "ok": "موافق"
+  "ok": "موافق",
+  "noresultsfound" : "لا توجد نتائج"
 
 
 

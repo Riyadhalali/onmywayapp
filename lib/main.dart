@@ -1,5 +1,6 @@
 import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/addappointment.dart';
+import 'package:alatareekeh/ui/checkappversion.dart';
 import 'package:alatareekeh/ui/forgetpassword.dart';
 import 'package:alatareekeh/ui/home.dart';
 import 'package:alatareekeh/ui/languageselect.dart';
@@ -93,6 +94,7 @@ class MyApp extends StatelessWidget {
                 ProvidedTab.id: (context) => ProvidedTab(),
                 Search.id: (context) => Search(),
                 SearchResults.id: (context) => SearchResults(),
+                CheckAppVersion.id: (context) => CheckAppVersion(),
               },
             );
           },

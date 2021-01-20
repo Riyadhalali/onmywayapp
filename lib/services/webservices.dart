@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:alatareekeh/constants/constants.dart';
+import 'package:alatareekeh/services/GetAppVersion.dart';
 import 'package:alatareekeh/services/GetSearchResults.dart';
 import 'package:alatareekeh/services/GetServiceLocation.dart';
 import 'package:alatareekeh/services/GetUserInfo.dart';
@@ -303,5 +304,18 @@ class WebServices {
     }
   }
 
+//--------------------------Check App Version----------------------------------
+  static Future<GetAppVersion> Get_Version() async {
+    try {
+      final response = await http.get(Constants.api_link + 'Get_Version');
+      if (response.statusCode == 200) {
+        final GetAppVersion getAppVersion = getAppVersionFromJson(
+            response.body); // saving responnse into dart objects
+        return getAppVersion;
+      }
+    } catch (e) {
+      throw 'error in getting app versiom method webservice';
+    }
+  }
 //------------------------------------------------------------------------------
-} // end cla
+} // end class

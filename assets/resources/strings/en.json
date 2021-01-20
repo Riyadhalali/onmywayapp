@@ -22,7 +22,7 @@
   "person": "Person",
   "package": "Package",
   "type": "Type",
-  "addAppointment" : "Add Appointment",
+  "addAppointment" : "Book Appointment",
   "space": "Space",
   "date": "Date",
   "from": "From",
@@ -51,7 +51,13 @@
   "loading": "Loading ..",
   "hour": "Hour",
   "logout": "Log Out",
-  "checkforupdates": "Check for updates"
+  "checkforupdates": "Check for updates",
+  "provideservice": "Provide Service",
+  "yes" : "Yes",
+  "update": "Update",
+  "updateavailables": "Updates Available",
+  "noupdatesavailable": "No Updates Found",
+  "ok": "OK"
 
 
 

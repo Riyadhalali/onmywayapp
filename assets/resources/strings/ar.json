@@ -51,7 +51,13 @@
   "loading": "جاري التحميل .. ",
   "hour": "الساعة",
   "logout": "تسجيل الخروج",
-  "checkforupdates": "التحقق من التحديثات"
+  "checkforupdates": "التحقق من التحديثات",
+  "provideservice": "إضافة خدمة",
+  "yes" : "نعم",
+  "update": "تحديث",
+  "updateavailables": "يتوفر تحديثات",
+  "noupdatesavailable": "لا يوجد تحديثات",
+  "ok": "موافق"
 
 
 

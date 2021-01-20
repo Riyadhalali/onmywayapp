@@ -99,7 +99,7 @@ class _MyAppointmentState extends State<MyAppointment> {
 //----------------------------------Make A Phone Call---------------------------
   //-> make a phone call
   Future<void> callnow(String url) async {
-    if (await canLaunch(url)) {
+    if (await canLaunch('tel:$url')) {
       await launch('tel:$url');
     } else {
       throw 'call not possible make phone call';

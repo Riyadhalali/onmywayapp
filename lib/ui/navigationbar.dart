@@ -7,6 +7,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import 'checkappversion.dart';
 import 'home.dart';
 import 'myappointments.dart';
 import 'seekedServices.dart';
@@ -96,7 +97,7 @@ class _NavigationState extends State<Navigation> {
             ),
             ListTile(
               leading: Icon(Icons.add),
-              title: Text('addAppointment'.tr().toString()),
+              title: Text('provideservice'.tr().toString()),
               onTap: () {
                 Navigator.pushNamed(context, AddSeekService.id); // add service
               },
@@ -119,7 +120,7 @@ class _NavigationState extends State<Navigation> {
               leading: Icon(Icons.update),
               title: Text('checkforupdates'.tr().toString()),
               onTap: () {
-                //  Navigator.pushNamed(context, SignIn.id);
+                Navigator.pushNamed(context, CheckAppVersion.id);
               },
             ),
             ListTile(

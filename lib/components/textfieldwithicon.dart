@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class TextInputField extends StatelessWidget {
+class TextInputFieldWithIcon extends StatelessWidget {
   final TextEditingController controller_text;
   final String hint_text;
   final String error_msg;
@@ -8,7 +8,7 @@ class TextInputField extends StatelessWidget {
   final bool show_password;
   Function FunctionToDo;
 
-  TextInputField(
+  TextInputFieldWithIcon(
       {this.hint_text,
       this.controller_text,
       this.error_msg,
@@ -38,8 +38,8 @@ class TextInputField extends StatelessWidget {
           hintText: hint_text,
           errorText: error_msg,
           // labelText: label_text.tr().toString(),
-          suffixIcon: icon_widget, // passing icon
-          //suffix: InkWell(onTap: FunctionToDo, child: icon_widget),
+
+          suffix: InkWell(onTap: FunctionToDo, child: icon_widget),
           //   helperText: "Please put your password",
         ),
       ),

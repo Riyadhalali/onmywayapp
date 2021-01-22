@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:alatareekeh/components/textfield.dart';
+import 'package:alatareekeh/components/textfieldwithicon.dart';
 import 'package:alatareekeh/services/GetUserInfo.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
@@ -267,15 +268,19 @@ class _SignInState extends State<SignIn> {
               show_password: false,
               error_msg:
                   validatePhone ? "valuecannotbeempty".tr().toString() : null,
+              FunctionToDo: () {},
             ),
             SizedBox(
               height: 3.0.h,
             ),
-            TextInputField(
+            // it must be another textinputfield
+            TextInputFieldWithIcon(
               hint_text: "password".tr().toString(),
               // label_text: "password",
               controller_text: _passwordcontroller,
-              icon_widget: Icon(Icons.remove_red_eye),
+              icon_widget: _isHidden
+                  ? Icon(Icons.visibility)
+                  : Icon(Icons.visibility_off),
               show_password: _isHidden,
               error_msg: validatePassword
                   ? "valuecannotbeempty".tr().toString()

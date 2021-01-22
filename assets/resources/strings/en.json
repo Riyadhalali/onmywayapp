@@ -22,7 +22,7 @@
   "person": "Person",
   "package": "Package",
   "type": "Type",
-  "addAppointment" : "Book Appointment",
+  "addAppointment" : "Book",
   "space": "Space",
   "date": "Date",
   "from": "From",

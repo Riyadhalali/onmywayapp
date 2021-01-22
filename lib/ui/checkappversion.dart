@@ -144,6 +144,7 @@ class _CheckAppVersionState extends State<CheckAppVersion> {
               ),
               TextButton(
                 onPressed: () {
+                  Navigator.of(context).pop();
                   Navigator.pushNamed(
                       context, Navigation.id); // go to home page
                 },

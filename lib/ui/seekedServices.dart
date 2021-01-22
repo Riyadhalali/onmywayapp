@@ -81,7 +81,8 @@ class _SeekedServicesState extends State<SeekedServices> {
 //----------------------------------Widget Tree---------------------------------
   Widget SeekedServicesWidget() {
     return Container(
-      child: ListView.builder(
+      child:  seekedServicesList.isEmpty?Center(child: Text('noresultsfound'.tr().toString()))
+      :ListView.builder(
         itemCount: seekedServicesList.length, // important
         itemBuilder: (context, index) {
           GetSeekedServices list = seekedServicesList[index];

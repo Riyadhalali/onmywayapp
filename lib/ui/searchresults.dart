@@ -63,7 +63,7 @@ class _SearchResultsState extends State<SearchResults> {
   Widget MySearchResults() {
     return Container(
       child: searchResultsList.isEmpty
-          ? Center(child: Text('noresultsfound'))
+          ? Center(child: Text('noresultsfound'.tr().toString()))
           : ListView.builder(
               itemCount: searchResultsList.length,
               itemBuilder: (context, index) {

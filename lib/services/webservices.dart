@@ -35,6 +35,10 @@ class WebServices {
 
       return message;
     }
+    else
+      {
+        throw('error in registing player');
+      }
   }
 
   //----------------------------------Login-------------------------------------
@@ -48,7 +52,7 @@ class WebServices {
       //  print(getlogindata.message);
       return getlogindata;
     } else {
-      print('error');
+      throw ('error in getting login data player');
     }
   }
   //------------------------------Add Seek Service------------------------------

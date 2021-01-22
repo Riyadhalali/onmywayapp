@@ -153,170 +153,178 @@ class _MyAppointmentState extends State<MyAppointment> {
   //--------------------------My Appointment List-------------------------------
   Widget MyAppointmentList() {
     return Container(
-      child: ListView.builder(
-        physics: AlwaysScrollableScrollPhysics(),
-        itemCount: getMyAppointments.length,
-        itemBuilder: (context, index) {
-          GetMyAppointments list = getMyAppointments[index];
-          return Card(
-            child: ListTile(
-              isThreeLine: false,
-              onTap: () {
-                // print(list.serviceId);
-              },
-              title: Text(
-                list.providerName,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontStyle: FontStyle.italic,
-                    color: Colors.blue),
-              ),
-              subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  //Text('Appointment Id:' + list.appointmentId.toString()),
-                  Row(
-                    children: [
-                      Text(
-                        'phone'.tr().toString() + ': ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                      Text(list.customerPhone)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'gender'.tr().toString() + ' :',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                      Text(list.customerGender),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'from'.tr().toString() + ': ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                      Text(list.pickupLocation),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'to'.tr().toString() + ': ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                      Text(list.destination),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'date'.tr().toString() + ': ',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                      Flexible(
-                          child: Text(list
-                              .date)), // be cause if the date is long ot will overflow
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'space'.tr().toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                      Text(list.space),
-                    ],
-                  ),
-                  //Text('Service Id:' + list.serviceId.toString())
-                ],
-              ),
-              trailing: Wrap(
-                spacing: 5,
-                children: [
-                  IconButton(
-                    onPressed: () async {
-                      //get the lat and long from service and then pass it to the map ui
-                      var lat, long;
-                      // GetServiceLocation getServiceLocation =
-                      // await WebServices.Get_Service_Location(
-                      //     list.appointmentId.toString());
-                      // lat = getServiceLocation.lat;
-                      // long = getServiceLocation.lon;
-
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => Maps(
-                            appointmentId: list.appointmentId.toString(),
-
-                            // latitudePassed: lat,
-//                            ),
-                          ),
-                        ),
-                      );
+      child: getMyAppointments.isEmpty
+          ? Center(child: Text('noresultsfound'.tr().toString()))
+          : ListView.builder(
+              physics: AlwaysScrollableScrollPhysics(),
+              itemCount: getMyAppointments.length,
+              itemBuilder: (context, index) {
+                GetMyAppointments list = getMyAppointments[index];
+                return Card(
+                  child: ListTile(
+                    isThreeLine: false,
+                    onTap: () {
+                      // print(list.serviceId);
                     },
-                    icon: Icon(Icons.add_location),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      return showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("delete".tr().toString()),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: [
-                                    Text('areyousure'.tr().toString())
-                                  ],
+                    title: Text(
+                      list.providerName,
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.blue),
+                    ),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        //Text('Appointment Id:' + list.appointmentId.toString()),
+                        Row(
+                          children: [
+                            Text(
+                              'phone'.tr().toString() + ': ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            Flexible(child: Text(list.customerPhone))
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'gender'.tr().toString() + ' :',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            Text(list.customerGender),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'from'.tr().toString() + ': ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            Text(list.pickupLocation),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'to'.tr().toString() + ': ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            Text(list.destination),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'date'.tr().toString() + ': ',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            Flexible(
+                                child: Text(list
+                                    .date)), // be cause if the date is long ot will overflow
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'space'.tr().toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                            ),
+                            Text(list.space),
+                          ],
+                        ),
+                        //Text('Service Id:' + list.serviceId.toString())
+                      ],
+                    ),
+                    trailing: Wrap(
+                      spacing: 1,
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            //get the lat and long from service and then pass it to the map ui
+                            var lat, long;
+                            // GetServiceLocation getServiceLocation =
+                            // await WebServices.Get_Service_Location(
+                            //     list.appointmentId.toString());
+                            // lat = getServiceLocation.lat;
+                            // long = getServiceLocation.lon;
+
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => Maps(
+                                  appointmentId: list.appointmentId.toString(),
+
+                                  // latitudePassed: lat,
+//                            ),
                                 ),
                               ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => deleteAppoimtment(
-                                      list.appointmentId.toString(),
-                                      index,
-                                      list.serviceId.toString()),
-                                  child: Text("sure".tr().toString()),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // close the dialog
-                                  },
-                                  child: Text(
-                                    'cancel'.tr().toString(),
-                                  ),
-                                )
-                              ],
                             );
-                          });
+                          },
+                          icon: Icon(Icons.add_location),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            return showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("delete".tr().toString()),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: [
+                                          Text('areyousure'.tr().toString())
+                                        ],
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => deleteAppoimtment(
+                                            list.appointmentId.toString(),
+                                            index,
+                                            list.serviceId.toString()),
+                                        child: Text("sure".tr().toString()),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // close the dialog
+                                        },
+                                        child: Text(
+                                          'cancel'.tr().toString(),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                });
 
-                      // make get location of the id
-                    },
-                    icon: Icon(Icons.delete),
+                            // make get location of the id
+                          },
+                          icon: Icon(Icons.delete),
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.call),
+                          onPressed: () => callnow(list.customerPhone),
+                        ),
+                      ],
+                    ),
                   ),
-                  IconButton(
-                    icon: Icon(Icons.call),
-                    onPressed: () => callnow(list.customerPhone),
-                  ),
-                ],
-              ),
+                  borderOnForeground: true,
+                );
+              },
             ),
-            borderOnForeground: true,
-          );
-        },
-      ),
     );
   }
 

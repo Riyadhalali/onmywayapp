@@ -41,6 +41,7 @@ class _SignInState extends State<SignIn> {
 
   bool validatePhone = false;
   bool validatePassword = false;
+  bool _isHidden = false;
 
   // load user phone number and password from shared pref
   Future loadLoginData() async {
@@ -275,10 +276,15 @@ class _SignInState extends State<SignIn> {
               // label_text: "password",
               controller_text: _passwordcontroller,
               icon_widget: Icon(Icons.remove_red_eye),
-              show_password: true,
+              show_password: _isHidden,
               error_msg: validatePassword
                   ? "valuecannotbeempty".tr().toString()
                   : null,
+              FunctionToDo: () {
+                setState(() {
+                  _isHidden = !_isHidden;
+                });
+              },
             ),
             SizedBox(
               height: 1.0.h,

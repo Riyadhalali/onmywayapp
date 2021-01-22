@@ -6,13 +6,15 @@ class TextInputField extends StatelessWidget {
   final String error_msg;
   final Icon icon_widget;
   final bool show_password;
+  Function FunctionToDo;
 
   TextInputField(
       {this.hint_text,
       this.controller_text,
       this.error_msg,
       this.icon_widget,
-      this.show_password});
+      this.show_password,
+      this.FunctionToDo});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class TextInputField extends StatelessWidget {
             controller_text, // the variable that will contain input user data
         decoration: InputDecoration(
           filled: true,
-
+          //   suffix: InkWell(onTap: FunctionToDo, child: icon_widget),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
           ),
@@ -37,6 +39,7 @@ class TextInputField extends StatelessWidget {
           errorText: error_msg,
           // labelText: label_text.tr().toString(),
           suffixIcon: icon_widget, // passing icon
+          //suffix: InkWell(onTap: FunctionToDo, child: icon_widget),
 
           //   helperText: "Please put your password",
         ),

@@ -69,97 +69,106 @@ class _HomePageState extends State<HomePage> {
 //--------------------------Provided Service List-------------------------------
   Widget ProvidedServicesList() {
     return Container(
-      child: ListView.builder(
-        itemCount: providedServicesList.length,
-        itemBuilder: (context, index) {
-          GetProvidedServices list = providedServicesList[index];
-          return Card(
-            child: ListTile(
-              isThreeLine: false,
-              onTap: () {
-                // print(list.userId);
-              },
-              title: Text(
-                list.userName,
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14.0.sp,
-                    fontStyle: FontStyle.italic),
-              ),
-              subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                    children: [
-                      Text(
-                        list.servicePickup.toString() +
-                            ' - ' +
-                            list.serviceDestination.toString(),
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          'date'.tr().toString() + ': ' + list.serviceDate,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+      child: providedServicesList.isEmpty
+          ? Center(child: Text('noresultsfound'.tr().toString()))
+          : ListView.builder(
+              itemCount: providedServicesList.length,
+              itemBuilder: (context, index) {
+                GetProvidedServices list = providedServicesList[index];
+                return Card(
+                  child: ListTile(
+                    isThreeLine: false,
+                    onTap: () {
+                      // print(list.userId);
+                    },
+                    title: Text(
+                      list.userName,
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.0.sp,
+                          fontStyle: FontStyle.italic),
+                    ),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Text(
+                              list.servicePickup.toString() +
+                                  ' - ' +
+                                  list.serviceDestination.toString(),
+                              style: TextStyle(
+                                  fontStyle: FontStyle.italic,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'gender'.tr().toString() + ': ' + list.serviceGender,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'space'.tr().toString() + ': ' + list.serviceSpace,
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-              trailing: OutlineButton(
-                color: Colors.blue,
-                onPressed: () {
-                  // go to Add Appointment page and pass params
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => AddAppointment(
-                        providerUsername: list.userName,
-                        providerID: list.userId.toString(),
-                        providerPhone: list.userPhone.toString(),
-                        providerGender: list.serviceGender.toString(),
-                        providerSpace: list.serviceSpace,
-                        date: list.serviceDate,
-                        providerPickup: list.servicePickup.toString(),
-                        providerDistination: list.serviceDestination.toString(),
-                        providerServiceId: list.serviceId.toString(),
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'date'.tr().toString() +
+                                    ': ' +
+                                    list.serviceDate,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'gender'.tr().toString() +
+                                  ': ' +
+                                  list.serviceGender,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'space'.tr().toString() +
+                                  ': ' +
+                                  list.serviceSpace,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    trailing: OutlineButton(
+                      color: Colors.blue,
+                      onPressed: () {
+                        // go to Add Appointment page and pass params
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => AddAppointment(
+                              providerUsername: list.userName,
+                              providerID: list.userId.toString(),
+                              providerPhone: list.userPhone.toString(),
+                              providerGender: list.serviceGender.toString(),
+                              providerSpace: list.serviceSpace,
+                              date: list.serviceDate,
+                              providerPickup: list.servicePickup.toString(),
+                              providerDistination:
+                                  list.serviceDestination.toString(),
+                              providerServiceId: list.serviceId.toString(),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        'addAppointment'.tr().toString(),
+                        style: TextStyle(fontStyle: FontStyle.italic),
                       ),
                     ),
-                  );
-                },
-                child: Text(
-                  'addAppointment'.tr().toString(),
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
-              ),
+                  ),
+                  borderOnForeground: true,
+                );
+              },
             ),
-            borderOnForeground: true,
-          );
-        },
-      ),
     );
   }
 

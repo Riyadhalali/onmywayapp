@@ -122,130 +122,132 @@ class _SeekedTabState extends State<SeekedTab> {
   //----------------------------Seeked Servie Body------------------------------
   Widget MySeekedServices() {
     return Container(
-      child: ListView.builder(
-        itemCount: getMyServices.length,
-        itemBuilder: (context, index) {
-          GetMyServices list = getMyServices[index];
-          return Card(
-            child: ListTile(
-              isThreeLine: false,
-              onTap: () {
-                // print(list.providerId);
-              },
-              // title: Text(list.providerName),
-              subtitle: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  // Text(
-                  //   'serviceid'.tr().toString() + list.serviceId.toString(),
-                  // ),
-                  // Text(
-                  //   'servicestatus'.tr().toString() +
-                  //       list.serviceStatus.toString(),
-                  // ),
-                  Row(
-                    children: [
-                      Text(
-                        'servicepickup'.tr().toString() +
-                            ': ' +
-                            list.servicePickup.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'servicedestination'.tr().toString() +
-                            ': ' +
-                            list.serviceDestination.toString(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ],
-                  ),
-
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          'servicedate'.tr().toString() +
-                              ': ' +
-                              list.serviceDate.toString(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        'servicespace'.tr().toString() +
-                            ': ' +
-                            list.serviceSpace,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              trailing: Wrap(
-                spacing: 5,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      return showDialog(
-                          context: context,
-                          barrierDismissible: false,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("delete".tr().toString()),
-                              content: SingleChildScrollView(
-                                child: ListBody(
-                                  children: [
-                                    Text('areyousure'.tr().toString())
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => deleteService(
-                                    list.serviceId.toString(),
-                                    index,
-                                  ),
-                                  child: Text("sure".tr().toString()),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .pop(); // close the dialog
-                                  },
-                                  child: Text(
-                                    'cancel'.tr().toString(),
-                                  ),
-                                )
-                              ],
-                            );
-                          });
-
-                      // make get location of the id
+      child: getMyServices.isEmpty
+          ? Center(child: Text('noresultsfound'.tr().toString()))
+          : ListView.builder(
+              itemCount: getMyServices.length,
+              itemBuilder: (context, index) {
+                GetMyServices list = getMyServices[index];
+                return Card(
+                  child: ListTile(
+                    isThreeLine: false,
+                    onTap: () {
+                      // print(list.providerId);
                     },
-                    icon: Icon(Icons.delete),
+                    // title: Text(list.providerName),
+                    subtitle: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        // Text(
+                        //   'serviceid'.tr().toString() + list.serviceId.toString(),
+                        // ),
+                        // Text(
+                        //   'servicestatus'.tr().toString() +
+                        //       list.serviceStatus.toString(),
+                        // ),
+                        Row(
+                          children: [
+                            Text(
+                              'servicepickup'.tr().toString() +
+                                  ': ' +
+                                  list.servicePickup.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'servicedestination'.tr().toString() +
+                                  ': ' +
+                                  list.serviceDestination.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ],
+                        ),
+
+                        Row(
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'servicedate'.tr().toString() +
+                                    ': ' +
+                                    list.serviceDate.toString(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'servicespace'.tr().toString() +
+                                  ': ' +
+                                  list.serviceSpace,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    trailing: Wrap(
+                      spacing: 5,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            return showDialog(
+                                context: context,
+                                barrierDismissible: false,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text("delete".tr().toString()),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: [
+                                          Text('areyousure'.tr().toString())
+                                        ],
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => deleteService(
+                                          list.serviceId.toString(),
+                                          index,
+                                        ),
+                                        child: Text("sure".tr().toString()),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context)
+                                              .pop(); // close the dialog
+                                        },
+                                        child: Text(
+                                          'cancel'.tr().toString(),
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                });
+
+                            // make get location of the id
+                          },
+                          icon: Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                  borderOnForeground: true,
+                );
+              },
             ),
-            borderOnForeground: true,
-          );
-        },
-      ),
     );
   }
 

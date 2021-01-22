@@ -200,7 +200,7 @@ class _RegisterState extends State<Register> {
             TextInputField(
               hint_text: "password".tr().toString(),
               controller_text: _passwordController,
-              show_password: false,
+              show_password: true, // hide password for the user
               error_msg: _validatePassword
                   ? "valuecannotbeempty".tr().toString()
                   : null,

@@ -34,11 +34,9 @@ class WebServices {
       var message = decodedData['message'];
 
       return message;
+    } else {
+      throw ('error in registing player');
     }
-    else
-      {
-        throw('error in registing player');
-      }
   }
 
   //----------------------------------Login-------------------------------------
@@ -102,6 +100,7 @@ class WebServices {
         final List<GetProvidedServices> getProvidedServices =
             getProvidedServicesFromJson(response.body);
         // print(getProvidedServices);
+
         return getProvidedServices;
       }
     } catch (e) {
@@ -121,6 +120,7 @@ class WebServices {
         final List<GetSeekedServices> getSeekedServices =
             getSeekedServicesFromJson(response.body);
         // print(getProvidedServices);
+
         return getSeekedServices;
       }
     } catch (e) {

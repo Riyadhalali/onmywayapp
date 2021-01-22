@@ -18,6 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<GetProvidedServices> providedServicesList;
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      new GlobalKey<RefreshIndicatorState>();
 
   Future<List<GetProvidedServices>> fetchList() async {
     providedServicesList = await WebServices.Get_Provided_Services();
@@ -57,6 +59,7 @@ class _HomePageState extends State<HomePage> {
                 return new Text('Error: ${snapshot.error}');
               else
                 return RefreshIndicator(
+                  key: _refreshIndicatorKey,
                   onRefresh: fetchList,
                   child: ProvidedServicesList(),
                 );

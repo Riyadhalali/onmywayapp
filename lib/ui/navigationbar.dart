@@ -57,7 +57,6 @@ class _NavigationState extends State<Navigation> {
 
   @override
   Widget build(BuildContext context) {
-    //super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("onwayapp".tr().toString()),
@@ -71,16 +70,9 @@ class _NavigationState extends State<Navigation> {
               icon: Icon(Icons.home), label: 'provided'.tr().toString()),
           BottomNavigationBarItem(
               icon: Icon(Icons.car_rental), label: 'seeked'.tr().toString()),
-          // BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Add'),
-          //BottomNavigationBarItem(icon: Icon(Icons.local_offer), label: 'Seek'),
           BottomNavigationBarItem(
               icon: Icon(Icons.date_range),
               label: 'myappointments'.tr().toString()),
-          // BottomNavigationBarItem(
-          //     icon: Icon(Icons.shopping_cart), label: 'Services'),
-          //BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-          // BottomNavigationBarItem(
-          //     icon: Icon(Icons.shopping_cart), label: 'Settings'),
         ],
         currentIndex: selectedPage,
         showUnselectedLabels: true,
@@ -160,9 +152,6 @@ class _NavigationState extends State<Navigation> {
     );
   } // end build
 
-  // @override
-  // //
-  // bool get wantKeepAlive => keepAlive;
 } // end class
 
 //done

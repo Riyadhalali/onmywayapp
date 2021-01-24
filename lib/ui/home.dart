@@ -16,7 +16,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   List<GetProvidedServices> providedServicesList;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
@@ -41,7 +42,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
+    super.build(context);
+    return Scaffold(
       // appBar: AppBar(
       //   //automaticallyImplyLeading: false, // to delete back button
       //   title: Text('provided'.tr().toString()),
@@ -176,5 +178,9 @@ class _HomePageState extends State<HomePage> {
   }
 
 //------------------------------------------------------------------------------
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 } // end class
 //done

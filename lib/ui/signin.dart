@@ -93,10 +93,14 @@ class _SignInState extends State<SignIn> {
     message = fmain.message;
     user_id = fmain.id;
 
-    //-> get user info from server and then save it to shared pref
-    final GetUserInfo getUserInfo = await WebServices.Get_User_Info(user_id);
-    usernameData = getUserInfo.username;
-    userGenderData = getUserInfo.usergender;
+    //-> get user info from server and then save it to shared pref and make sure that it already have an id
+    if (user_id != null) {
+      final GetUserInfo getUserInfo = await WebServices.Get_User_Info(user_id);
+      usernameData = getUserInfo.username;
+      userGenderData = getUserInfo.usergender;
+    } else {
+      return;
+    }
 
     // show a snackbar message
     _scaffoldKey.currentState.showSnackBar(SnackBar(

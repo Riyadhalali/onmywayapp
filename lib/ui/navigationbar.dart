@@ -19,6 +19,7 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
+  bool keepAlive = false; // a variable to keep alive
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   int selectedPage = 0;
   //-> list Pages
@@ -32,8 +33,31 @@ class _NavigationState extends State<Navigation> {
     // Search(),
   ];
 
+  //***************************Init State**************************************
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    //doAsyncStuff();
+  }
+
+  //*************************doAsyncTasks***********************************
+  // Future doAsyncStuff() async {
+  //   keepAlive = true;
+  //   updateKeepAlive();
+  //   // Keeping alive...
+  //
+  //   await Future.delayed(Duration(seconds: 10));
+  //
+  //   keepAlive = false;
+  //   updateKeepAlive();
+  //   // Can be disposed whenever now.
+  // }
+  //----------------------------------------------------------------------------
+
   @override
   Widget build(BuildContext context) {
+    //super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("onwayapp".tr().toString()),
@@ -134,7 +158,11 @@ class _NavigationState extends State<Navigation> {
         ),
       ),
     );
-  }
-}
+  } // end build
+
+  // @override
+  // //
+  // bool get wantKeepAlive => keepAlive;
+} // end class
 
 //done

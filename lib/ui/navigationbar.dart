@@ -19,40 +19,39 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
-  bool keepAlive = false; // a variable to keep alive
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   int selectedPage = 0;
+  PageController pageController;
   //-> list Pages
-  final _pageOptions = [
-    HomePage(), // this home page contains order or everythimg and contain a search button
-    SeekedServices(),
-    //  AddSeekService(), // add service
-    //SeekService(), //seek service
-    MyAppointment(), // get my appointments
-    //   MyServices(),
-    // Search(),
-  ];
 
   //***************************Init State**************************************
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    //doAsyncStuff();
+    pageController = PageController(initialPage: 0);
   }
 
-  //*************************doAsyncTasks***********************************
-  // Future doAsyncStuff() async {
-  //   keepAlive = true;
-  //   updateKeepAlive();
-  //   // Keeping alive...
-  //
-  //   await Future.delayed(Duration(seconds: 10));
-  //
-  //   keepAlive = false;
-  //   updateKeepAlive();
-  //   // Can be disposed whenever now.
-  // }
+  //---------------------------List of Pages------------------------------------
+  final List<Widget> _pages = [
+    HomePage(),
+    SeekedServices(),
+    MyAppointment(),
+  ];
+  //--------------------------On Tapped item-----------------------------------
+  _onTapped(int index) {
+    setState(() {
+      selectedPage = index;
+      pageController.jumpToPage(index);
+    });
+  }
+  //------------------------On Page Changed-------------------------------------
+
+  void onPageChanged(int page) {
+    setState(() {
+      this.selectedPage = page;
+    });
+  }
   //----------------------------------------------------------------------------
 
   @override
@@ -62,7 +61,12 @@ class _NavigationState extends State<Navigation> {
         title: Text("onwayapp".tr().toString()),
       ),
       key: _drawerKey,
-      body: _pageOptions[selectedPage],
+      body: PageView(
+        children: _pages,
+        physics: NeverScrollableScrollPhysics(),
+        controller: pageController,
+        onPageChanged: onPageChanged,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: <BottomNavigationBarItem>[
@@ -81,11 +85,7 @@ class _NavigationState extends State<Navigation> {
         selectedFontSize: 10.0,
         unselectedFontSize: 10.0,
         backgroundColor: Colors.white,
-        onTap: (index) {
-          setState(() {
-            selectedPage = index;
-          });
-        },
+        onTap: _onTapped,
       ),
       drawer: Drawer(
         child: ListView(

@@ -18,25 +18,28 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
+  //----------------------------------------------------------------------------
+  int counter = 0;
+  Future myFuture; // if we want the future to build just one
   List<GetProvidedServices> providedServicesList;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
-
+//------------------------------fetch List--------------------------------------
   Future<List<GetProvidedServices>> fetchList() async {
     providedServicesList = await WebServices.Get_Provided_Services();
 
     return providedServicesList;
   }
 
+//------------------------------------------------------------------------------
   @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-  }
-
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
   @override
   void initState() {
     // TODO: implement initState
+    ///  myFuture = fetchList(); // if we want the future builds just one
+    print("init ststae");
     super.initState();
   }
 
@@ -44,10 +47,6 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      // appBar: AppBar(
-      //   //automaticallyImplyLeading: false, // to delete back button
-      //   title: Text('provided'.tr().toString()),
-      // ),
       body: FutureBuilder(
         future: fetchList(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -178,9 +177,5 @@ class _HomePageState extends State<HomePage>
   }
 
 //------------------------------------------------------------------------------
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
 } // end class
 //done

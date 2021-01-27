@@ -9,6 +9,16 @@ import 'package:sizer/sizer.dart';
 this page is for provided services
 */
 
+/*
+best practicle is to how to use  the refresh indicator is like this:
+1- when we call the  set state is will call the initstate function so for
+refreshing when user swip down we call inside the refresh indicator function
+just setstate function for updating widget and because the set state will update the
+build and call the init state we call the fetchuser
+
+
+ */
+
 class HomePage extends StatefulWidget {
   static const String id = 'home_page';
 
@@ -18,8 +28,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
+//{
   //----------------------------------------------------------------------------
   int counter = 0;
+  bool keepAlive = true;
   Future myFuture; // if we want the future to build just one
   List<GetProvidedServices> providedServicesList;
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
@@ -34,18 +46,19 @@ class _HomePageState extends State<HomePage>
 //------------------------------------------------------------------------------
   @override
   // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => keepAlive;
   @override
   void initState() {
     // TODO: implement initState
     ///  myFuture = fetchList(); // if we want the future builds just one
-    print("init ststae");
+
     super.initState();
+    fetchList();
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    // super.build(context);
     return Scaffold(
       body: FutureBuilder(
         future: fetchList(),
@@ -61,7 +74,9 @@ class _HomePageState extends State<HomePage>
               else
                 return RefreshIndicator(
                   key: _refreshIndicatorKey,
-                  onRefresh: fetchList,
+                  onRefresh: () {
+                    setState(() {});
+                  },
                   child: ProvidedServicesList(),
                 );
           }
@@ -82,9 +97,7 @@ class _HomePageState extends State<HomePage>
                 return Card(
                   child: ListTile(
                     isThreeLine: false,
-                    onTap: () {
-                      // print(list.userId);
-                    },
+                    onTap: () {},
                     title: Text(
                       list.userName,
                       style: TextStyle(

@@ -76,11 +76,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
             : validatephone = false;
       });
 
-      if (validateUsername ||
-          validateFrom ||
-          validateTo ||
-          validateSpace ||
-          validatephone) {
+      if (validateUsername || validateFrom || validateTo || validatephone) {
         return;
       }
       EasyLoading.show(status: "loading".tr().toString());

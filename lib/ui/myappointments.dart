@@ -15,13 +15,14 @@ class MyAppointment extends StatefulWidget {
   _MyAppointmentState createState() => _MyAppointmentState();
 }
 
-class _MyAppointmentState extends State<MyAppointment> {
+class _MyAppointmentState extends State<MyAppointment>
+    with AutomaticKeepAliveClientMixin {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       new GlobalKey<RefreshIndicatorState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String user_Id;
   List<GetMyAppointments> getMyAppointments;
-
+  bool keepAlive = true;
   SharedPref sharedPref = SharedPref();
   WebServices webServices = WebServices();
 
@@ -106,12 +107,16 @@ class _MyAppointmentState extends State<MyAppointment> {
     }
   }
 
-//------------------------------------------------------------------------------
+//-----------------------------Keep Alive --------------------------------------
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => keepAlive;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fetchAppointmentList();
   }
 
   //----------------------------------------------------------------------------
@@ -142,7 +147,9 @@ class _MyAppointmentState extends State<MyAppointment> {
             else
               return RefreshIndicator(
                 key: _refreshIndicatorKey,
-                onRefresh: fetchAppointmentList,
+                onRefresh: () {
+                  setState(() {});
+                },
                 child: MyAppointmentList(),
               );
         }

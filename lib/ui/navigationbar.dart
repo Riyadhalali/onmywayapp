@@ -59,6 +59,14 @@ class _NavigationState extends State<Navigation> {
     return Scaffold(
       appBar: AppBar(
         title: Text("onwayapp".tr().toString()),
+        actions: [
+          //-> update all app
+          IconButton(
+              icon: Icon(Icons.refresh),
+              onPressed: () {
+                setState(() {});
+              })
+        ],
       ),
       key: _drawerKey,
       body: PageView(

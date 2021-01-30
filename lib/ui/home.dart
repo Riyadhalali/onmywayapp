@@ -74,8 +74,10 @@ class _HomePageState extends State<HomePage>
               else
                 return RefreshIndicator(
                   key: _refreshIndicatorKey,
-                  onRefresh: () {
-                    setState(() {});
+                  onRefresh: () async {
+                    setState(() {
+                      return true;
+                    });
                   },
                   child: ProvidedServicesList(),
                 );
@@ -89,7 +91,32 @@ class _HomePageState extends State<HomePage>
   Widget ProvidedServicesList() {
     return Container(
       child: providedServicesList.isEmpty
-          ? Center(child: Text('noresultsfound'.tr().toString()))
+          ? Center(
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'noresultsfound'.tr().toString(),
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          return 0; // just for returning data
+                        });
+                      },
+                      child: Text(
+                        'retry'.tr().toString(),
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
           : ListView.builder(
               itemCount: providedServicesList.length,
               itemBuilder: (context, index) {

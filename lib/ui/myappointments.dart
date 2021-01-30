@@ -147,8 +147,10 @@ class _MyAppointmentState extends State<MyAppointment>
             else
               return RefreshIndicator(
                 key: _refreshIndicatorKey,
-                onRefresh: () {
-                  setState(() {});
+                onRefresh: () async {
+                  setState(() {
+                    return true;
+                  });
                 },
                 child: MyAppointmentList(),
               );
@@ -161,7 +163,32 @@ class _MyAppointmentState extends State<MyAppointment>
   Widget MyAppointmentList() {
     return Container(
       child: getMyAppointments.isEmpty
-          ? Center(child: Text('noresultsfound'.tr().toString()))
+          ? Center(
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'noresultsfound'.tr().toString(),
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          return 0; // just for returning data
+                        });
+                      },
+                      child: Text(
+                        'retry'.tr().toString(),
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
           : ListView.builder(
               physics: AlwaysScrollableScrollPhysics(),
               itemCount: getMyAppointments.length,
@@ -192,7 +219,7 @@ class _MyAppointmentState extends State<MyAppointment>
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black),
                             ),
-                            Flexible(child: Text(list.customerPhone))
+                            Flexible(child: Text(list.providerPhone))
                           ],
                         ),
                         Row(
@@ -203,7 +230,7 @@ class _MyAppointmentState extends State<MyAppointment>
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black),
                             ),
-                            Text(list.customerGender),
+                            Text(list.providerGender),
                           ],
                         ),
                         Row(
@@ -244,7 +271,7 @@ class _MyAppointmentState extends State<MyAppointment>
                         Row(
                           children: [
                             Text(
-                              'space'.tr().toString(),
+                              'space'.tr().toString() + ': ',
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black),

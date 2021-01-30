@@ -78,8 +78,10 @@ class _SeekedServicesState extends State<SeekedServices>
               return new Text('Error: ${snapshot.error}');
             else
               return RefreshIndicator(
-                onRefresh: () {
-                  setState(() {});
+                onRefresh: () async {
+                  setState(() {
+                    return true; // return anything
+                  });
                 },
                 child: SeekedServicesWidget(),
               );
@@ -92,7 +94,32 @@ class _SeekedServicesState extends State<SeekedServices>
   Widget SeekedServicesWidget() {
     return Container(
       child: seekedServicesList.isEmpty
-          ? Center(child: Text('noresultsfound'.tr().toString()))
+          ? Center(
+              child: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'noresultsfound'.tr().toString(),
+                    ),
+                    FlatButton(
+                      onPressed: () {
+                        setState(() {
+                          return 0; // just for returning data
+                        });
+                      },
+                      child: Text(
+                        'retry'.tr().toString(),
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            )
           : ListView.builder(
               itemCount: seekedServicesList.length, // important
               itemBuilder: (context, index) {

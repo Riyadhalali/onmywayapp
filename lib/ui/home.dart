@@ -55,7 +55,9 @@ class _HomePageState extends State<HomePage>
         now.difference(currentBackPressButton) > Duration(seconds: 2)) {
       currentBackPressButton = now;
       Fluttertoast.showToast(
-          msg: "exit_warning".tr().toString(), backgroundColor: Colors.white);
+          msg: "exit_warning".tr().toString(),
+          backgroundColor: Colors.white,
+          textColor: Colors.black);
       return Future.value(false);
     }
     SystemNavigator.pop();

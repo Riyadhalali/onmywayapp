@@ -4,6 +4,8 @@ import 'package:alatareekeh/ui/addappointment.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:sizer/sizer.dart';
 /*
 this page is for provided services
@@ -30,6 +32,9 @@ class _HomePageState extends State<HomePage>
     with AutomaticKeepAliveClientMixin {
 //{
   //----------------------------------------------------------------------------
+  DateTime
+      currentBackPressButton; // varaiable to hold the date and time for exit button
+
   int counter = 0;
   bool keepAlive = true;
   Future myFuture; // if we want the future to build just one
@@ -43,7 +48,21 @@ class _HomePageState extends State<HomePage>
     return providedServicesList;
   }
 
-//------------------------------------------------------------------------------
+//------------------------------POP Screen--------------------------------------
+  Future<bool> onExitButton() {
+    DateTime now = DateTime.now();
+    if (currentBackPressButton == null ||
+        now.difference(currentBackPressButton) > Duration(seconds: 2)) {
+      currentBackPressButton = now;
+      Fluttertoast.showToast(
+          msg: "exit_warning".tr().toString(), backgroundColor: Colors.white);
+      return Future.value(false);
+    }
+    SystemNavigator.pop();
+    return Future.value(true); // to exit program
+  }
+  //----------------------------------------------------------------------------
+
   @override
   // TODO: implement wantKeepAlive
   bool get wantKeepAlive => keepAlive;
@@ -60,29 +79,32 @@ class _HomePageState extends State<HomePage>
   Widget build(BuildContext context) {
     // super.build(context);
     return Scaffold(
-      body: FutureBuilder(
-        future: fetchList(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
+      body: WillPopScope(
+        onWillPop: onExitButton,
+        child: FutureBuilder(
+          future: fetchList(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
 
-            case ConnectionState.waiting:
-              return Center(child: new CircularProgressIndicator());
-            default:
-              if (snapshot.hasError)
-                return new Text('Error: ${snapshot.error}');
-              else
-                return RefreshIndicator(
-                  key: _refreshIndicatorKey,
-                  onRefresh: () async {
-                    setState(() {
-                      return true;
-                    });
-                  },
-                  child: ProvidedServicesList(),
-                );
-          }
-        },
+              case ConnectionState.waiting:
+                return Center(child: new CircularProgressIndicator());
+              default:
+                if (snapshot.hasError)
+                  return new Text('Error: ${snapshot.error}');
+                else
+                  return RefreshIndicator(
+                    key: _refreshIndicatorKey,
+                    onRefresh: () async {
+                      setState(() {
+                        return true;
+                      });
+                    },
+                    child: ProvidedServicesList(),
+                  );
+            }
+          },
+        ),
       ),
     );
   } // end build

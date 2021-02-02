@@ -45,7 +45,6 @@
   "location": "موقع الخدمة",
   "youcannotaddappointment": "لا يمكنك إضافة موعد لنفسك، يرجى اختيار خدمة أخرى!",
   "deleting": "جاري الحذف ...",
-  "search": "بحث",
   "pleasefillalldata": "يرجى تعبئة المعلومات والتاريخ",
   "searchresults": "نتائج البحث",
   "loading": "جاري التحميل .. ",
@@ -59,7 +58,8 @@
   "noupdatesavailable": "لا يوجد تحديثات",
   "ok": "موافق",
   "noresultsfound" : "لا توجد نتائج",
-  "retry": "إعادة المحاولة"
+  "retry": "إعادة المحاولة",
+  "exit_warning": "اضغط للخلف للخروج من البرنامج"
 
 
 

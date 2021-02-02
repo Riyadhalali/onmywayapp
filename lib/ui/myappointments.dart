@@ -284,8 +284,10 @@ class _MyAppointmentState extends State<MyAppointment>
                     ),
                     trailing: Wrap(
                       spacing: 1,
-                      children: [
+                      runSpacing: 1.0,
+                      children: <Widget>[
                         IconButton(
+                          //   padding: EdgeInsets.all(0),
                           onPressed: () async {
                             //get the lat and long from service and then pass it to the map ui
                             var lat, long;

@@ -59,7 +59,8 @@
   "noupdatesavailable": "No Updates Found",
   "ok": "OK",
   "noresultsfound" : "No Results Found",
-  "retry": "Retry"
+  "retry": "Retry",
+  "exit_warning": "Press back button to exit"
 
 
 

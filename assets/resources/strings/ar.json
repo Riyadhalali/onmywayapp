@@ -37,7 +37,7 @@
   "servicepickup": "مكان الانطلاق: ",
   "servicedestination": "مكان الوصول: ",
   "servicedate": "تاريخ الخدمة: ",
-  "servicespace": "مساحة الخدمة: ",
+  "servicespace": "مساحة الخدمة ",
   "areyousure": "هل انت متأكد من الحذف؟",
   "sure" : "تأكيد",
   "cancel": "إلغاء",
@@ -59,7 +59,8 @@
   "ok": "موافق",
   "noresultsfound" : "لا توجد نتائج",
   "retry": "إعادة المحاولة",
-  "exit_warning": "اضغط للخلف للخروج من البرنامج"
+  "exit_warning": "اضغط للخلف للخروج من البرنامج",
+  "search" : "بحث"
 
 
 

@@ -10,12 +10,14 @@ import 'package:flutter/material.dart';
 class SplashScreen extends StatefulWidget {
   static String id =
       'splash_screen'; // a global static for calling from any activity
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
   SharedPref sharedPref = SharedPref(); // create object of the class
+
   @override
   void initState() {
     // TODO: implement initState
@@ -25,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   //-> timer for launching screen after seconds
   Future<Timer> LoadTimer() async {
-    return new Timer(Duration(seconds: 5), onDoneLoading);
+    return new Timer(Duration(seconds: 2), onDoneLoading);
   }
 
   Future onDoneLoading() async {

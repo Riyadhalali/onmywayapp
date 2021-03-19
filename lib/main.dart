@@ -24,10 +24,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sizer/sizer.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await EasyLocalization.ensureInitialized();
   runApp(EasyLocalization(
       supportedLocales: [Locale('en'), Locale('ar')],
       path: 'assets/resources/strings', // <-- change patch to your
+      fallbackLocale: Locale('en', 'US'),
       child: MyApp()));
   configLoading();
 }
@@ -58,8 +62,8 @@ class MyApp extends StatelessWidget {
         return OrientationBuilder(
           //return OrientationBuilder
           builder: (context, orientation) {
-            var lang = context.locale.toString(); // get lang of app
-            print('your app language is:$lang');
+            // var lang = context.locale.toString(); // get lang of app
+            // print('your app language is:$lang');
             //initialize SizerUtil()
             SizerUtil().init(constraints, orientation); //initialize SizerUtil
             return MaterialApp(

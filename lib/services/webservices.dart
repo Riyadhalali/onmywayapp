@@ -16,11 +16,12 @@ import 'getseekedservices.dart';
 
 class WebServices {
   SharedPref sharedPref = SharedPref();
+
   //------------------------------Register------------------------------
   Future<String> registerUser(
       String username, String phone, String gender, String password) async {
-    http.Response response =
-        await http.post(Constants.api_link + 'Register', body: {
+    var url = Constants.api_link + 'Register';
+    http.Response response = await http.post(Uri.parse(url), body: {
       "username": username,
       "phone": phone,
       "gender": gender,
@@ -42,9 +43,9 @@ class WebServices {
   //----------------------------------Login-------------------------------------
   //-> Login and post data to server
   Future<GetLoginData> LoginPost(String phone, String password) async {
-    final http.Response response = await http.post(
-        Constants.api_link + 'Login_Player',
-        body: {"phone": phone, "password": password});
+    var url = Constants.api_link + 'Login_Player';
+    final http.Response response = await http
+        .post(Uri.parse(url), body: {"phone": phone, "password": password});
     if (response.statusCode == 200) {
       final GetLoginData getlogindata = getLoginDataFromJson(response.body);
       //  print(getlogindata.message);
@@ -65,8 +66,9 @@ class WebServices {
       String from,
       String to,
       String username) async {
-    http.Response response =
-        await http.post(Constants.api_link + 'AddOrSeek_Service', body: {
+    var url = Constants.api_link + 'AddOrSeek_Service';
+
+    http.Response response = await http.post(Uri.parse(url), body: {
       "user_id": userId,
       "type": type.toString(),
       "phone": phone,
@@ -91,9 +93,10 @@ class WebServices {
 //--------------------------Get Provided Services-------------------------------
   //-> this Api will return Provided Services type is 1
   static Future<List<GetProvidedServices>> Get_Provided_Services() async {
+    var url = Constants.api_link + 'Get_Provided_services?type=1';
     try {
       final response = await http.get(
-        Constants.api_link + 'Get_Provided_services?type=1',
+        Uri.parse(url),
       ); // one is the type
       // print(response);
       if (response.statusCode == 200) {
@@ -111,9 +114,10 @@ class WebServices {
 //----------------------Get Seeked Services-------------------------------------
   //-> this Api will return Seeked Services type is 2
   static Future<List<GetSeekedServices>> Get_Seeked_Services() async {
+    var url = Constants.api_link + 'Get_Provided_services?type=2';
     try {
       final response = await http.get(
-        Constants.api_link + 'Get_Provided_services?type=2',
+        Uri.parse(url),
       ); // two is the type
       // print(response);
       if (response.statusCode == 200) {
@@ -145,9 +149,9 @@ class WebServices {
       String latitude,
       String longitude,
       String service_id) async {
+    var url = Constants.api_link + 'Add_appointemnt';
     try {
-      http.Response response =
-          await http.post(Constants.api_link + 'Add_appointemnt', body: {
+      http.Response response = await http.post(Uri.parse(url), body: {
         "customer_id": customer_id,
         "provider_id": provider_id,
         "customer_name": customer_name,
@@ -179,9 +183,10 @@ class WebServices {
   //-> pass user id to the function
   static Future<List<GetMyAppointments>> Get_My_Appointments(
       String userId) async {
+    var url = Constants.api_link + 'Get_My_Appointments?user_id=$userId';
     try {
       final response = await http.get(
-        Constants.api_link + 'Get_My_Appointments?user_id=$userId',
+        Uri.parse(url),
       ); // pass user id
       // print(response);
       if (response.statusCode == 200) {
@@ -199,11 +204,12 @@ class WebServices {
 //-> pass user id and type to the function
   static Future<List<GetMyServices>> Get_My_Services(
       String userID, String type) async {
+    var url =
+        Constants.api_link + 'Get_My_services?user_id=$userID' + '&type=$type';
     try {
       print(userID);
-      final response = await http.get(Constants.api_link +
-          'Get_My_services?user_id=$userID' +
-          '&type=$type'); // pass user id and type if seeked or provided
+      final response = await http
+          .get(Uri.parse(url)); // pass user id and type if seeked or provided
       if (response.statusCode == 200) {
         final List<GetMyServices> getMyServices =
             getMyServicesFromJson(response.body);
@@ -218,10 +224,11 @@ class WebServices {
 //----------------------------Delete Appointment--------------------------------
   static Future<String> deleteAppointment(
       String appointment_id, String service_id) async {
+    var url = Constants.api_link +
+        'Delete_Appointment?appointment_id=$appointment_id' +
+        '&service_id=$service_id';
     try {
-      http.Response response = await http.get(Constants.api_link +
-          'Delete_Appointment?appointment_id=$appointment_id' +
-          '&service_id=$service_id');
+      http.Response response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         String data = response.body;
@@ -237,9 +244,10 @@ class WebServices {
 //-> this ,ethod will get the service Location
   static Future<GetServiceLocation> Get_Service_Location(
       String appointment_id) async {
+    var url = Constants.api_link +
+        'Get_Service_location?appointment_id=$appointment_id';
     try {
-      http.Response response = await http.get(Constants.api_link +
-          'Get_Service_location?appointment_id=$appointment_id');
+      http.Response response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         String data = response.body;
@@ -254,9 +262,9 @@ class WebServices {
 
   //---------------------------Get Login Data-----------------------------------
   static Future<GetUserInfo> Get_User_Info(String userId) async {
+    var url = Constants.api_link + 'Get_User_Info?user_id=$userId';
     try {
-      http.Response response =
-          await http.get(Constants.api_link + 'Get_User_Info?user_id=$userId');
+      http.Response response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         String data = response.body;
@@ -271,9 +279,9 @@ class WebServices {
 
   //--------------------------Delete Service------------------------------------
   static Future<String> Delete_Service(String serviceId) async {
+    var url = Constants.api_link + 'Delete_Service?service_id=$serviceId';
     try {
-      http.Response response = await http
-          .get(Constants.api_link + 'Delete_Service?service_id=$serviceId');
+      http.Response response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         String data = response.body;
         var decodedData = jsonDecode(data); // decoding data
@@ -289,13 +297,14 @@ class WebServices {
 //---------------------------Search Services------------------------------------
   static Future<List<GetSearchResults>> Search_Services(
       String type, String from, String to, String gender, String date) async {
+    var url = Constants.api_link +
+        'Search_services?type=$type' +
+        '&from=$from' +
+        '&to=$to' +
+        '&gender=$gender' +
+        '&date=$date';
     try {
-      final response = await http.get(Constants.api_link +
-          'Search_services?type=$type' +
-          '&from=$from' +
-          '&to=$to' +
-          '&gender=$gender' +
-          '&date=$date');
+      final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         final List<GetSearchResults> getSearchResults =
@@ -310,8 +319,9 @@ class WebServices {
 
 //--------------------------Check App Version----------------------------------
   static Future<GetAppVersion> Get_Version() async {
+    var url = Constants.api_link + 'Get_Version';
     try {
-      final response = await http.get(Constants.api_link + 'Get_Version');
+      final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final GetAppVersion getAppVersion = getAppVersionFromJson(
             response.body); // saving responnse into dart objects

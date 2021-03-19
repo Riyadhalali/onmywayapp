@@ -123,8 +123,9 @@ class _LanguageSelectState extends State<LanguageSelect> {
 
   void selectEnglish() {
     setState(() {
-      EasyLocalization.of(context).locale =
-          Locale("en"); // set language to English
+      // context.locale = Locale("en"); // set language to English
+      context.setLocale(
+          Locale('en')); // setting language of the device in the new packae
       sharedPref.setData('selectedlanguage', 'en');
       Navigator.pushNamed(
           context, PrivacyPolicy.id); // navigate to Select Language screen
@@ -133,8 +134,9 @@ class _LanguageSelectState extends State<LanguageSelect> {
 
   void selectArabic() {
     setState(() {
-      EasyLocalization.of(context).locale =
-          Locale("ar"); // set language to English
+      //  context.locale = Locale("ar"); // set language to English
+      context.setLocale(
+          Locale('ar')); // set the language using new easy localization methods
       sharedPref.setData('selectedlanguage', 'ar');
       Navigator.pushNamed(
           context, PrivacyPolicy.id); // navigate to Select Language screen

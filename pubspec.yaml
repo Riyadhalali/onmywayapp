@@ -50,7 +50,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
   - assets/ui/splashscreen/
-  - assets/ui/splashscreen/appicon.png
+  - assets/ui/splashscreen/
   - assets/resources/strings/en.json
   - assets/resources/strings/ar.json
   - assets/ui/privacypolicy/

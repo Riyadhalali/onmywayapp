@@ -9,8 +9,7 @@ import 'package:flutter/material.dart';
 import 'languageselect.dart';
 
 class SplashScreen extends StatefulWidget {
-  static String id =
-      'splash_screen'; // a global static for calling from any activity
+  static String id = 'splash_screen'; // a global static for calling from any activity
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -71,18 +70,16 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget columnElements() {
     return Column(
       children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.05,
-        ),
-        imageBackground(),
-        SizedBox(
-          height: MediaQuery.of(context).size.height * 0.2,
-        ),
-        Container(
-          padding: EdgeInsets.all(50.0),
-          alignment: Alignment.bottomCenter,
-          child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+        Expanded(
+          child: Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * 1,
+            decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(35.0),
+              image: DecorationImage(
+                  image: AssetImage('assets/ui/splashscreen/background.png'), fit: BoxFit.fill),
+            ),
           ),
         ),
       ],
@@ -90,17 +87,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   //--------------------------Logo background-----------------------------------
-  Widget imageBackground() {
+  Widget imageBackground(String asset_image) {
     return Center(
       child: Container(
         alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.of(context).size.width * 0.3,
         height: MediaQuery.of(context).size.height * 0.4,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(35.0),
-          image: DecorationImage(
-              image: AssetImage('assets/ui/splashscreen/appicon.png'),
-              fit: BoxFit.cover),
+          //     borderRadius: BorderRadius.circular(35.0),
+          image: DecorationImage(image: AssetImage(asset_image), fit: BoxFit.fill),
         ),
       ),
     );

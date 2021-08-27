@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:alatareekeh/services/sharedpref.dart';
-import 'package:alatareekeh/ui/languageselect.dart';
 import 'package:alatareekeh/ui/navigationbar.dart';
 import 'package:alatareekeh/ui/privacypolicy.dart';
 import 'package:alatareekeh/ui/signin.dart';
 import 'package:flutter/material.dart';
+
+import 'languageselect.dart';
 
 class SplashScreen extends StatefulWidget {
   static String id =
@@ -31,6 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future onDoneLoading() async {
+    // Navigator.pushNamed(context, Maps.id);
     String userId;
     String selected_lang;
     String privacypolicy;

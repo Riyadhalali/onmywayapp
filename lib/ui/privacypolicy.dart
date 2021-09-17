@@ -26,11 +26,23 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       child: Column(
         children: [
           SizedBox(
-            height: 5.0.h,
+            height: 10.0.h,
           ),
           imageBackground(),
-          PrivacyPolicyText(),
-          AcceptPrivacyPolicyRadioButton(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.05,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.45,
+            decoration: BoxDecoration(border: Border.all(color: Color(0xFF9A9A9A))),
+            child: Column(
+              children: [
+                AcceptPrivacyPolicyRadioButton(),
+                PrivacyPolicyText(),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -42,12 +54,11 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
     return Center(
       child: Container(
         alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.5,
+        width: MediaQuery.of(context).size.width * 0.7,
+        height: MediaQuery.of(context).size.height * 0.4,
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/ui/privacypolicy/privacypolicy.jpg'),
-              fit: BoxFit.cover),
+              image: AssetImage('assets/ui/privacypolicy/privacypolicy.png'), fit: BoxFit.fill),
         ),
       ),
     );
@@ -84,15 +95,15 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
       color: Colors.transparent,
       height: 7.0.h,
       child: CheckboxListTile(
-        activeColor: Colors.black87,
-        controlAffinity:
-            ListTileControlAffinity.leading, // to make checkbox left aligned
+        activeColor: Color(0xFFFFC332),
+
+        controlAffinity: ListTileControlAffinity.leading, // to make checkbox left aligned
         title: Text(
           "Accept Privacy Policy",
           textAlign: TextAlign.left,
           style: TextStyle(
             fontSize: 18.0.sp,
-            color: Colors.black,
+            color: Color(0xFFFFC332),
           ),
         ),
         secondary: Icon(Icons.privacy_tip),
@@ -103,8 +114,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
             if (_checked == true) {
               sharedPref.setData('privacypolicystate',
                   'privacypolicyaccepted'); // saving privacy policy accept to shared pref
-              Navigator.pushNamed(
-                  context, SignIn.id); // navigate to login in screen
+              Navigator.pushNamed(context, SignIn.id); // navigate to login in screen
             }
           });
         },

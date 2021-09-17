@@ -60,8 +60,9 @@
   "ok": "OK",
   "noresultsfound" : "No Results Found",
   "retry": "Retry",
-  "exit_warning": "Press back button to exit"
-
+  "exit_warning": "Press back button to exit",
+  "Sign in With Facebook": "Sign in With Facebook",
+  "Sign in With Google": "Sign in With Google"
 
 
 

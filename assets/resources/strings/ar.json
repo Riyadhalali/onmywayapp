@@ -60,7 +60,9 @@
   "noresultsfound" : "لا توجد نتائج",
   "retry": "إعادة المحاولة",
   "exit_warning": "اضغط للخلف للخروج من البرنامج",
-  "search" : "بحث"
+  "search" : "بحث",
+  "Sign in With Facebook": "الدخول باستخدام فيسبوك",
+  "Sign in With Google": "الدخول باستخدام غوغل"
 
 
 

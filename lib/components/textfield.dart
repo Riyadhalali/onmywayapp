@@ -21,20 +21,19 @@ class TextInputField extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.only(left: 55.0, right: 55.0),
-      child: TextField(
+      child: TextFormField(
         //  autofocus: true,
         textAlign: TextAlign.start,
         obscureText: show_password, // to show password or not
-        controller:
-            controller_text, // the variable that will contain input user data
+        controller: controller_text, // the variable that will contain input user data
         decoration: InputDecoration(
-          filled: true,
+          filled: true, // to change the color of textinputfilled
           //   suffix: InkWell(onTap: FunctionToDo, child: icon_widget),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-
-          fillColor: Colors.white,
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(10.0),
+          // ),
+          border: InputBorder.none,
+          fillColor: Color(0xFFEFEFF3),
           hintText: hint_text,
           errorText: error_msg,
           // labelText: label_text.tr().toString(),

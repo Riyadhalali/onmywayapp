@@ -61,6 +61,7 @@ flutter:
   - assets/ui/addappointment/
   - assets/ui/search/
   - assets/ui/selectlanguage/
+  - assets/ui/icon/
 
   # example:
   # fonts:

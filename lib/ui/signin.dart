@@ -1,7 +1,8 @@
 import 'dart:ui';
 
-import 'package:alatareekeh/components/textfield.dart';
-import 'package:alatareekeh/components/textfieldwithicon.dart';
+import 'package:alatareekeh/components//socialbutton.dart';
+import 'package:alatareekeh/components//textfield.dart';
+import 'package:alatareekeh/components//textfieldwithicon.dart';
 import 'package:alatareekeh/services/GetUserInfo.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
@@ -29,12 +30,9 @@ class _SignInState extends State<SignIn> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   GetLoginData getLogin;
   String phone_data, password_data; //variables for holding shared pref data
-  String
-      usernameData; // this variable to store data returned from getUserInfo Api
-  String
-      userPhoneData; // this variable to store data returned from getUserInfo Api
-  String
-      userGenderData; // this variable to store data returned from getUserInfo Api
+  String usernameData; // this variable to store data returned from getUserInfo Api
+  String userPhoneData; // this variable to store data returned from getUserInfo Api
+  String userGenderData; // this variable to store data returned from getUserInfo Api
   final _phonecontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
   WebServices webServices = new WebServices();
@@ -71,13 +69,9 @@ class _SignInState extends State<SignIn> {
     WebServices webServices = WebServices();
 
     setState(() {
-      _phonecontroller.text.isEmpty
-          ? validatePhone = true
-          : validatePhone = false;
+      _phonecontroller.text.isEmpty ? validatePhone = true : validatePhone = false;
 
-      _passwordcontroller.text.isEmpty
-          ? validatePassword = true
-          : validatePassword = false;
+      _passwordcontroller.text.isEmpty ? validatePassword = true : validatePassword = false;
     });
 
     if (validatePhone || validatePassword) {
@@ -88,8 +82,8 @@ class _SignInState extends State<SignIn> {
       status: 'Loading...',
     );
 
-    GetLoginData fmain = await webServices.LoginPost(
-        _phonecontroller.text, _passwordcontroller.text);
+    GetLoginData fmain =
+        await webServices.LoginPost(_phonecontroller.text, _passwordcontroller.text);
     message = fmain.message;
     user_id = fmain.id;
 
@@ -109,18 +103,15 @@ class _SignInState extends State<SignIn> {
     ));
 
     if (message.toString().contains('login success')) {
-      Navigator.pushNamed(
-          context, Navigation.id); // if user exists go to main page
+      Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
     }
 
     EasyLoading.dismiss();
 
     //-> save id to shared pref
     sharedPref.setData('userID', user_id); // save user id to shared pref
-    sharedPref.setData(
-        'phone', _phonecontroller.text); // save the phone number of user
-    sharedPref.setData(
-        'password', _passwordcontroller.text); //save the password of user
+    sharedPref.setData('phone', _phonecontroller.text); // save the phone number of user
+    sharedPref.setData('password', _passwordcontroller.text); //save the password of user
 
     // //-> save user profile to shared pref
     sharedPref.setData('username', usernameData); // save the username
@@ -140,6 +131,7 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       key: _scaffoldKey,
       body: columnElements(),
     );
@@ -168,9 +160,7 @@ class _SignInState extends State<SignIn> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.4,
         decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('assets/ui/login/login.jpg'),
-              fit: BoxFit.cover),
+          image: DecorationImage(image: AssetImage('assets/ui/login/login.png'), fit: BoxFit.cover),
         ),
       ),
     );
@@ -181,18 +171,15 @@ class _SignInState extends State<SignIn> {
   Widget Login() {
     return Container(
       padding: EdgeInsets.only(right: 55.0, left: 55.0),
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width * 0.6,
       child: RaisedButton(
-        color: Color(0xFF8949d8),
+        color: Color(0xFFFFCB47),
         child: Text(
           "login".tr().toString(),
-          style: TextStyle(fontSize: 20.0.sp, color: Colors.white),
+          style: TextStyle(fontSize: 20.0.sp, color: Colors.black),
         ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
-          side: BorderSide(
-            color: Colors.blueAccent,
-          ),
         ),
         onPressed: SignInFunction,
       ),
@@ -229,8 +216,7 @@ class _SignInState extends State<SignIn> {
             },
             child: Text(
               'signup'.tr().toString(),
-              style: TextStyle(
-                  color: Color(0xFF8949d8), fontWeight: FontWeight.bold),
+              style: TextStyle(color: Color(0xFFFFB005), fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -243,13 +229,6 @@ class _SignInState extends State<SignIn> {
   Widget sign_in_Container() {
     return Stack(
       children: [
-        Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50.0),
-            color: Color(0xFFf2f2f2),
-          ),
-        ),
         Column(
           children: [
             SizedBox(
@@ -257,10 +236,8 @@ class _SignInState extends State<SignIn> {
             ),
             Text(
               "signin".tr().toString(),
-              style: TextStyle(
-                  fontSize: 20.0.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black38),
+              style:
+                  TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
             ),
             SizedBox(
               height: 2.0.h,
@@ -270,8 +247,7 @@ class _SignInState extends State<SignIn> {
               //label_text: "username",
               controller_text: _phonecontroller,
               show_password: false,
-              error_msg:
-                  validatePhone ? "valuecannotbeempty".tr().toString() : null,
+              error_msg: validatePhone ? "valuecannotbeempty".tr().toString() : null,
               FunctionToDo: () {},
             ),
             SizedBox(
@@ -282,13 +258,9 @@ class _SignInState extends State<SignIn> {
               hint_text: "password".tr().toString(),
               // label_text: "password",
               controller_text: _passwordcontroller,
-              icon_widget: _isHidden
-                  ? Icon(Icons.visibility)
-                  : Icon(Icons.visibility_off),
+              icon_widget: _isHidden ? Icon(Icons.visibility) : Icon(Icons.visibility_off),
               show_password: _isHidden,
-              error_msg: validatePassword
-                  ? "valuecannotbeempty".tr().toString()
-                  : null,
+              error_msg: validatePassword ? "valuecannotbeempty".tr().toString() : null,
               FunctionToDo: () {
                 setState(() {
                   _isHidden = !_isHidden;
@@ -301,6 +273,14 @@ class _SignInState extends State<SignIn> {
             // forgetPassword(),
             SizedBox(
               height: 1.0.h,
+            ),
+            SocialButton(
+              image: 'assets/ui/icon/facebook.png',
+              buttonText: 'Sign in With Facebook'.tr().toString(),
+            ),
+            SocialButton(
+              image: 'assets/ui/icon/google.png',
+              buttonText: 'Sign in With Google'.tr().toString(),
             ),
             Login(),
             SizedBox(

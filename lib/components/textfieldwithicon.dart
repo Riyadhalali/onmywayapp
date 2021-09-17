@@ -25,16 +25,15 @@ class TextInputFieldWithIcon extends StatelessWidget {
         //  autofocus: true,
         textAlign: TextAlign.start,
         obscureText: show_password, // to show password or not
-        controller:
-            controller_text, // the variable that will contain input user data
+        controller: controller_text, // the variable that will contain input user data
         decoration: InputDecoration(
           filled: true,
           //   suffix: InkWell(onTap: FunctionToDo, child: icon_widget),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-
-          fillColor: Colors.white,
+          // border: OutlineInputBorder(
+          //   borderRadius: BorderRadius.circular(10.0),
+          // ),
+          border: InputBorder.none,
+          fillColor: Color(0xFFEFEFF3),
           hintText: hint_text,
           errorText: error_msg,
           // labelText: label_text.tr().toString(),

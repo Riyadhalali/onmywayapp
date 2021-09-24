@@ -22,6 +22,7 @@ import 'package:alatareekeh/ui/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 void main() async {
@@ -66,21 +67,19 @@ class MyApp extends StatelessWidget {
             // print('your app language is:$lang');
             //initialize SizerUtil()
             SizerUtil().init(constraints, orientation); //initialize SizerUtil
-            return MaterialApp(
+            return GetMaterialApp(
               builder: EasyLoading.init(), // init the easy loading
               debugShowCheckedModeBanner: false,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
-              initialRoute:
-                  SplashScreen.id, // the default screen that will start
+              initialRoute: SplashScreen.id, // the default screen that will start
               theme: ThemeData.light(),
               routes: {
                 //-> we must add all routes
                 SplashScreen.id: (context) => SplashScreen(),
                 LanguageSelect.id: (context) => LanguageSelect(),
-                PrivacyPolicy.id: (context) =>
-                    PrivacyPolicy(), // privacy policy route screen
+                PrivacyPolicy.id: (context) => PrivacyPolicy(), // privacy policy route screen
                 HomePage.id: (context) => HomePage(),
                 SignIn.id: (context) => SignIn(),
                 Register.id: (context) => Register(),
@@ -99,6 +98,7 @@ class MyApp extends StatelessWidget {
                 Search.id: (context) => Search(),
                 SearchResults.id: (context) => SearchResults(),
                 CheckAppVersion.id: (context) => CheckAppVersion(),
+                //AuthPage.id: (context) => AuthPage(),
               },
             );
           },

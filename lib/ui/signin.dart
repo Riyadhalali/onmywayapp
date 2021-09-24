@@ -7,7 +7,6 @@ import 'package:alatareekeh/services/GetUserInfo.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
-import 'package:alatareekeh/ui/forgetpassword.dart';
 import 'package:alatareekeh/ui/navigationbar.dart';
 import 'package:alatareekeh/ui/register.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -192,10 +191,8 @@ class _SignInState extends State<SignIn> {
     return Container(
       width: MediaQuery.of(context).size.width, // take all space available
       child: FlatButton(
-        onPressed: () {
-          Navigator.pushNamed(context, ForgetPassword.id);
-        },
-        child: Text("forgetpassword".tr().toString()),
+        onPressed: () {},
+        child: Text('forget'),
       ),
     );
   }
@@ -213,6 +210,7 @@ class _SignInState extends State<SignIn> {
           child: FlatButton(
             onPressed: () {
               Navigator.pushNamed(context, Register.id);
+              //  Get.to(Register.id);
             },
             child: Text(
               'signup'.tr().toString(),

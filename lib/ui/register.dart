@@ -33,9 +33,12 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
-      child: Scaffold(
-        key: _scaffoldKey,
-        body: columnElements(),
+      child: SafeArea(
+        child: Scaffold(
+          resizeToAvoidBottomInset: false, // to disable scolling screen up when keyboard goes up
+          key: _scaffoldKey,
+          body: columnElements(),
+        ),
       ),
       inAsyncCall: _saving,
     );
@@ -43,15 +46,15 @@ class _RegisterState extends State<Register> {
 
   //-------------------------------Column --------------------------------------
   Widget columnElements() {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            imageBackground(),
-            registerContainer(),
-          ],
-        ),
-      ),
+    return Stack(
+      alignment: Alignment.center,
+      fit: StackFit.expand,
+      clipBehavior: Clip.hardEdge,
+      children: [
+        Positioned(top: 0, child: imageBackground()),
+        Positioned(top: 180, child: profileImage()),
+        Positioned(bottom: 100, child: registerContainer()),
+      ],
     );
   }
 
@@ -61,11 +64,33 @@ class _RegisterState extends State<Register> {
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: MediaQuery.of(context).size.height * 0.4,
         decoration: BoxDecoration(
           image: DecorationImage(
-              image: AssetImage('assets/ui/register/register.png'),
-              fit: BoxFit.contain),
+              image: AssetImage('assets/ui/register/register.png'), fit: BoxFit.fill),
+        ),
+      ),
+    );
+  }
+
+//------------------------------Profile Image-----------------------------------
+  Widget profileImage() {
+    return InkWell(
+      onTap: () {
+        //TODO: use image picker to select the image to save it to the database
+      },
+      child: Container(
+        width: 150,
+        height: 150,
+        decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black.withOpacity(0.25)),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+            child: ClipRect(
+              child: Image.asset('assets/ui/icon/facebook.png'),
+            ),
+          ),
         ),
       ),
     );
@@ -78,7 +103,7 @@ class _RegisterState extends State<Register> {
       padding: EdgeInsets.only(right: 55.0, left: 55.0),
       width: MediaQuery.of(context).size.width,
       child: RaisedButton(
-        color: Color(0xFF8949d8),
+        color: Color(0xFFFFB005),
         child: Text(
           "register".tr().toString(),
           style: TextStyle(fontSize: 20.0.sp, color: Colors.white),
@@ -86,23 +111,17 @@ class _RegisterState extends State<Register> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
           side: BorderSide(
-            color: Colors.blueAccent,
+            color: Color(0xFFFFD359),
           ),
         ),
         onPressed: () async {
           //- To check the user already entered username and password
           setState(() {
-            _usernameController.text.isEmpty
-                ? _validateUsername = true
-                : _validateUsername = false;
+            _usernameController.text.isEmpty ? _validateUsername = true : _validateUsername = false;
 
-            _passwordController.text.isEmpty
-                ? _validatePassword = true
-                : _validatePassword = false;
+            _passwordController.text.isEmpty ? _validatePassword = true : _validatePassword = false;
 
-            _phoneController.text.isEmpty
-                ? _validatePhone = true
-                : _validatePhone = false;
+            _phoneController.text.isEmpty ? _validatePhone = true : _validatePhone = false;
           });
 
           //  if user didn't enter username or password or phone keep inside
@@ -127,14 +146,11 @@ class _RegisterState extends State<Register> {
           //TODO: Test is register success go to login page and load the register data to login screen
           if (message.toString().contains('login succussfully')) {
             //-> if we have a success register go to the login page and save data to shared pref
-            sharedPref.setData(
-                'username', _usernameController.text); // save user name of user
-            sharedPref.setData(
-                'password', _passwordController.text); // save password of user
+            sharedPref.setData('username', _usernameController.text); // save user name of user
+            sharedPref.setData('password', _passwordController.text); // save password of user
             sharedPref.setData('gender', dropDownMenu); //save gender  of user
 
-            sharedPref.setData(
-                'phone', _phoneController.text); // save phone of gender
+            sharedPref.setData('phone', _phoneController.text); // save phone of gender
 
             //-> send params to login screen
             Navigator.of(context).pushReplacement(
@@ -158,65 +174,52 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+
 //--------------------------------------------------------------------------
 
   //-> Container for having elements
   Widget registerContainer() {
     return Stack(
       children: [
-        Container(
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50.0),
-            color: Color(0xFFf2f2f2),
-          ),
-        ),
         Column(
           children: [
             SizedBox(
-              height: 2.0.h,
+              height: 1.0.h,
             ),
             Text(
               "register".tr().toString(),
-              style: TextStyle(
-                  fontSize: 20.0.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black38),
+              style:
+                  TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
             ),
             SizedBox(
-              height: 4.0.h,
+              height: 1.0.h,
             ),
             TextInputField(
               hint_text: "username".tr().toString(),
               controller_text: _usernameController,
               show_password: false,
-              error_msg: _validateUsername
-                  ? "valuecannotbeempty".tr().toString()
-                  : null,
+              error_msg: _validateUsername ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
-              height: 5.0.h,
+              height: 1.0.h,
             ),
             TextInputField(
               hint_text: "password".tr().toString(),
               controller_text: _passwordController,
               show_password: true, // hide password for the user
-              error_msg: _validatePassword
-                  ? "valuecannotbeempty".tr().toString()
-                  : null,
+              error_msg: _validatePassword ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
-              height: 5.0.h,
+              height: 1.0.h,
             ),
             TextInputField(
               hint_text: "phone".tr().toString(),
               controller_text: _phoneController,
               show_password: false,
-              error_msg:
-                  _validatePhone ? "valuecannotbeempty".tr().toString() : null,
+              error_msg: _validatePhone ? "valuecannotbeempty".tr().toString() : null,
             ),
             SizedBox(
-              height: 5.0.h,
+              height: 1.0.h,
             ),
             Row(
               children: [
@@ -225,9 +228,7 @@ class _RegisterState extends State<Register> {
                   child: Text(
                     "gender".tr().toString(),
                     style: TextStyle(
-                        fontSize: 20.0.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black38),
+                        fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
                   ),
                 ),
                 SizedBox(

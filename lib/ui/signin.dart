@@ -292,4 +292,4 @@ class _SignInState extends State<SignIn> {
   }
 //------------------------------------------------------------------------------
 } // end class
-//done
+//TODO: when sign in fails display message and stop loading

@@ -19,14 +19,38 @@ class WebServices {
 
   //------------------------------Register------------------------------
   Future<String> registerUser(
-      String username, String phone, String gender, String password) async {
+      String username, String phone, String gender, String password, String imageFile) async {
     var url = Constants.api_link + 'Register';
+    // // open a bytestream
+    // var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
+    // // get the length
+    // var length = await imageFile.length();
+    //
+    // // create multipart request
+    // var request = new http.MultipartRequest("POST", Uri.parse(url));
+    //
+    // // multipart that takes file
+    // var multipartFile =
+    //     new http.MultipartFile('file', stream, length, filename: basename(imageFile.path));
+    //
+    // // add file to multipart
+    // request.files.add(multipartFile);
+    //
+    // // send
+    // var responseFromServer = await request.send();
+    // print(responseFromServer.statusCode);
+    //
+    // // listen for response
+    // responseFromServer.stream.transform(utf8.decoder).listen((value) {
+    //   print(value);
+    // });
+
     http.Response response = await http.post(Uri.parse(url), body: {
       "username": username,
       "phone": phone,
       "gender": gender,
       "password": password,
-      "photo": "photo"
+      "photo": imageFile
     });
 
     if (response.statusCode == 200) {
@@ -44,8 +68,8 @@ class WebServices {
   //-> Login and post data to server
   Future<GetLoginData> LoginPost(String phone, String password) async {
     var url = Constants.api_link + 'Login_Player';
-    final http.Response response = await http
-        .post(Uri.parse(url), body: {"phone": phone, "password": password});
+    final http.Response response =
+        await http.post(Uri.parse(url), body: {"phone": phone, "password": password});
     if (response.statusCode == 200) {
       final GetLoginData getlogindata = getLoginDataFromJson(response.body);
       //  print(getlogindata.message);
@@ -56,16 +80,8 @@ class WebServices {
   }
   //------------------------------Add Seek Service------------------------------
 
-  Future<String> addSeekService(
-      String userId,
-      int type,
-      String phone,
-      String space,
-      String date,
-      String gender,
-      String from,
-      String to,
-      String username) async {
+  Future<String> addSeekService(String userId, int type, String phone, String space, String date,
+      String gender, String from, String to, String username) async {
     var url = Constants.api_link + 'AddOrSeek_Service';
 
     http.Response response = await http.post(Uri.parse(url), body: {
@@ -121,8 +137,7 @@ class WebServices {
       ); // two is the type
       // print(response);
       if (response.statusCode == 200) {
-        final List<GetSeekedServices> getSeekedServices =
-            getSeekedServicesFromJson(response.body);
+        final List<GetSeekedServices> getSeekedServices = getSeekedServicesFromJson(response.body);
         // print(getProvidedServices);
 
         return getSeekedServices;
@@ -181,8 +196,7 @@ class WebServices {
 
 //----------------------Get My Appointments-------------------------------------
   //-> pass user id to the function
-  static Future<List<GetMyAppointments>> Get_My_Appointments(
-      String userId) async {
+  static Future<List<GetMyAppointments>> Get_My_Appointments(String userId) async {
     var url = Constants.api_link + 'Get_My_Appointments?user_id=$userId';
     try {
       final response = await http.get(
@@ -202,17 +216,14 @@ class WebServices {
 
 //--------------------------Get My Services-------------------------------------
 //-> pass user id and type to the function
-  static Future<List<GetMyServices>> Get_My_Services(
-      String userID, String type) async {
-    var url =
-        Constants.api_link + 'Get_My_services?user_id=$userID' + '&type=$type';
+  static Future<List<GetMyServices>> Get_My_Services(String userID, String type) async {
+    var url = Constants.api_link + 'Get_My_services?user_id=$userID' + '&type=$type';
     try {
       print(userID);
-      final response = await http
-          .get(Uri.parse(url)); // pass user id and type if seeked or provided
+      final response =
+          await http.get(Uri.parse(url)); // pass user id and type if seeked or provided
       if (response.statusCode == 200) {
-        final List<GetMyServices> getMyServices =
-            getMyServicesFromJson(response.body);
+        final List<GetMyServices> getMyServices = getMyServicesFromJson(response.body);
         //  print(response.body);
         return getMyServices;
       }
@@ -222,8 +233,7 @@ class WebServices {
   }
 
 //----------------------------Delete Appointment--------------------------------
-  static Future<String> deleteAppointment(
-      String appointment_id, String service_id) async {
+  static Future<String> deleteAppointment(String appointment_id, String service_id) async {
     var url = Constants.api_link +
         'Delete_Appointment?appointment_id=$appointment_id' +
         '&service_id=$service_id';
@@ -242,17 +252,14 @@ class WebServices {
 
   //-------------------------Get Service Location-------------------------------
 //-> this ,ethod will get the service Location
-  static Future<GetServiceLocation> Get_Service_Location(
-      String appointment_id) async {
-    var url = Constants.api_link +
-        'Get_Service_location?appointment_id=$appointment_id';
+  static Future<GetServiceLocation> Get_Service_Location(String appointment_id) async {
+    var url = Constants.api_link + 'Get_Service_location?appointment_id=$appointment_id';
     try {
       http.Response response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
         String data = response.body;
-        final GetServiceLocation getServiceLocation =
-            getServiceLocationFromJson(response.body);
+        final GetServiceLocation getServiceLocation = getServiceLocationFromJson(response.body);
         return getServiceLocation;
       }
     } catch (e) {
@@ -307,8 +314,7 @@ class WebServices {
       final response = await http.get(Uri.parse(url));
 
       if (response.statusCode == 200) {
-        final List<GetSearchResults> getSearchResults =
-            getSearchResultsFromJson(response.body);
+        final List<GetSearchResults> getSearchResults = getSearchResultsFromJson(response.body);
         print(response.body);
         return getSearchResults;
       }
@@ -323,8 +329,8 @@ class WebServices {
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
-        final GetAppVersion getAppVersion = getAppVersionFromJson(
-            response.body); // saving responnse into dart objects
+        final GetAppVersion getAppVersion =
+            getAppVersionFromJson(response.body); // saving responnse into dart objects
         return getAppVersion;
       }
     } catch (e) {

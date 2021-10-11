@@ -69,8 +69,7 @@ class _AddAppointmentState extends State<AddAppointment> {
 
 //-> get the location of this device
   Future<Position> GetLocation() async {
-    Position position = await Geolocator()
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     double longitude_data = position.longitude;
     double latitude_data = position.latitude;
 
@@ -101,9 +100,7 @@ class _AddAppointmentState extends State<AddAppointment> {
       return;
     }
 
-    if (customerID != null &&
-        latitude.toString() != null &&
-        longitude.toString() != null) {
+    if (customerID != null && latitude.toString() != null && longitude.toString() != null) {
       messageResponse = await webServices.addAppointment(
           customerID,
           widget.providerID.toString(),

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/myservices.dart';
 import 'package:alatareekeh/ui/search.dart';
@@ -5,6 +8,7 @@ import 'package:alatareekeh/ui/seekservice.dart';
 import 'package:alatareekeh/ui/signin.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sizer/sizer.dart';
 
 import 'checkappversion.dart';
@@ -23,6 +27,30 @@ class _NavigationState extends State<Navigation> {
   int selectedPage = 0;
   PageController pageController;
   //-> list Pages
+  final ImagePicker _picker = new ImagePicker();
+  File imageFile;
+  String imageFilePath;
+  String image64;
+  //------------------------Get the image from the gallery-------------------
+  Future getImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      //-> if the user didn't select any image
+      if (pickedFile != null) {
+        imageFile = File(pickedFile.path);
+        imageFilePath = pickedFile.path;
+      } else {
+        // display message for selecting image
+      }
+    });
+    // encode image to base64 for saving it as string
+    final bytes = await imageFile.readAsBytes();
+    image64 = base64Encode(bytes);
+    print(image64);
+
+    //String base64Encode(List<int> bytes) => base64.encode(bytes);
+  }
 
   //***************************Init State**************************************
   @override
@@ -78,13 +106,10 @@ class _NavigationState extends State<Navigation> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed, // to make it unsizable
         items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'provided'.tr().toString()),
+          BottomNavigationBarItem(icon: Icon(Icons.car_rental), label: 'seeked'.tr().toString()),
           BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: 'provided'.tr().toString()),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.car_rental), label: 'seeked'.tr().toString()),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.date_range),
-              label: 'myappointments'.tr().toString()),
+              icon: Icon(Icons.date_range), label: 'myappointments'.tr().toString()),
         ],
         currentIndex: selectedPage,
         showUnselectedLabels: true,
@@ -96,70 +121,144 @@ class _NavigationState extends State<Navigation> {
         onTap: _onTapped,
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(color: Colors.white),
-              child: Container(
-                width: 100.0.w,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/ui/splashscreen/appicon.png"),
-                      fit: BoxFit.contain),
+        child: Container(
+          color: Color(0xFF232323),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(color: Colors.white),
+                child: Container(
+                  width: 100.0.w,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/ui/splashscreen/appicon.png"),
+                        fit: BoxFit.contain),
+                  ),
                 ),
               ),
-            ),
-            ListTile(
-              leading: Icon(Icons.search),
-              title: Text(
-                'search'.tr().toString(),
+              profileImage(),
+              ListTile(
+                leading: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  'search'.tr().toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, Search.id);
+                },
               ),
-              onTap: () {
-                Navigator.pushNamed(context, Search.id);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.add),
-              title: Text('provideservice'.tr().toString()),
-              onTap: () {
-                Navigator.pushNamed(context, AddSeekService.id); // add service
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.car_repair),
-              title: Text('seekservice'.tr().toString()),
-              onTap: () {
-                Navigator.pushNamed(context, SeekService.id); // seek service
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.person_pin),
-              title: Text('myservices'.tr().toString()),
-              onTap: () {
-                Navigator.pushNamed(context, MyServices.id);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.update),
-              title: Text('checkforupdates'.tr().toString()),
-              onTap: () {
-                Navigator.pushNamed(context, CheckAppVersion.id);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('logout'.tr().toString()),
-              onTap: () {
-                Navigator.pushNamed(context, SignIn.id);
-              },
-            ),
-          ],
+              ListTile(
+                leading: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  'provideservice'.tr().toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, AddSeekService.id); // add service
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.car_repair,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  'seekservice'.tr().toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, SeekService.id); // seek service
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.person_pin,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  'myservices'.tr().toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, MyServices.id);
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.update,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  'checkforupdates'.tr().toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, CheckAppVersion.id);
+                },
+              ),
+              ListTile(
+                leading: Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                ),
+                title: Text(
+                  'logout'.tr().toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, SignIn.id);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   } // end build
 
+//--------------------------------------profile Image-------------------------------------
+  Widget profileImage() {
+    return InkWell(
+      onTap: () async {
+        getImage();
+        //TODO: use image picker to select the image to save it to the database
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 75.0, left: 75.0),
+        child: Container(
+          width: 150,
+          height: 150,
+          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black.withOpacity(0.25)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+              child: imageFile != null
+                  //-> clipoval to make the image in
+                  ? ClipOval(
+                      child: Image.file(
+                        imageFile,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : ClipOval(
+                      child: Image.asset(
+                      'assets/ui/icon/icon2.png',
+                      fit: BoxFit.fill,
+                    )),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 } // end class
 
 //done

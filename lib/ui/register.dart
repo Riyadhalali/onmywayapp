@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:alatareekeh/components/textfield.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/snackbar.dart';
@@ -5,6 +8,7 @@ import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/signin.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:sizer/sizer.dart';
 
@@ -29,6 +33,33 @@ class _RegisterState extends State<Register> {
   bool _validateUsername = false;
   bool _validatePassword = false;
   bool _validatePhone = false;
+
+  //-> for image picker
+  final ImagePicker _picker = new ImagePicker();
+  File imageFile;
+  String imageFilePath;
+  String image64;
+
+  //------------------------Get the image from the gallery-------------------
+  Future getImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      //-> if the user didn't select any image
+      if (pickedFile != null) {
+        imageFile = File(pickedFile.path);
+        imageFilePath = pickedFile.path;
+      } else {
+        // display message for selecting image
+      }
+    });
+    // encode image to base64 for saving it as string
+    final bytes = await imageFile.readAsBytes();
+    image64 = base64Encode(bytes);
+    print(image64);
+
+    //String base64Encode(List<int> bytes) => base64.encode(bytes);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +107,8 @@ class _RegisterState extends State<Register> {
 //------------------------------Profile Image-----------------------------------
   Widget profileImage() {
     return InkWell(
-      onTap: () {
+      onTap: () async {
+        getImage();
         //TODO: use image picker to select the image to save it to the database
       },
       child: Container(
@@ -87,9 +119,15 @@ class _RegisterState extends State<Register> {
           padding: const EdgeInsets.all(8.0),
           child: Container(
             decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-            child: ClipRect(
-              child: Image.asset('assets/ui/icon/facebook.png'),
-            ),
+            child: imageFile != null
+                //-> clipoval to make the image in
+                ? ClipOval(
+                    child: Image.file(
+                      imageFile,
+                      fit: BoxFit.cover,
+                    ),
+                  )
+                : ClipOval(child: Icon(Icons.image)),
           ),
         ),
       ),
@@ -134,7 +172,7 @@ class _RegisterState extends State<Register> {
           });
           // parse data to server
           var message = await webServices.registerUser(_usernameController.text,
-              _phoneController.text, dropDownMenu, _passwordController.text);
+              _phoneController.text, dropDownMenu, _passwordController.text, image64);
 
           print(message);
 
@@ -224,7 +262,7 @@ class _RegisterState extends State<Register> {
             Row(
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 50.0, right: 50.0),
+                  //  padding: EdgeInsets.only(left: 50.0, right: 50.0),
                   child: Text(
                     "gender".tr().toString(),
                     style: TextStyle(
@@ -268,4 +306,4 @@ class _RegisterState extends State<Register> {
 
 //------------------------------------------------------------------------------
 } //end class
-//done
+//TODO:  when fail register show toast message

@@ -115,6 +115,7 @@ class _SignInState extends State<SignIn> {
     // //-> save user profile to shared pref
     sharedPref.setData('username', usernameData); // save the username
     sharedPref.setData('gender', userGenderData); //save gender
+    Navigator.pushNamed(context, Navigation.id);
   }
   //----------------------------------------------------------------------------
 
@@ -157,7 +158,7 @@ class _SignInState extends State<SignIn> {
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.42,
         decoration: BoxDecoration(
           image: DecorationImage(image: AssetImage('assets/ui/login/login.png'), fit: BoxFit.cover),
         ),
@@ -230,7 +231,7 @@ class _SignInState extends State<SignIn> {
         Column(
           children: [
             SizedBox(
-              height: 5.0.h,
+              height: 6.0.h,
             ),
             Text(
               "signin".tr().toString(),

@@ -202,7 +202,7 @@ class WebServices {
       final response = await http.get(
         Uri.parse(url),
       ); // pass user id
-      // print(response);
+
       if (response.statusCode == 200) {
         final List<GetMyAppointments> getAppointmentServices =
             getMyAppointmentsFromJson(response.body);
@@ -224,7 +224,7 @@ class WebServices {
           await http.get(Uri.parse(url)); // pass user id and type if seeked or provided
       if (response.statusCode == 200) {
         final List<GetMyServices> getMyServices = getMyServicesFromJson(response.body);
-        //  print(response.body);
+
         return getMyServices;
       }
     } catch (e) {
@@ -315,7 +315,7 @@ class WebServices {
 
       if (response.statusCode == 200) {
         final List<GetSearchResults> getSearchResults = getSearchResultsFromJson(response.body);
-        print(response.body);
+        //   print(response.body);
         return getSearchResults;
       }
     } catch (e) {

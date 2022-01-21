@@ -80,7 +80,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               "Hello this is privacy policy of app please be acrefull about everything." +
               "Hello this is privacy policy of app please be acrefull about everything." +
               "Hello this is privacy policy of app please be acrefull about everything.",
-          style: TextStyle(fontSize: 20.0.sp),
+          style: TextStyle(fontSize: 16.0.sp),
         ),
       ),
     );

@@ -27,6 +27,7 @@ dependencies:
   package_info: ^0.4.3+2
   get: ^4.3.8
   image_picker: ^0.8.4
+  material_floating_search_bar: ^0.3.6
 
 
 

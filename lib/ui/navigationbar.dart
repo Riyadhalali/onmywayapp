@@ -87,6 +87,7 @@ class _NavigationState extends State<Navigation> {
     return SafeArea(
       child: Scaffold(
         extendBody: true, // very important to make the
+        /*
         appBar: AppBar(
           elevation: 0,
 
@@ -104,6 +105,8 @@ class _NavigationState extends State<Navigation> {
           //       })
           // ],
         ),
+        */ // disable app bar
+
         key: _drawerKey,
         body: PageView(
           children: _pages,
@@ -122,7 +125,7 @@ class _NavigationState extends State<Navigation> {
           ],
           currentIndex: selectedPage,
           showUnselectedLabels: true,
-          unselectedItemColor: Colors.blue,
+          unselectedItemColor: Color(0xFF232323),
           selectedItemColor: Color(0xFF232323),
           selectedFontSize: 10.0,
           unselectedFontSize: 10.0,

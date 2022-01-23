@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
+import 'package:custom_info_window/custom_info_window.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +27,9 @@ class _MapsState extends State<Maps> {
       mapController; // create an intsance of google map controller for changing style
   String _mapStyle;
 
-  FloatingSearchBarController _floatingSearchBarController =
-      new FloatingSearchBarController(); // to make action for the floating search action bar
+  FloatingSearchBarController _floatingSearchBarController = new FloatingSearchBarController();
+
+  CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
 
   //-> get location from api
   /// void getLocation() async {
@@ -46,21 +47,36 @@ class _MapsState extends State<Maps> {
   /// }
   ///
 
-  // void PrintText() {
-  //   print("Print Hello Mr. Riyad");
-  // }
-
   //-> get the location of this device
   void getDeviceLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     double longitude_data = position.longitude;
     double latitude_data = position.latitude;
-    // print("google maps is loading ...");
 
     setState(() {
       lat = latitude_data;
       long = longitude_data;
     });
+
+    //add marker to map
+    _markers.add(
+      Marker(
+          icon: BitmapDescriptor.defaultMarkerWithHue(
+              BitmapDescriptor.hueBlue), // change color of the marker
+          markerId: MarkerId('Location'.tr().toString()),
+          position: LatLng(lat, long),
+          // infoWindow: InfoWindow(
+          //   title: 'Location'.tr().toString(),
+          // ),
+          onTap: () {
+            _customInfoWindowController.addInfoWindow(
+                Container(
+                  color: Colors.white,
+                  child: Text("I am Here ... and My Locations is$lat & $long  "),
+                ),
+                LatLng(lat, long));
+          }),
+    );
   }
 
   @override
@@ -68,11 +84,9 @@ class _MapsState extends State<Maps> {
     // TODO: implement initState
     super.initState();
     getDeviceLocation();
-    //  PrintText();
+    //-> load the map customize
     rootBundle.loadString('assets/resources/mapStyle/mapstyle.txt').then((string) {
       _mapStyle = string;
-      log(string);
-      // print(_mapStyle);
     });
   }
 
@@ -84,7 +98,16 @@ class _MapsState extends State<Maps> {
 
         body: Stack(
           fit: StackFit.expand,
-          children: [buildMap(), buildFloatingActionBar()],
+          children: [
+            buildMap(),
+            buildFloatingActionBar(),
+            CustomInfoWindow(
+              controller: _customInfoWindowController,
+              height: 75,
+              width: 150,
+              offset: 50,
+            )
+          ],
         ));
   }
 
@@ -103,11 +126,21 @@ class _MapsState extends State<Maps> {
             markers: Set<Marker>.of(_markers),
             myLocationButtonEnabled: true,
             myLocationEnabled: true,
+
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
+              _customInfoWindowController.googleMapController = controller;
               // change style of controller
 
               controller.setMapStyle(_mapStyle);
+            },
+            // hide CustomInfoWindow when clicking on map but not on the marker.
+            onTap: (position) {
+              _customInfoWindowController.hideInfoWindow();
+            },
+            //maintain CustomInfoWindow's position relative to marker
+            onCameraMove: (position) {
+              _customInfoWindowController.onCameraMove();
             },
           );
   }
@@ -136,8 +169,7 @@ class _MapsState extends State<Maps> {
       onQueryChanged: (query) {
         // Call your model, bloc, controller here.
       },
-      // Specify a custom transition to be used for
-      // animating between opened and closed stated.
+      // Specify a custom transition to be used for animating between opened and closed stated.
       transition: CircularFloatingSearchBarTransition(),
       actions: [
         FloatingSearchBarAction(
@@ -145,7 +177,7 @@ class _MapsState extends State<Maps> {
           child: CircularButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              Scaffold.of(context).openDrawer();
+              //Scaffold.of(context).openDrawer();
             },
           ),
         ),
@@ -162,4 +194,4 @@ class _MapsState extends State<Maps> {
     );
   }
 }
-//TODO: ADD MARKERS ARRAY TO PAGE
+//Library used : custom_info_window

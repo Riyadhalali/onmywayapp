@@ -125,8 +125,8 @@ class _NavigationState extends State<Navigation> {
           ],
           currentIndex: selectedPage,
           showUnselectedLabels: true,
-          unselectedItemColor: Color(0xFF232323),
-          selectedItemColor: Color(0xFF232323),
+          unselectedItemColor: Colors.white,
+          selectedItemColor: Colors.white,
           selectedFontSize: 10.0,
           unselectedFontSize: 10.0,
           backgroundColor: Colors.transparent,
@@ -274,5 +274,3 @@ class _NavigationState extends State<Navigation> {
     );
   }
 } // end class
-
-// TODO: finish the bottom navigation color

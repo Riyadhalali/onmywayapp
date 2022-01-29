@@ -69,12 +69,8 @@ class _MapsState extends State<Maps> {
           //   title: 'Location'.tr().toString(),
           // ),
           onTap: () {
-            _customInfoWindowController.addInfoWindow(
-                Container(
-                  color: Colors.white,
-                  child: Text("I am Here ... and My Locations is$lat & $long  "),
-                ),
-                LatLng(lat, long));
+            //-> here we add the widget of the custom window
+            _customInfoWindowController.addInfoWindow(markerInfo(), LatLng(lat, long));
           }),
     );
   }
@@ -103,9 +99,9 @@ class _MapsState extends State<Maps> {
             buildFloatingActionBar(),
             CustomInfoWindow(
               controller: _customInfoWindowController,
-              height: 75,
-              width: 150,
-              offset: 50,
+              height: MediaQuery.of(context).size.height * 0.20,
+              width: MediaQuery.of(context).size.height * 0.23,
+              offset: 50, // the space between the info window and marker
             )
           ],
         ));
@@ -193,5 +189,104 @@ class _MapsState extends State<Maps> {
       },
     );
   }
+
+  //------------------------- Widget Info Window  Marker--------------------------------------
+  Widget markerInfo() {
+    return Stack(children: [
+      //------------------------------------First Child------------------------------------
+      Positioned(
+        top: 1,
+        child: Container(
+          width: 25,
+          height: 25,
+          color: Colors.black,
+        ),
+      ),
+
+      //------------------------------------Second child-----------------------------------
+      Container(
+        //heigchildht: MediaQuery.of(context).size.height * 0.4,
+        //width: MediaQuery.of(context).size.width * 0.4,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10.0),
+          ),
+        ),
+        child: Flexible(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Flexible(flex: 1, child: Text('Name:')),
+                Flexible(flex: 1, child: Text('Phone: ')),
+                Flexible(flex: 1, child: Text('Gender:')),
+                Flexible(flex: 1, child: Text('Country:')),
+                Flexible(flex: 1, child: Text('City:')),
+                Flexible(
+                    child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.phone,
+                          color: Colors.black,
+                        )),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.message,
+                          color: Colors.black,
+                        )),
+                    IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.add_circle,
+                          color: Colors.black,
+                        )),
+                  ],
+                ))
+              ],
+            ),
+          ),
+        ),
+      ),
+    ]);
+  }
+
+//-----------------------Profile Picture  ----------------------------------------------
+  Widget profileImage() {
+    return InkWell(
+      onTap: () async {
+        //do something
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 75.0, left: 75.0),
+        child: Container(
+          width: 75,
+          height: 150,
+          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black.withOpacity(0.25)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/ui/icon/icon2.png',
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+  //-----------------------------------------------------------------------------
 }
 //Library used : custom_info_window
+//TODO: 1- add set of markers and build the onTap marker widget
+
+//TODO: can not add the image above the shape marker info

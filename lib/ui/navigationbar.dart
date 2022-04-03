@@ -245,7 +245,7 @@ class _NavigationState extends State<Navigation> {
       onTap: () async {
         getImage();
       },
-      child: Padding(
+      child:  Padding(
         padding: const EdgeInsets.only(right: 75.0, left: 75.0),
         child: Container(
           height: 150,

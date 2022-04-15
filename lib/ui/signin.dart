@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:alatareekeh/components//socialbutton.dart';
 import 'package:alatareekeh/components//textfield.dart';
 import 'package:alatareekeh/components//textfieldwithicon.dart';
 import 'package:alatareekeh/services/GetUserInfo.dart';
@@ -273,14 +272,14 @@ class _SignInState extends State<SignIn> {
             SizedBox(
               height: 1.0.h,
             ),
-            SocialButton(
-              image: 'assets/ui/icon/facebook.png',
-              buttonText: 'Sign in With Facebook'.tr().toString(),
-            ),
-            SocialButton(
-              image: 'assets/ui/icon/google.png',
-              buttonText: 'Sign in With Google'.tr().toString(),
-            ),
+            // SocialButton(
+            //   image: 'assets/ui/icon/facebook.png',
+            //   buttonText: 'Sign in With Facebook'.tr().toString(),
+            // ),
+            // SocialButton(
+            //   image: 'assets/ui/icon/google.png',
+            //   buttonText: 'Sign in With Google'.tr().toString(),
+            // ),
             Login(),
             SizedBox(
               height: 1.0.h,

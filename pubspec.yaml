@@ -29,6 +29,8 @@ dependencies:
   image_picker: ^0.8.4
   material_floating_search_bar: ^0.3.6
   custom_info_window: ^1.0.1
+  country_code_picker: ^2.0.2
+  intl_phone_field: ^3.1.0
 
 
 

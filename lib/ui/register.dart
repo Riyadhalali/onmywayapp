@@ -26,8 +26,10 @@ class _RegisterState extends State<Register> {
   WebServices webServices = new WebServices();
   snackbarMessage _snackMessage = snackbarMessage();
   SharedPref sharedPref = SharedPref();
-  String dropDownMenu =
-      "male"; // very important or we will get a null message when fetching api services
+  //-> for drop menu
+  List<String> items = ["male", "female"];
+  String selectedItem = "male";
+
   bool _saving = false;
 
   bool _validateUsername = false;
@@ -84,7 +86,7 @@ class _RegisterState extends State<Register> {
       children: [
         Positioned(top: 0, child: imageBackground()),
         Positioned(top: 180, child: profileImage()),
-        Positioned(bottom: 100, child: registerContainer()),
+        Positioned(bottom: 50, child: registerContainer()),
       ],
     );
   }
@@ -172,7 +174,7 @@ class _RegisterState extends State<Register> {
           });
           // parse data to server
           var message = await webServices.registerUser(_usernameController.text,
-              _phoneController.text, dropDownMenu, _passwordController.text, image64);
+              _phoneController.text, selectedItem, _passwordController.text, image64);
 
           print(message);
 
@@ -186,7 +188,7 @@ class _RegisterState extends State<Register> {
             //-> if we have a success register go to the login page and save data to shared pref
             sharedPref.setData('username', _usernameController.text); // save user name of user
             sharedPref.setData('password', _passwordController.text); // save password of user
-            sharedPref.setData('gender', dropDownMenu); //save gender  of user
+            sharedPref.setData('gender', selectedItem); //save gender  of user
 
             sharedPref.setData('phone', _phoneController.text); // save phone of gender
 
@@ -250,11 +252,15 @@ class _RegisterState extends State<Register> {
             SizedBox(
               height: 1.0.h,
             ),
-            TextInputField(
-              hint_text: "phone".tr().toString(),
-              controller_text: _phoneController,
-              show_password: false,
-              error_msg: _validatePhone ? "valuecannotbeempty".tr().toString() : null,
+            Row(
+              children: [
+                TextInputField(
+                  hint_text: "phone".tr().toString(),
+                  controller_text: _phoneController,
+                  show_password: false,
+                  error_msg: _validatePhone ? "valuecannotbeempty".tr().toString() : null,
+                ),
+              ],
             ),
             SizedBox(
               height: 1.0.h,
@@ -272,26 +278,42 @@ class _RegisterState extends State<Register> {
                 SizedBox(
                   width: 20.0.w,
                 ),
-                new DropdownButton<String>(
-                  value: "male".tr().toString(),
-                  items: <String>[
-                    'male'.tr().toString(),
-                    'female'.tr().toString(),
-                  ].map((String value) {
-                    return new DropdownMenuItem<String>(
-                      value: value,
-                      child: new Text(
-                        value,
-                        style: TextStyle(fontSize: 15.0.sp),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (String value1) {
+                // new DropdownButton<String>(
+                //   value: dropDownMenu.toString(),
+                //   items: <String>[
+                //     'male'.tr().toString(),
+                //     'female'.tr().toString(),
+                //   ].map((String value) {
+                //     return new DropdownMenuItem<String>(
+                //       value: value,
+                //       child: new Text(
+                //         value,
+                //         style: TextStyle(fontSize: 15.0.sp),
+                //       ),
+                //     );
+                //   }).toList(),
+                //   onChanged: (String value1) {
+                //     setState(() {
+                //       dropDownMenu = value1;
+                //     });
+                //   },
+                // )
+                DropdownButton(
+                  value: selectedItem,
+                  onChanged: (_value) {
+                    // update selected value
                     setState(() {
-                      dropDownMenu = value1;
+                      selectedItem = _value;
                     });
                   },
-                )
+                  items: items
+                      .map<DropdownMenuItem<String>>((String _value) => DropdownMenuItem<String>(
+                          value: _value,
+                          child: Text(
+                            _value,
+                          )))
+                      .toList(),
+                ),
               ],
             ),
             SizedBox(

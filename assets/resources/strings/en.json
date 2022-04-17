@@ -11,7 +11,7 @@
   "iamnewuser": "I am New User.",
   "signup": "Sign Up",
   "register": "Register",
-  "phone": "Phone or Email",
+  "phone": "Phone",
   "gender": "Gender",
   "male": "Male",
   "female": "Female",
@@ -62,7 +62,9 @@
   "retry": "Retry",
   "exit_warning": "Press back button to exit",
   "Sign in With Facebook": "Sign in With Facebook",
-  "Sign in With Google": "Sign in With Google"
+  "Sign in With Google": "Sign in With Google",
+  "confirm_password": "Confirm Password",
+  "email": "Email"
 
 
 

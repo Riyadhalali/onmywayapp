@@ -11,7 +11,7 @@
   "iamnewuser": "مستخدم جديد.",
   "signup": "تسجيل",
   "register": "التسجيل",
-  "phone": "الهاتف أو البريد الإلكتروني",
+  "phone": "رقم الهاتف",
   "gender": "الجنس",
   "male": "ذكر",
   "female": "أنثى",
@@ -62,7 +62,9 @@
   "exit_warning": "اضغط للخلف للخروج من البرنامج",
   "search" : "بحث",
   "Sign in With Facebook": "الدخول باستخدام فيسبوك",
-  "Sign in With Google": "الدخول باستخدام غوغل"
+  "Sign in With Google": "الدخول باستخدام غوغل",
+  "confirm_password": "تأكيد كلمة السر",
+  "email": "البريد الإلكتروني"
 
 
 

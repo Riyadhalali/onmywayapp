@@ -22,7 +22,6 @@ import 'package:alatareekeh/ui/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 void main() async {
@@ -67,7 +66,7 @@ class MyApp extends StatelessWidget {
             // print('your app language is:$lang');
             //initialize SizerUtil()
             SizerUtil().init(constraints, orientation); //initialize SizerUtil
-            return GetMaterialApp(
+            return MaterialApp(
               builder: EasyLoading.init(), // init the easy loading
               debugShowCheckedModeBanner: false,
               localizationsDelegates: context.localizationDelegates,

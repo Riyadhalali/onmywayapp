@@ -7,6 +7,7 @@ import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/snackbar.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/signin.dart';
+import 'package:alatareekeh/utils/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -90,14 +91,14 @@ class _RegisterState extends State<Register> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          height: MediaQuery.of(context).size.height * 0.45,
+          height: MediaQuery.of(context).size.height * 0.35,
           child: Stack(
             alignment: Alignment.center,
             fit: StackFit.expand,
             clipBehavior: Clip.hardEdge,
             children: [
               Positioned(top: 0, child: imageBackground()),
-              Positioned(top: 180, child: profileImage()),
+              Positioned(top: MediaQuery.of(context).size.height * 0.15, child: profileImage()),
               //Positioned(bottom: 0, child: registerContainer()),
             ],
           ),
@@ -113,7 +114,7 @@ class _RegisterState extends State<Register> {
       child: Container(
         alignment: Alignment.center,
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.4,
+        height: MediaQuery.of(context).size.height * 0.3,
         decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage('assets/ui/register/register.png'), fit: BoxFit.fill),
@@ -156,7 +157,7 @@ class _RegisterState extends State<Register> {
   //-> Register User Button
   Widget Register() {
     return Container(
-      padding: EdgeInsets.only(right: 55.0, left: 55.0),
+      padding: EdgeInsets.only(right: 20.0, left: 20.0),
       width: MediaQuery.of(context).size.width,
       child: RaisedButton(
         color: Color(0xFFFFB005),
@@ -177,11 +178,27 @@ class _RegisterState extends State<Register> {
 
             _passwordController.text.isEmpty ? _validatePassword = true : _validatePassword = false;
 
+            _confirmPasswordController.text.isEmpty
+                ? _validatePasswordConfirm = true
+                : _validatePasswordConfirm = false;
+
             _phoneController.text.isEmpty ? _validatePhone = true : _validatePhone = false;
+
+            _emailController.text.isEmpty ? _validateEmail = true : _validateEmail = false;
           });
 
+          // check if passwords match
+          if (_passwordController.text.toString() != _confirmPasswordController.text.toString()) {
+            Utils().toastMessage("Passwords didn't match");
+            return;
+          }
+
           //  if user didn't enter username or password or phone keep inside
-          if (_validateUsername || _validatePassword || _validatePhone) {
+          if (_validateUsername ||
+              _validatePassword ||
+              _validatePhone ||
+              _validatePasswordConfirm ||
+              _validateEmail) {
             return;
           }
           // -> show progress bar if user already entered the required data
@@ -300,9 +317,7 @@ class _RegisterState extends State<Register> {
             ),
           ],
         ),
-        SizedBox(
-          height: 1.0.h,
-        ),
+
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -314,7 +329,7 @@ class _RegisterState extends State<Register> {
                 child: Text(
                   "gender".tr().toString(),
                   style: TextStyle(
-                      fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
+                      fontSize: 16.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
                 ),
               ),
             ),
@@ -339,9 +354,7 @@ class _RegisterState extends State<Register> {
             ),
           ],
         ),
-        SizedBox(
-          height: 1.0.h,
-        ),
+
         Register(),
       ],
     );
@@ -349,5 +362,5 @@ class _RegisterState extends State<Register> {
 
 //------------------------------------------------------------------------------
 } //end class
-//TODO:  when fail register show toast message
-//TODO: check the password are matched and display message when password didn't match and make the phone is not
+//TODO:  when fail register show toast
+//TODO: add button to show password or hide it using textinputvieldwith icon

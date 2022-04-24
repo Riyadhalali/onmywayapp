@@ -2,16 +2,13 @@ import 'dart:ui';
 
 import 'package:alatareekeh/components//textfield.dart';
 import 'package:alatareekeh/components//textfieldwithicon.dart';
-import 'package:alatareekeh/services/GetUserInfo.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
-import 'package:alatareekeh/ui/navigationbar.dart';
 import 'package:alatareekeh/ui/register.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sizer/sizer.dart';
 
 class SignIn extends StatefulWidget {
@@ -62,59 +59,67 @@ class _SignInState extends State<SignIn> {
   //-> Sign in Function
   //------------------------------SIgn in---------------------------------------
   Future SignInFunction() async {
-    var message;
-    var user_id;
-    WebServices webServices = WebServices();
-
-    setState(() {
-      _phonecontroller.text.isEmpty ? validatePhone = true : validatePhone = false;
-
-      _passwordcontroller.text.isEmpty ? validatePassword = true : validatePassword = false;
+    WebServices.LoginPost(_phonecontroller.text.toString(), _passwordcontroller.text.toString())
+        .then((value) {
+      print(value.message);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value.message)));
+    }).catchError((error) {
+      print(error);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
     });
-
-    if (validatePhone || validatePassword) {
-      return;
-    }
-
-    EasyLoading.show(
-      status: 'Loading...',
-    );
-
-    GetLoginData fmain =
-        await webServices.LoginPost(_phonecontroller.text, _passwordcontroller.text);
-    message = fmain.message;
-    user_id = fmain.id;
-
-    //-> get user info from server and then save it to shared pref and make sure that it already have an id
-    if (user_id != null) {
-      final GetUserInfo getUserInfo = await WebServices.Get_User_Info(user_id);
-      usernameData = getUserInfo.username;
-      userGenderData = getUserInfo.usergender;
-    } else {
-      return;
-    }
-
-    // show a snackbar message
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(message),
-      duration: Duration(seconds: 3),
-    ));
-
-    if (message.toString().contains('login success')) {
-      Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
-    }
-
-    EasyLoading.dismiss();
-
-    //-> save id to shared pref
-    sharedPref.setData('userID', user_id); // save user id to shared pref
-    sharedPref.setData('phone', _phonecontroller.text); // save the phone number of user
-    sharedPref.setData('password', _passwordcontroller.text); //save the password of user
-
-    // //-> save user profile to shared pref
-    sharedPref.setData('username', usernameData); // save the username
-    sharedPref.setData('gender', userGenderData); //save gender
-    Navigator.pushNamed(context, Navigation.id);
+    // var message;
+    // var user_id;
+    // WebServices webServices = WebServices();
+    //
+    // setState(() {
+    //   _phonecontroller.text.isEmpty ? validatePhone = true : validatePhone = false;
+    //
+    //   _passwordcontroller.text.isEmpty ? validatePassword = true : validatePassword = false;
+    // });
+    //
+    // if (validatePhone || validatePassword) {
+    //   return;
+    // }
+    //
+    // EasyLoading.show(
+    //   status: 'Loading...',
+    // );
+    //
+    // GetLoginData fmain =
+    //     await webServices.LoginPost(_phonecontroller.text, _passwordcontroller.text);
+    // message = fmain.message;
+    // user_id = fmain.id;
+    //
+    // //-> get user info from server and then save it to shared pref and make sure that it already have an id
+    // if (user_id != null) {
+    //   final GetUserInfo getUserInfo = await WebServices.Get_User_Info(user_id);
+    //   usernameData = getUserInfo.username;
+    //   userGenderData = getUserInfo.usergender;
+    // } else {
+    //   return;
+    // }
+    //
+    // // show a snackbar message
+    // _scaffoldKey.currentState.showSnackBar(SnackBar(
+    //   content: Text(message),
+    //   duration: Duration(seconds: 3),
+    // ));
+    //
+    // if (message.toString().contains('login success')) {
+    //   Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
+    // }
+    //
+    // EasyLoading.dismiss();
+    //
+    // //-> save id to shared pref
+    // sharedPref.setData('userID', user_id); // save user id to shared pref
+    // sharedPref.setData('phone', _phonecontroller.text); // save the phone number of user
+    // sharedPref.setData('password', _passwordcontroller.text); //save the password of user
+    //
+    // // //-> save user profile to shared pref
+    // sharedPref.setData('username', usernameData); // save the username
+    // sharedPref.setData('gender', userGenderData); //save gender
+    // Navigator.pushNamed(context, Navigation.id);
   }
   //----------------------------------------------------------------------------
 
@@ -292,4 +297,28 @@ class _SignInState extends State<SignIn> {
   }
 //------------------------------------------------------------------------------
 } // end class
-//TODO: when sign in fails display message and stop loading
+///references in getting error data from api call
+///ref1 :  https://stackoverflow.com/questions/67588916/how-handle-error-from-api-request-flutter
+///ref 2 :https://stackoverflow.com/questions/58920295/error-handling-an-http-request-result-in-flutter
+///ref 3:https://stackoverflow.com/questions/60648984/handling-exception-http-request-flutter
+/*
+  fmain =
+        await webServices.LoginPost(_phonecontroller.text, _passwordcontroller.text).then((value) {
+      message = fmain.message;
+      user_id = fmain.id;
+      // show a snackbar message
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 3),
+      ));
+    }, onError: (error) {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text(error),
+        duration: Duration(seconds: 3),
+      ));
+      print(error);
+    });
+
+
+
+ */

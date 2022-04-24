@@ -66,18 +66,20 @@ class WebServices {
 
   //----------------------------------Login-------------------------------------
   //-> Login and post data to server
-  Future<GetLoginData> LoginPost(String phone, String password) async {
+  static Future<GetLoginData> LoginPost(String phone, String password) async {
     var url = Constants.api_link + 'Login_Player';
     final http.Response response =
         await http.post(Uri.parse(url), body: {"phone": phone, "password": password});
     if (response.statusCode == 200) {
-      final GetLoginData getlogindata = getLoginDataFromJson(response.body);
-      //  print(getlogindata.message);
-      return getlogindata;
+      var body = jsonDecode(response.body);
+      var data = body["message"];
+      final GetLoginData getLoginData = getLoginDataFromJson(response.body);
+      return getLoginData;
     } else {
       throw ('error in getting login data player');
     }
   }
+
   //------------------------------Add Seek Service------------------------------
 
   Future<String> addSeekService(String userId, int type, String phone, String space, String date,

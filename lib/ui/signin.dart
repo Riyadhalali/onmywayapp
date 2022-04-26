@@ -6,10 +6,13 @@ import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/register.dart';
+import 'package:alatareekeh/utils/utils.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sizer/sizer.dart';
+
+import 'navigationbar.dart';
 
 class SignIn extends StatefulWidget {
   static const id = 'sign_in';
@@ -32,6 +35,7 @@ class _SignInState extends State<SignIn> {
   final _passwordcontroller = TextEditingController();
   WebServices webServices = new WebServices();
   SharedPref sharedPref = new SharedPref();
+  Utils utils = Utils();
 
   bool validatePhone = false;
   bool validatePassword = false;
@@ -59,32 +63,40 @@ class _SignInState extends State<SignIn> {
   //-> Sign in Function
   //------------------------------SIgn in---------------------------------------
   Future SignInFunction() async {
+    var message;
+    var user_id;
+
+    setState(() {
+      _phonecontroller.text.isEmpty ? validatePhone = true : validatePhone = false;
+
+      _passwordcontroller.text.isEmpty ? validatePassword = true : validatePassword = false;
+    });
+    //
+    if (validatePhone || validatePassword) {
+      return;
+    }
+    utils.showProcessingDialog("Loading ...", context);
     WebServices.LoginPost(_phonecontroller.text.toString(), _passwordcontroller.text.toString())
         .then((value) {
-      print(value.message);
+      //-> saving message and id from server
+      user_id = value.id;
+      print(user_id);
+      message = value.message;
+      Navigator.of(context).pop();
+      // //-> save id to shared pref
+      sharedPref.setData('userID', user_id); // save user id to shared pref
+      sharedPref.setData('phone', _phonecontroller.text); // save the phone number of user
+      sharedPref.setData('password', _passwordcontroller.text); //save the password of user
+      if (message.toString().contains('login success')) {
+        Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
+      }
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value.message)));
     }).catchError((error) {
       print(error);
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
     });
-    // var message;
-    // var user_id;
-    // WebServices webServices = WebServices();
-    //
-    // setState(() {
-    //   _phonecontroller.text.isEmpty ? validatePhone = true : validatePhone = false;
-    //
-    //   _passwordcontroller.text.isEmpty ? validatePassword = true : validatePassword = false;
-    // });
-    //
-    // if (validatePhone || validatePassword) {
-    //   return;
-    // }
-    //
-    // EasyLoading.show(
-    //   status: 'Loading...',
-    // );
-    //
+
     // GetLoginData fmain =
     //     await webServices.LoginPost(_phonecontroller.text, _passwordcontroller.text);
     // message = fmain.message;
@@ -98,27 +110,11 @@ class _SignInState extends State<SignIn> {
     // } else {
     //   return;
     // }
-    //
-    // // show a snackbar message
-    // _scaffoldKey.currentState.showSnackBar(SnackBar(
-    //   content: Text(message),
-    //   duration: Duration(seconds: 3),
-    // ));
-    //
-    // if (message.toString().contains('login success')) {
-    //   Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
-    // }
-    //
-    // EasyLoading.dismiss();
-    //
-    // //-> save id to shared pref
-    // sharedPref.setData('userID', user_id); // save user id to shared pref
-    // sharedPref.setData('phone', _phonecontroller.text); // save the phone number of user
-    // sharedPref.setData('password', _passwordcontroller.text); //save the password of user
+
     //
     // // //-> save user profile to shared pref
-    // sharedPref.setData('username', usernameData); // save the username
-    // sharedPref.setData('gender', userGenderData); //save gender
+    //sharedPref.setData('username', usernameData); // save the username
+    //sharedPref.setData('gender', userGenderData); //save gender
     // Navigator.pushNamed(context, Navigation.id);
   }
   //----------------------------------------------------------------------------

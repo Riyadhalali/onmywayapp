@@ -105,4 +105,5 @@ class _SplashScreenState extends State<SplashScreen> {
 
 //------------------------------------------------------------------------------
 }
-//done
+//Todo: when user sign in call api call and check the user id if the user id matches the
+//the id in the shared preferences go to home page

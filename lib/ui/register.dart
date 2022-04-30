@@ -12,7 +12,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:sizer/sizer.dart';
 
 class Register extends StatefulWidget {
@@ -30,20 +29,15 @@ class _RegisterState extends State<Register> {
   final _confirmPasswordController = TextEditingController();
   WebServices webServices = new WebServices();
   snackbarMessage _snackMessage = snackbarMessage();
+  String message;
   SharedPref sharedPref = SharedPref();
-  //-> for drop menu
   List<String> items = ["male".tr().toString(), "female".tr().toString()];
   String selectedItem = "male".tr().toString();
-
-  bool _saving = false;
-
   bool _validateUsername = false;
   bool _validatePassword = false;
   bool _validatePhone = false;
   bool _validatePasswordConfirm = false;
   bool _validateEmail = false;
-
-  //-> for image picker
   final ImagePicker _picker = new ImagePicker();
   File imageFile;
   String imageFilePath;
@@ -58,29 +52,90 @@ class _RegisterState extends State<Register> {
       if (pickedFile != null) {
         imageFile = File(pickedFile.path);
         imageFilePath = pickedFile.path;
-      } else {
-        // display message for selecting image
       }
     });
     // encode image to base64 for saving it as string
     final bytes = await imageFile.readAsBytes();
     image64 = base64Encode(bytes);
-    print(image64);
-
-    //String base64Encode(List<int> bytes) => base64.encode(bytes);
   }
+
+  //--------------------------------Register Button------------------------------------------------
+  Future registerButton() async {
+    //- To check the user already entered username and password
+    setState(() {
+      _usernameController.text.isEmpty ? _validateUsername = true : _validateUsername = false;
+
+      _passwordController.text.isEmpty ? _validatePassword = true : _validatePassword = false;
+
+      _confirmPasswordController.text.isEmpty
+          ? _validatePasswordConfirm = true
+          : _validatePasswordConfirm = false;
+
+      _phoneController.text.isEmpty ? _validatePhone = true : _validatePhone = false;
+
+      _emailController.text.isEmpty ? _validateEmail = true : _validateEmail = false;
+    });
+
+    // check if passwords match
+    if (_passwordController.text.toString() != _confirmPasswordController.text.toString()) {
+      Utils().toastMessage("Passwords didn't match");
+      return;
+    }
+
+    //  if user didn't enter username or password or phone keep inside
+    if (_validateUsername ||
+        _validatePassword ||
+        _validatePhone ||
+        _validatePasswordConfirm ||
+        _validateEmail) {
+      return;
+    }
+    //-> check if the user didn't select image and we must compare it with null without saying image64.toString
+
+    if (image64 == null) {
+      Utils().toastMessage('please select image from gallery');
+      return;
+    }
+    //
+    Utils().showProcessingDialog("Loading..", context);
+    webServices
+        .registerUser(_usernameController.text, _phoneController.text, selectedItem,
+            _passwordController.text, image64)
+        .then((value) {
+      Utils().toastMessage(value.message);
+      if (message.toString().contains('login succussfully')) {
+        //-> if we have a success register go to the login page and save data to shared pref
+        sharedPref.setData('username', _usernameController.text); // save user name of user
+        sharedPref.setData('password', _passwordController.text); // save password of user
+        sharedPref.setData('gender', selectedItem); //save gender  of user
+        sharedPref.setData('phone', _phoneController.text); // save phone of gender
+
+        //-> send params to login screen
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => SignIn(
+              phone_registerpage: _phoneController.text,
+              password_registerpage: _passwordController.text,
+            ),
+          ),
+        );
+      } //end iff
+      Navigator.of(context).pop(); // to hide the processing dialog
+    }).catchError((error) {
+      Navigator.of(context).pop(); // to hide the processing dialog
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: error));
+    });
+  }
+  //---------------------------------------
 
   @override
   Widget build(BuildContext context) {
-    return ModalProgressHUD(
-      child: SafeArea(
-        child: Scaffold(
-          resizeToAvoidBottomInset: true, // to disable scolling screen up when keyboard goes up
-          key: _scaffoldKey,
-          body: SingleChildScrollView(child: columnElements()),
-        ),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: true, // to disable scolling screen up when keyboard goes up
+        key: _scaffoldKey,
+        body: SingleChildScrollView(child: columnElements()),
       ),
-      inAsyncCall: _saving,
     );
   } // end builder
 
@@ -98,7 +153,7 @@ class _RegisterState extends State<Register> {
             clipBehavior: Clip.hardEdge,
             children: [
               Positioned(top: 0, child: imageBackground()),
-              Positioned(top: MediaQuery.of(context).size.height * 0.15, child: profileImage()),
+              Positioned(top: MediaQuery.of(context).size.height * 0.10, child: profileImage()),
               //Positioned(bottom: 0, child: registerContainer()),
             ],
           ),
@@ -128,7 +183,6 @@ class _RegisterState extends State<Register> {
     return InkWell(
       onTap: () async {
         getImage();
-        //TODO: use image picker to select the image to save it to the database
       },
       child: Container(
         width: 150,
@@ -160,91 +214,18 @@ class _RegisterState extends State<Register> {
       padding: EdgeInsets.only(right: 20.0, left: 20.0),
       width: MediaQuery.of(context).size.width,
       child: RaisedButton(
-        color: Color(0xFFFFB005),
-        child: Text(
-          "register".tr().toString(),
-          style: TextStyle(fontSize: 20.0.sp, color: Colors.white),
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-          side: BorderSide(
-            color: Color(0xFFFFD359),
+          color: Color(0xFFFFB005),
+          child: Text(
+            "register".tr().toString(),
+            style: TextStyle(fontSize: 20.0.sp, color: Colors.white),
           ),
-        ),
-        onPressed: () async {
-          //- To check the user already entered username and password
-          setState(() {
-            _usernameController.text.isEmpty ? _validateUsername = true : _validateUsername = false;
-
-            _passwordController.text.isEmpty ? _validatePassword = true : _validatePassword = false;
-
-            _confirmPasswordController.text.isEmpty
-                ? _validatePasswordConfirm = true
-                : _validatePasswordConfirm = false;
-
-            _phoneController.text.isEmpty ? _validatePhone = true : _validatePhone = false;
-
-            _emailController.text.isEmpty ? _validateEmail = true : _validateEmail = false;
-          });
-
-          // check if passwords match
-          if (_passwordController.text.toString() != _confirmPasswordController.text.toString()) {
-            Utils().toastMessage("Passwords didn't match");
-            return;
-          }
-
-          //  if user didn't enter username or password or phone keep inside
-          if (_validateUsername ||
-              _validatePassword ||
-              _validatePhone ||
-              _validatePasswordConfirm ||
-              _validateEmail) {
-            return;
-          }
-          // -> show progress bar if user already entered the required data
-          setState(() {
-            _saving = true;
-          });
-          // parse data to server
-          var message = await webServices.registerUser(_usernameController.text,
-              _phoneController.text, selectedItem, _passwordController.text, image64);
-
-          print(message);
-
-          // data finished
-          setState(() {
-            _saving = false;
-          });
-
-          //TODO: Test is register success go to login page and load the register data to login screen
-          if (message.toString().contains('login succussfully')) {
-            //-> if we have a success register go to the login page and save data to shared pref
-            sharedPref.setData('username', _usernameController.text); // save user name of user
-            sharedPref.setData('password', _passwordController.text); // save password of user
-            sharedPref.setData('gender', selectedItem); //save gender  of user
-
-            sharedPref.setData('phone', _phoneController.text); // save phone of gender
-
-            //-> send params to login screen
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => SignIn(
-                  phone_registerpage: _phoneController.text,
-                  password_registerpage: _passwordController.text,
-                ),
-              ),
-            );
-          } //end iff
-
-          //-> Display snackbar message
-          _scaffoldKey.currentState.showSnackBar(SnackBar(
-            content: Text(message),
-            duration: Duration(seconds: 3),
-          ));
-
-          //-> save
-        },
-      ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+            side: BorderSide(
+              color: Color(0xFFFFD359),
+            ),
+          ),
+          onPressed: registerButton),
     );
   }
 
@@ -300,7 +281,7 @@ class _RegisterState extends State<Register> {
           prefixIcon: Icon(Icons.email),
           hint_text: "email".tr().toString(),
           controller_text: _emailController,
-          show_password: true, // hide password for the user
+          show_password: false, // hide password for the user
           error_msg: _validateEmail ? "valuecannotbeempty".tr().toString() : null,
         ),
         SizedBox(
@@ -359,8 +340,8 @@ class _RegisterState extends State<Register> {
       ],
     );
   }
-
+//---------------------------------Login Function---------------------------------
 //------------------------------------------------------------------------------
 } //end class
-//TODO:  when fail register show toast
+
 //TODO: add button to show password or hide it using textinputvieldwith icon

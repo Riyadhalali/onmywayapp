@@ -31,6 +31,7 @@ class _SignInState extends State<SignIn> {
   String usernameData; // this variable to store data returned from getUserInfo Api
   String userPhoneData; // this variable to store data returned from getUserInfo Api
   String userGenderData; // this variable to store data returned from getUserInfo Api
+  String idSaved;
   final _phonecontroller = TextEditingController();
   final _passwordcontroller = TextEditingController();
   WebServices webServices = new WebServices();
@@ -45,6 +46,8 @@ class _SignInState extends State<SignIn> {
   Future loadLoginData() async {
     phone_data = await sharedPref.LoadData('phone');
     password_data = await sharedPref.LoadData('password');
+    idSaved = await sharedPref.LoadData("userID");
+    print("getting id from local storage.. $idSaved");
     if (phone_data != null && password_data != null) {
       setState(() {
         _phonecontroller.text = phone_data;
@@ -297,24 +300,3 @@ class _SignInState extends State<SignIn> {
 ///ref1 :  https://stackoverflow.com/questions/67588916/how-handle-error-from-api-request-flutter
 ///ref 2 :https://stackoverflow.com/questions/58920295/error-handling-an-http-request-result-in-flutter
 ///ref 3:https://stackoverflow.com/questions/60648984/handling-exception-http-request-flutter
-/*
-  fmain =
-        await webServices.LoginPost(_phonecontroller.text, _passwordcontroller.text).then((value) {
-      message = fmain.message;
-      user_id = fmain.id;
-      // show a snackbar message
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(message),
-        duration: Duration(seconds: 3),
-      ));
-    }, onError: (error) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text(error),
-        duration: Duration(seconds: 3),
-      ));
-      print(error);
-    });
-
-
-
- */

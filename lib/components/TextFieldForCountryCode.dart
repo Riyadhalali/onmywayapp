@@ -37,9 +37,9 @@ class TextFieldForCountryCode extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: icon_widget, // passing icon
         ),
-        initialCountryCode: 'IN',
+        initialCountryCode: 'UAE',
         onChanged: (phone) {
-          print(phone.completeNumber);
+          // print(phone.completeNumber);
         },
       ),
     );

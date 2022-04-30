@@ -5,6 +5,7 @@ import 'package:alatareekeh/services/GetAppVersion.dart';
 import 'package:alatareekeh/services/GetSearchResults.dart';
 import 'package:alatareekeh/services/GetServiceLocation.dart';
 import 'package:alatareekeh/services/GetUserInfo.dart';
+import 'package:alatareekeh/services/RegisterUserModel.dart';
 import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/getmyappointments.dart';
 import 'package:alatareekeh/services/getmyservices.dart';
@@ -18,32 +19,9 @@ class WebServices {
   SharedPref sharedPref = SharedPref();
 
   //------------------------------Register------------------------------
-  Future<String> registerUser(
+  Future<RegisterUserModel> registerUser(
       String username, String phone, String gender, String password, String imageFile) async {
     var url = Constants.api_link + 'Register';
-    // // open a bytestream
-    // var stream = new http.ByteStream(DelegatingStream.typed(imageFile.openRead()));
-    // // get the length
-    // var length = await imageFile.length();
-    //
-    // // create multipart request
-    // var request = new http.MultipartRequest("POST", Uri.parse(url));
-    //
-    // // multipart that takes file
-    // var multipartFile =
-    //     new http.MultipartFile('file', stream, length, filename: basename(imageFile.path));
-    //
-    // // add file to multipart
-    // request.files.add(multipartFile);
-    //
-    // // send
-    // var responseFromServer = await request.send();
-    // print(responseFromServer.statusCode);
-    //
-    // // listen for response
-    // responseFromServer.stream.transform(utf8.decoder).listen((value) {
-    //   print(value);
-    // });
 
     http.Response response = await http.post(Uri.parse(url), body: {
       "username": username,
@@ -54,13 +32,11 @@ class WebServices {
     });
 
     if (response.statusCode == 200) {
-      String data = response.body;
-      var decodedData = jsonDecode(data); // decoding data
-      var message = decodedData['message'];
-
-      return message;
+      var body = jsonDecode(response.body);
+      final RegisterUserModel registerUserModel = registerUserModelFromJson(response.body);
+      return registerUserModel;
     } else {
-      throw ('error in registing player');
+      throw ('error in registering player');
     }
   }
 

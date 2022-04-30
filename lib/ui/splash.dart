@@ -17,12 +17,15 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   SharedPref sharedPref = SharedPref(); // create object of the class
-
+  String idSaved;
+  //-> get the
+  Future getLoginData() async {}
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     LoadTimer();
+//    getLoginData();
   }
 
   //-> timer for launching screen after seconds

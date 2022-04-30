@@ -26,7 +26,7 @@ class _MapsState extends State<Maps> {
   GoogleMapController
       mapController; // create an intsance of google map controller for changing style
   String _mapStyle;
-
+  BitmapDescriptor icon; // for custom marker
   FloatingSearchBarController _floatingSearchBarController = new FloatingSearchBarController();
 
   CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
@@ -46,6 +46,13 @@ class _MapsState extends State<Maps> {
   ///       infoWindow: InfoWindow(title: 'Location'.tr().toString())));
   /// }
   ///
+  getCustomMarkerIcon() async {
+    var icon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 3.2), "assets/ui/icon/package  .png");
+    setState(() {
+      this.icon = icon;
+    });
+  }
 
   //-> get the location of this device
   void getDeviceLocation() async {
@@ -61,8 +68,9 @@ class _MapsState extends State<Maps> {
     //add marker to map
     _markers.add(
       Marker(
-          icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueYellow), // change color of the marker
+          // icon: BitmapDescriptor.defaultMarkerWithHue(
+          //     BitmapDescriptor.hueYellow), // change color of the marker
+          icon: icon,
           markerId: MarkerId('Location'.tr().toString()),
           position: LatLng(lat, long),
           // infoWindow: InfoWindow(
@@ -84,6 +92,7 @@ class _MapsState extends State<Maps> {
     rootBundle.loadString('assets/resources/mapStyle/mapstyle.txt').then((string) {
       _mapStyle = string;
     });
+    getCustomMarkerIcon(); // get the custom icon for marker
   }
 
   @override
@@ -120,7 +129,7 @@ class _MapsState extends State<Maps> {
             ),
             markers: Set<Marker>.of(_markers),
             myLocationButtonEnabled: true,
-            myLocationEnabled: true,
+            myLocationEnabled: false,
 
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);

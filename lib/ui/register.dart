@@ -97,7 +97,7 @@ class _RegisterState extends State<Register> {
       return;
     }
     //
-    Utils().showProcessingDialog("Loading..", context);
+    Utils().showProcessingDialog("loading".tr().toString(), context);
     webServices
         .registerUser(_usernameController.text, _phoneController.text, selectedItem,
             _passwordController.text, image64)
@@ -343,5 +343,3 @@ class _RegisterState extends State<Register> {
 //---------------------------------Login Function---------------------------------
 //------------------------------------------------------------------------------
 } //end class
-
-//TODO: add button to show password or hide it using textinputvieldwith icon

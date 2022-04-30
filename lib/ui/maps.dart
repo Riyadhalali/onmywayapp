@@ -62,7 +62,7 @@ class _MapsState extends State<Maps> {
     _markers.add(
       Marker(
           icon: BitmapDescriptor.defaultMarkerWithHue(
-              BitmapDescriptor.hueBlue), // change color of the marker
+              BitmapDescriptor.hueYellow), // change color of the marker
           markerId: MarkerId('Location'.tr().toString()),
           position: LatLng(lat, long),
           // infoWindow: InfoWindow(
@@ -91,7 +91,6 @@ class _MapsState extends State<Maps> {
     return new Scaffold(
         appBar: null,
         extendBodyBehindAppBar: true, // to set the
-
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -99,8 +98,8 @@ class _MapsState extends State<Maps> {
             buildFloatingActionBar(),
             CustomInfoWindow(
               controller: _customInfoWindowController,
-              height: MediaQuery.of(context).size.height * 0.20,
-              width: MediaQuery.of(context).size.height * 0.23,
+              height: MediaQuery.of(context).size.height * 0.30,
+              width: MediaQuery.of(context).size.width * 0.50,
               offset: 50, // the space between the info window and marker
             )
           ],
@@ -192,68 +191,72 @@ class _MapsState extends State<Maps> {
 
   //------------------------- Widget Info Window  Marker--------------------------------------
   Widget markerInfo() {
-    return Stack(children: [
-      //------------------------------------First Child------------------------------------
-      Positioned(
-        top: 1,
-        child: Container(
-          width: 25,
-          height: 25,
-          color: Colors.black,
-        ),
-      ),
+    return Stack(
+        clipBehavior: Clip
+            .none, // to make the image visible we can also use Clip.EdgeHard to to make image not visible and get cutted
+        fit: StackFit.expand,
+        alignment: Alignment.center,
+        children: [
+          //------------------------------------First child-----------------------------------
+          Positioned.fill(
+            // to fill the stack
+            top: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white70,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(child: Text('Name:')),
+                      // Expanded(child: Text('Phone: ')),
+                      Expanded(child: Text('Gender:')),
+                      //  Expanded(child: Text('Country:')),
+                      Expanded(child: Text('City:')),
+                      Expanded(child: Text('Date:')),
 
-      //------------------------------------Second child-----------------------------------
-      Container(
-        //heigchildht: MediaQuery.of(context).size.height * 0.4,
-        //width: MediaQuery.of(context).size.width * 0.4,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
-            Radius.circular(10.0),
-          ),
-        ),
-        child: Flexible(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Flexible(flex: 1, child: Text('Name:')),
-                Flexible(flex: 1, child: Text('Phone: ')),
-                Flexible(flex: 1, child: Text('Gender:')),
-                Flexible(flex: 1, child: Text('Country:')),
-                Flexible(flex: 1, child: Text('City:')),
-                Flexible(
-                    child: Row(
-                  children: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.phone,
-                          color: Colors.black,
-                        )),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.message,
-                          color: Colors.black,
-                        )),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.add_circle,
-                          color: Colors.black,
-                        )),
-                  ],
-                ))
-              ],
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.phone,
+                                  color: Colors.black,
+                                )),
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.message,
+                                  color: Colors.black,
+                                )),
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.add_circle,
+                                  color: Colors.black,
+                                )),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
-    ]);
+          //-----------------------------Second Child-----------------------------------------------
+          Positioned(top: -35, child: profileImage()),
+        ]);
   }
 
 //-----------------------Profile Picture  ----------------------------------------------
@@ -265,9 +268,9 @@ class _MapsState extends State<Maps> {
       child: Padding(
         padding: const EdgeInsets.only(right: 75.0, left: 75.0),
         child: Container(
+          height: 75,
           width: 75,
-          height: 150,
-          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black.withOpacity(0.25)),
+          decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.black.withOpacity(0.50)),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
@@ -275,7 +278,7 @@ class _MapsState extends State<Maps> {
               child: ClipOval(
                 child: Image.asset(
                   'assets/ui/icon/icon2.png',
-                  fit: BoxFit.fill,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
@@ -287,6 +290,3 @@ class _MapsState extends State<Maps> {
   //-----------------------------------------------------------------------------
 }
 //Library used : custom_info_window
-//TODO: 1- add set of markers and build the onTap marker widget
-
-//TODO: can not add the image above the shape marker info

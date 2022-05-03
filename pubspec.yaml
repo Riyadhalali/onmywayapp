@@ -72,6 +72,7 @@ flutter:
   - assets/ui/selectlanguage/
   - assets/ui/icon/
   - assets/resources/mapStyle/mapstyle.txt
+  - assets/ui/icon/package.png
 
   # example:
   # fonts:

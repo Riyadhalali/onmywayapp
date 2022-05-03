@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future onDoneLoading() async {
-    // Navigator.pushNamed(context, Maps.id);
+    // Navigator.pushNamed(context, Search.id);
     String userId;
     String selected_lang;
     String privacypolicy;

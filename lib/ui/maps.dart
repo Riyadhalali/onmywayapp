@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:alatareekeh/ui/search.dart';
+import 'package:alatareekeh/ui/searchresults.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +30,6 @@ class _MapsState extends State<Maps> {
   String _mapStyle;
   BitmapDescriptor icon; // for custom marker
   FloatingSearchBarController _floatingSearchBarController = new FloatingSearchBarController();
-
   CustomInfoWindowController _customInfoWindowController = CustomInfoWindowController();
 
   //-> get location from api
@@ -46,23 +47,24 @@ class _MapsState extends State<Maps> {
   ///       infoWindow: InfoWindow(title: 'Location'.tr().toString())));
   /// }
   ///
-  getCustomMarkerIcon() async {
-    var icon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 3.2), "assets/ui/icon/package  .png");
-    setState(() {
-      this.icon = icon;
-    });
-  }
-
+//--------------------------------------------------------------------------------------------------
   //-> get the location of this device
   void getDeviceLocation() async {
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     double longitude_data = position.longitude;
     double latitude_data = position.latitude;
-
     setState(() {
       lat = latitude_data;
       long = longitude_data;
+      // print('lat is:$lat');
+    });
+
+    //-> creating custom icon for marker
+    var iconMarker = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(), "assets/ui/icon/person_male.png");
+    setState(() {
+      this.icon = iconMarker;
+      //print('marker is: $iconMarker');
     });
 
     //add marker to map
@@ -78,21 +80,22 @@ class _MapsState extends State<Maps> {
           // ),
           onTap: () {
             //-> here we add the widget of the custom window
-            _customInfoWindowController.addInfoWindow(markerInfo(), LatLng(lat, long));
+            _customInfoWindowController.addInfoWindow(markerTabInfo(), LatLng(lat, long));
           }),
     );
   }
 
+//--------------------------------------------------------------------------------------------------
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getDeviceLocation();
     //-> load the map customize
     rootBundle.loadString('assets/resources/mapStyle/mapstyle.txt').then((string) {
       _mapStyle = string;
     });
-    getCustomMarkerIcon(); // get the custom icon for marker
+
+    getDeviceLocation(); //get the location and marker icon
   }
 
   @override
@@ -107,9 +110,9 @@ class _MapsState extends State<Maps> {
             buildFloatingActionBar(),
             CustomInfoWindow(
               controller: _customInfoWindowController,
-              height: MediaQuery.of(context).size.height * 0.30,
-              width: MediaQuery.of(context).size.width * 0.50,
-              offset: 50, // the space between the info window and marker
+              height: MediaQuery.of(context).size.height * 0.05,
+              width: MediaQuery.of(context).size.width * 0.30,
+              offset: 100, // the space between the info window and marker
             )
           ],
         ));
@@ -129,7 +132,8 @@ class _MapsState extends State<Maps> {
             ),
             markers: Set<Marker>.of(_markers),
             myLocationButtonEnabled: true,
-            myLocationEnabled: false,
+            myLocationEnabled: true,
+            zoomControlsEnabled: false, // to delete the minus and plus control in map
 
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
@@ -172,6 +176,7 @@ class _MapsState extends State<Maps> {
       debounceDelay: const Duration(milliseconds: 500),
       onQueryChanged: (query) {
         // Call your model, bloc, controller here.
+        //TODO: when user start typing must give him results
       },
       // Specify a custom transition to be used for animating between opened and closed stated.
       transition: CircularFloatingSearchBarTransition(),
@@ -181,7 +186,7 @@ class _MapsState extends State<Maps> {
           child: CircularButton(
             icon: const Icon(Icons.search),
             onPressed: () {
-              //Scaffold.of(context).openDrawer();
+              Navigator.pushNamed(context, SearchResults.id);
             },
           ),
         ),
@@ -193,7 +198,29 @@ class _MapsState extends State<Maps> {
       ],
       builder: (context, transition) {
         /*Build the stack you want     */
-        return Text("Hello Riyad");
+        return Container(
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.pushNamed(context, Search.id);
+                },
+                icon: Icon(Icons.search),
+                label: Text("go to search page".tr().toString()),
+              ),
+              TextButton.icon(
+                onPressed: () {
+                  Navigator.pushNamed(context, Search.id);
+                },
+                icon: Icon(Icons.location_on),
+                label: Text("select location on map".tr().toString()),
+              ),
+            ],
+          ),
+        );
       },
     );
   }
@@ -225,37 +252,35 @@ class _MapsState extends State<Maps> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Expanded(child: Text('Name:')),
+                      Text('Name:'),
                       // Expanded(child: Text('Phone: ')),
-                      Expanded(child: Text('Gender:')),
+                      Text('Gender:'),
                       //  Expanded(child: Text('Country:')),
-                      Expanded(child: Text('City:')),
-                      Expanded(child: Text('Date:')),
+                      Text('City:'),
+                      Text('Date:'),
 
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.phone,
-                                  color: Colors.black,
-                                )),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.message,
-                                  color: Colors.black,
-                                )),
-                            IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.add_circle,
-                                  color: Colors.black,
-                                )),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.phone,
+                                color: Colors.black,
+                              )),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.message,
+                                color: Colors.black,
+                              )),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.add_circle,
+                                color: Colors.black,
+                              )),
+                        ],
                       )
                     ],
                   ),
@@ -296,6 +321,37 @@ class _MapsState extends State<Maps> {
       ),
     );
   }
-  //-----------------------------------------------------------------------------
-}
+
+  //-------------------------------Main Tab for opening the custom info window
+  Widget markerTabInfo() {
+    return Container(
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(15.0), color: Colors.white),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          IconButton(
+              onPressed: () {
+                //-> show dialog for opening the container
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+                        child: markerInfo(),
+                      );
+                    });
+              },
+              icon: Icon(Icons.account_circle)),
+          IconButton(
+              onPressed: () {
+                //-> show dialog for opening the container
+              },
+              icon: Icon(Icons.add_circle))
+        ],
+      ),
+    );
+  }
+
+//--------------------
+} // end class
 //Library used : custom_info_window

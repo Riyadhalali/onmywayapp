@@ -4,25 +4,25 @@ import 'package:sizer/sizer.dart';
 
 class Button extends StatelessWidget {
   final Color colour;
+  final Color textColor;
   final String text;
   final String username_input;
   final Function onPressed;
 
-  Button({this.colour, this.text, this.username_input, this.onPressed});
+  Button({this.colour, this.text, this.username_input, this.onPressed, this.textColor});
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 5.0.h,
+      width: MediaQuery.of(context).size.width * 0.5,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.0),
-        color: const Color(0xff2d2e39),
+        color: colour,
       ),
       child: TextButton(
         onPressed: onPressed,
         child: Text(
           text.tr().toString(),
-          style: TextStyle(color: colour, fontSize: 22.0.sp),
+          style: TextStyle(color: textColor, fontSize: 22.0.sp),
         ),
         style: ButtonStyle(),
       ),

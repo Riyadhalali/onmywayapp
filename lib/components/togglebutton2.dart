@@ -1,33 +1,37 @@
 import 'package:alatareekeh/constants/colors.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class ToggleButton extends StatefulWidget {
+class ToggleButton2 extends StatefulWidget {
   //Function function;
+  String imageAssetFirst;
+  String imageAssetSecond;
+  ToggleButton2(this.imageAssetFirst, this.imageAssetSecond);
 
   // ToggleButton({this.function});
 //TODO: using provider when user select choice to update the selection
   @override
-  State<ToggleButton> createState() => _ToggleButtonState();
+  State<ToggleButton2> createState() => _ToggleButton2State();
 }
 
-class _ToggleButtonState extends State<ToggleButton> {
+class _ToggleButton2State extends State<ToggleButton2> {
   ColorsApp colorsApp = new ColorsApp();
-
+  bool changeColor = false;
   List<bool> isSelected;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    isSelected = [true, false];
+    isSelected = [false, false];
   }
 
   @override
   Widget build(BuildContext context) {
     return ToggleButtons(
-      borderWidth: 0,
-      renderBorder: false, // to delete the border around the toggle buttons
+      borderRadius: BorderRadius.circular(50),
+
+      borderWidth: 2,
+      renderBorder: true, // to delete the border around the toggle buttons
       selectedColor: colorsApp.selectedColor,
       onPressed: (int index) {
         setState(() {
@@ -35,9 +39,11 @@ class _ToggleButtonState extends State<ToggleButton> {
             if (buttonIndex == index) {
               // we get 1
               isSelected[buttonIndex] = true;
+              changeColor = true;
             } else {
               // we get zero
               isSelected[buttonIndex] = false;
+              changeColor = false;
             }
           }
         });
@@ -49,18 +55,16 @@ class _ToggleButtonState extends State<ToggleButton> {
             child: Column(
               children: [
                 Container(
-                  height: 100,
-                  width: 100,
+                  height: 35,
+                  width: 35,
                   decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50), // to make the selection circular
+                    color: (!changeColor) ? colorsApp.selectedColor : Colors.white,
                     image: DecorationImage(
-                      image: AssetImage("assets/ui/search/provided_service.png"),
+                      image: AssetImage(widget.imageAssetFirst),
                     ),
                   ),
                 ),
-                Text(
-                  "provided".tr().toString(),
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                )
               ],
             ),
           ),
@@ -71,18 +75,16 @@ class _ToggleButtonState extends State<ToggleButton> {
               child: Column(
             children: [
               Container(
-                height: 100,
-                width: 100,
+                height: 35,
+                width: 35,
                 decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50), // to make the selection circular
+                  color: (changeColor) ? colorsApp.selectedColor : Colors.white,
                   image: DecorationImage(
-                    image: AssetImage("assets/ui/search/seeked_service.png"),
+                    image: AssetImage(widget.imageAssetSecond),
                   ),
                 ),
               ),
-              Text(
-                "seeked".tr().toString(),
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              )
             ],
           )),
         ),

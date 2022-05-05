@@ -32,6 +32,7 @@ dependencies:
   country_code_picker: ^2.0.2
   intl_phone_field: ^3.1.0
   connectivity_plus: ^2.3.0
+  flutter_datetime_picker: ^1.5.1
 
 
 

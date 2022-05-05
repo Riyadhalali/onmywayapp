@@ -1,12 +1,17 @@
 import 'package:alatareekeh/components/rasidedbutton.dart';
 import 'package:alatareekeh/components/textfield.dart';
 import 'package:alatareekeh/components/timedatepicker.dart';
-import 'package:alatareekeh/components/togglebutton.dart';
 import 'package:alatareekeh/constants/colors.dart';
 import 'package:alatareekeh/ui/searchresults.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
+
+import '../components/Button.dart';
+import '../components/textfieldwithicon.dart';
+import '../components/togglebutton.dart';
+import '../components/togglebutton2.dart';
 
 class Search extends StatefulWidget {
   static const id = 'search_page';
@@ -15,6 +20,8 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
+  final fromController = TextEditingController();
+  final toController = TextEditingController();
   List<bool> isSelected;
   List<bool> isSelected2;
   int serviceType = 1;
@@ -76,29 +83,82 @@ class _SearchState extends State<Search> {
 //------------------------------------------------------------------------------
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: columnElements(),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: columnElements(),
+      ),
     );
   }
   //----------------------------Widget Tree------------------------------------
 
   //-----------------------------Column Elements-------------------------------
   Widget columnElements() {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.025,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
+          ),
+          searchTab(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
+          ),
+          // sign_in_Container(),
+          ToggleButton(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ToggleButton2("assets/ui/search/male.png", "assets/ui/search/female.png"),
+                ToggleButton2("assets/ui/search/package.png", "assets/ui/search/person.png"),
+              ],
             ),
-            searchTab(),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.025,
+          ),
+          ToggleButton2("assets/ui/search/public.png", "assets/ui/search/private.png"),
+          DateTimePickerClass(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextInputFieldWithIcon(
+              controller_text: fromController,
+              show_password: true,
+              prefixIcon: Icon(
+                Icons.location_on,
+                //color: Colors.black,
+              ),
+              icon_widget: Icon(Icons.location_on),
+              hint_text: "from",
+              FunctionToDo: () {
+                print("Hello");
+              },
             ),
-            // sign_in_Container(),
-            ToggleButton(),
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextInputFieldWithIcon(
+              controller_text: toController,
+              prefixIcon: Icon(
+                Icons.location_on_outlined,
+                //color: Colors.black,
+              ),
+              show_password: true,
+              icon_widget: Icon(Icons.location_on),
+              hint_text: "to",
+              FunctionToDo: () {
+                print("Hello");
+              },
+            ),
+          ),
+          Button(
+            colour: colorApp.buttonColor,
+            textColor: Colors.black,
+            onPressed: () {
+              //TODO
+            },
+            text: "Search",
+          ),
+        ],
       ),
     );
   }

@@ -5,6 +5,7 @@ class TextInputFieldWithIcon extends StatelessWidget {
   final String hint_text;
   final String error_msg;
   final Icon icon_widget;
+  final Icon prefixIcon;
   final bool show_password;
   Function FunctionToDo;
 
@@ -14,12 +15,14 @@ class TextInputFieldWithIcon extends StatelessWidget {
       this.error_msg,
       this.icon_widget,
       this.show_password,
-      this.FunctionToDo});
+      this.FunctionToDo,
+      this.prefixIcon});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
+      //height: MediaQuery.of(context).size.height,
       padding: EdgeInsets.only(left: 55.0, right: 55.0),
       child: TextField(
         //  autofocus: true,
@@ -28,10 +31,7 @@ class TextInputFieldWithIcon extends StatelessWidget {
         controller: controller_text, // the variable that will contain input user data
         decoration: InputDecoration(
           filled: true,
-          //   suffix: InkWell(onTap: FunctionToDo, child: icon_widget),
-          // border: OutlineInputBorder(
-          //   borderRadius: BorderRadius.circular(10.0),
-          // ),
+          prefixIcon: prefixIcon,
           border: InputBorder.none,
           fillColor: Color(0xFFEFEFF3),
           hintText: hint_text,

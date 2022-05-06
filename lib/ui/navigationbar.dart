@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:alatareekeh/constants/colors.dart';
 import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/maps.dart';
 import 'package:alatareekeh/ui/myservices.dart';
@@ -23,6 +24,7 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> {
+  ColorsApp colorsApp = new ColorsApp();
   GlobalKey<ScaffoldState> _drawerKey = GlobalKey();
   int selectedPage = 0;
   PageController pageController;
@@ -125,8 +127,8 @@ class _NavigationState extends State<Navigation> {
           ],
           currentIndex: selectedPage,
           showUnselectedLabels: true,
-          unselectedItemColor: Colors.white,
-          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.black,
+          selectedItemColor: colorsApp.selectedColor,
           selectedFontSize: 10.0,
           unselectedFontSize: 10.0,
           backgroundColor: Colors.transparent,
@@ -245,7 +247,7 @@ class _NavigationState extends State<Navigation> {
       onTap: () async {
         getImage();
       },
-      child:  Padding(
+      child: Padding(
         padding: const EdgeInsets.only(right: 75.0, left: 75.0),
         child: Container(
           height: 150,

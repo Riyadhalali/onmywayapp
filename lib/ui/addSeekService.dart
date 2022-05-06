@@ -136,7 +136,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
           ),
 
           TextInputFieldWithIconRoundedCorners(
-            prefixIconColor: colorsApp.timePickerBorder2,
+            prefixIconColor: colorsApp.timePickerBorder,
             controller_text: usernameController,
             prefixIcon: "assets/ui/addservice/username.png",
             show_password: false,
@@ -150,7 +150,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
             height: MediaQuery.of(context).size.height * 0.01,
           ),
           TextInputFieldWithIconRoundedCorners(
-            prefixIconColor: colorsApp.timePickerBorder2,
+            prefixIconColor: colorsApp.timePickerBorder,
             controller_text: fromController,
             prefixIcon: "assets/ui/addservice/from.png",
             show_password: false,
@@ -164,7 +164,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
             height: MediaQuery.of(context).size.height * 0.01,
           ),
           TextInputFieldWithIconRoundedCorners(
-            prefixIconColor: colorsApp.timePickerBorder2,
+            prefixIconColor: colorsApp.timePickerBorder,
             controller_text: toController,
             prefixIcon: "assets/ui/addservice/to.png",
             show_password: false,
@@ -178,7 +178,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
             height: MediaQuery.of(context).size.height * 0.01,
           ),
           TextInputFieldWithIconRoundedCorners(
-            prefixIconColor: colorsApp.toggleButtonBorder2,
+            prefixIconColor: colorsApp.timePickerBorder,
             controller_text: phoneController,
             prefixIcon: "assets/ui/addservice/phone.png",
             show_password: false,

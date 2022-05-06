@@ -6,6 +6,7 @@ class ColorsApp {
   Color unSelectedColor = const Color(0xFF707070);
   Color toggleButtonsBorder = const Color(0xffECECEC);
   Color toggleButtonBorder2 = const Color(0xFF707070);
-  Color timePickerBorder = const Color(0xFF707070);
+  Color timePickerBorder = const Color(0xFF232323);
+  Color timePickerBorder2 = const Color(0xFFFFB005);
   Color buttonColor = const Color(0xFFFFD359);
 }

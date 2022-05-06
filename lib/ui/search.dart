@@ -1,5 +1,6 @@
 import 'package:alatareekeh/components/rasidedbutton.dart';
 import 'package:alatareekeh/components/textfield.dart';
+import 'package:alatareekeh/components/textinputfieldwithiconroundedcorners.dart';
 import 'package:alatareekeh/components/timedatepicker.dart';
 import 'package:alatareekeh/constants/colors.dart';
 import 'package:alatareekeh/ui/searchresults.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 import '../components/Button.dart';
-import '../components/textfieldwithicon.dart';
 import '../components/togglebutton.dart';
 import '../components/togglebutton2.dart';
 
@@ -117,38 +117,38 @@ class _SearchState extends State<Search> {
             ),
           ),
           ToggleButton2("assets/ui/search/public.png", "assets/ui/search/private.png"),
-          DateTimePickerClass(),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextInputFieldWithIcon(
-              controller_text: fromController,
-              show_password: true,
-              prefixIcon: Icon(
-                Icons.location_on,
-                //color: Colors.black,
-              ),
-              icon_widget: Icon(Icons.location_on),
-              hint_text: "from",
-              FunctionToDo: () {
-                print("Hello");
-              },
-            ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextInputFieldWithIcon(
-              controller_text: toController,
-              prefixIcon: Icon(
-                Icons.location_on_outlined,
-                //color: Colors.black,
-              ),
-              show_password: true,
-              icon_widget: Icon(Icons.location_on),
-              hint_text: "to",
-              FunctionToDo: () {
-                print("Hello");
-              },
-            ),
+          DateTimePickerClass(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
+          ),
+          TextInputFieldWithIconRoundedCorners(
+            controller_text: fromController,
+            show_password: false,
+            prefixIcon: "assets/ui/add/service/add_service.png",
+            // icon_widget: Icon(Icons.location_on),
+            hint_text: "from".tr().toString(),
+            FunctionToDo: () {
+              print("Hello");
+            },
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
+          ),
+          TextInputFieldWithIconRoundedCorners(
+            controller_text: toController,
+            prefixIcon: "assets/ui/add/service/add_service.png",
+            show_password: false,
+            //  icon_widget: Icon(Icons.location_on),
+            hint_text: "to".tr().toString(),
+            FunctionToDo: () {
+              print("Hello");
+            },
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
           ),
           Button(
             colour: colorApp.buttonColor,
@@ -158,6 +158,7 @@ class _SearchState extends State<Search> {
             },
             text: "Search",
           ),
+          //     TextButtonWithIcon(),
         ],
       ),
     );
@@ -305,7 +306,10 @@ class _SearchState extends State<Search> {
                     ],
                     isSelected: isSelected2),
                 SizedBox(height: 2.0.h),
-                DateTimePickerClass(),
+                DateTimePickerClass(
+                  backgroundColor: colorApp.timePickerBorder,
+                  textColor: Colors.white,
+                ),
                 SizedBox(height: 2.0.h),
                 TextInputField(
                   controller_text: _fromController,

@@ -29,7 +29,7 @@ class _ToggleButton2State extends State<ToggleButton2> {
   Widget build(BuildContext context) {
     return ToggleButtons(
       borderRadius: BorderRadius.circular(50),
-
+      fillColor: Colors.transparent, // to delete the blue color around the selection
       borderWidth: 2,
       renderBorder: true, // to delete the border around the toggle buttons
       selectedColor: colorsApp.selectedColor,

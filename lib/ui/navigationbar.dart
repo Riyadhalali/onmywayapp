@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:alatareekeh/constants/colors.dart';
-import 'package:alatareekeh/ui/addSeekService.dart';
 import 'package:alatareekeh/ui/maps.dart';
 import 'package:alatareekeh/ui/myservices.dart';
+import 'package:alatareekeh/ui/provideservice_screen.dart';
 import 'package:alatareekeh/ui/search.dart';
 import 'package:alatareekeh/ui/seekservice.dart';
 import 'package:alatareekeh/ui/signin.dart';

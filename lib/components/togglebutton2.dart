@@ -34,6 +34,7 @@ class _ToggleButton2State extends State<ToggleButton2> {
       renderBorder: true, // to delete the border around the toggle buttons
       selectedColor: colorsApp.selectedColor,
       onPressed: (int index) {
+        print("the item that is pressed");
         setState(() {
           for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
             if (buttonIndex == index) {

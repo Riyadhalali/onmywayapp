@@ -30,20 +30,18 @@ class SeekedServices extends StatefulWidget {
   _SeekedServicesState createState() => _SeekedServicesState();
 }
 
-class _SeekedServicesState extends State<SeekedServices>
-    with AutomaticKeepAliveClientMixin {
+class _SeekedServicesState extends State<SeekedServices> with AutomaticKeepAliveClientMixin {
   bool keepAlive = true;
   List<GetSeekedServices> seekedServicesList; // an  object of seeked services
 
+  //-------------------------------Keep Alive Function--------------------------
 //-> this method will get the data in async mode
   Future<List<GetSeekedServices>> fetchSeekedList() async {
-    seekedServicesList = await WebServices
-        .Get_Seeked_Services(); // this method used as static method
+    seekedServicesList =
+        await WebServices.Get_Seeked_Services(); // this method used as static method
 
     return seekedServicesList;
   }
-
-  //-------------------------------Keep Alive Function--------------------------
 
   @override
   // TODO: implement wantKeepAlive
@@ -144,8 +142,7 @@ class _SeekedServicesState extends State<SeekedServices>
                                   ' - ' +
                                   list.serviceDestination.toString(),
                               style: TextStyle(
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.bold),
+                                  fontStyle: FontStyle.italic, fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -153,9 +150,7 @@ class _SeekedServicesState extends State<SeekedServices>
                           children: [
                             Flexible(
                               child: Text(
-                                'date'.tr().toString() +
-                                    ': ' +
-                                    list.serviceDate,
+                                'date'.tr().toString() + ': ' + list.serviceDate,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             )
@@ -164,9 +159,7 @@ class _SeekedServicesState extends State<SeekedServices>
                         Row(
                           children: [
                             Text(
-                              'gender'.tr().toString() +
-                                  ': ' +
-                                  list.serviceGender,
+                              'gender'.tr().toString() + ': ' + list.serviceGender,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
@@ -174,9 +167,7 @@ class _SeekedServicesState extends State<SeekedServices>
                         Row(
                           children: [
                             Text(
-                              'space'.tr().toString() +
-                                  ': ' +
-                                  list.serviceSpace,
+                              'space'.tr().toString() + ': ' + list.serviceSpace,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],

@@ -28,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 //    getLoginData();
   }
 
+  //-> download
   //-> timer for launching screen after seconds
   Future<Timer> LoadTimer() async {
     return new Timer(Duration(seconds: 2), onDoneLoading);
@@ -38,12 +39,10 @@ class _SplashScreenState extends State<SplashScreen> {
     String userId;
     String selected_lang;
     String privacypolicy;
+
     userId = await sharedPref.LoadData('userID');
     selected_lang = await sharedPref.LoadData('selectedlanguage');
     privacypolicy = await sharedPref.LoadData('privacypolicystate');
-    // print('user id from splash screen' + userId.toString());
-    // print('privacy policy is: ' + privacypolicy.toString());
-    // print('language selected by user ' + selected_lang.toString());
 
     if ((selected_lang == 'en' || selected_lang == 'ar') &&
         (privacypolicy == 'privacypolicyaccepted' && userId != null)) {

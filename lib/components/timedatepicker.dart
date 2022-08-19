@@ -30,6 +30,7 @@ class _DateTimePickerClassState extends State<DateTimePickerClass> {
       ),
       padding: EdgeInsets.only(right: 10, left: 10),
       child: DateTimePicker(
+        // initialEntryMode: DatePickerEntryMode.input,
         decoration: InputDecoration(border: InputBorder.none),
         use24HourFormat: false,
         type: DateTimePickerType.dateTimeSeparate,

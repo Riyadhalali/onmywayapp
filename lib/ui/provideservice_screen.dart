@@ -1,15 +1,14 @@
+import 'package:alatareekeh/components/textinputfieldwithiconroundedcorners.dart';
 import 'package:alatareekeh/components/timedatepicker.dart';
+import 'package:alatareekeh/components/togglebutton2.dart';
 import 'package:alatareekeh/constants/colors.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
+import 'package:alatareekeh/ui/maps/map_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:sizer/sizer.dart';
 
-import '../components/textinputfieldwithiconroundedcorners.dart';
-import '../components/togglebutton2.dart';
-
-//-> this page for adding or sekking service so i am a customer or provider
+//-> this page for providing service so i am a provider of services
 class AddSeekService extends StatefulWidget {
   static const id = 'addSeekService';
   @override
@@ -20,6 +19,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   WebServices webServices = new WebServices();
   SharedPref sharedPref = SharedPref();
+
   var message;
   String dropDownMenuGender =
       'Male'; // very important or we will get a null message when fetching api services
@@ -130,7 +130,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),
-          addServiceTab(),
+          addServiceTab(), // widget of the bar
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),
@@ -142,23 +142,27 @@ class _AddSeekServiceState extends State<AddSeekService> {
             show_password: false,
             //  icon_widget: Icon(Icons.location_on),
             hint_text: "username".tr().toString(),
-            FunctionToDo: () {
-              print("Hello");
-            },
+            FunctionToDo: () {},
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
           ),
-          TextInputFieldWithIconRoundedCorners(
-            prefixIconColor: colorsApp.timePickerBorder,
-            controller_text: fromController,
-            prefixIcon: "assets/ui/addservice/from.png",
-            show_password: false,
-            //  icon_widget: Icon(Icons.location_on),
-            hint_text: "from".tr().toString(),
-            FunctionToDo: () {
-              print("Hello");
+          InkWell(
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("hello")));
+              Navigator.of(context).pushNamed(MapPicker.id);
             },
+            child: TextInputFieldWithIconRoundedCorners(
+              prefixIconColor: colorsApp.timePickerBorder,
+              controller_text: fromController,
+              prefixIcon: "assets/ui/addservice/from.png",
+              show_password: false,
+              //  icon_widget: Icon(Icons.location_on),
+              hint_text: "from".tr().toString(),
+              FunctionToDo: () {
+                print("Hello");
+              },
+            ),
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
@@ -216,7 +220,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ToggleButton2("assets/ui/search/public.png", "assets/ui/search/private.png"),
-                customInputField(),
+                customInputField(), // for space
               ],
             ),
           ),
@@ -226,6 +230,9 @@ class _AddSeekServiceState extends State<AddSeekService> {
           ),
 
           FloatingActionButton(
+            onPressed: () {
+              // TODO: send item to seek
+            },
             backgroundColor: colorsApp.selectedColor,
             child: Icon(
               Icons.add,
@@ -369,86 +376,86 @@ class _AddSeekServiceState extends State<AddSeekService> {
 //   }
 
   //----------------------------------------------------------------------------
-  //-> Get Selected item from drop down menu from gender
-  Widget dropDownMenuGenderWidget() {
-    return Row(
-      children: [
-        Container(
-          padding: EdgeInsets.only(left: 50.0, right: 50.0),
-          child: Text(
-            "gender".tr().toString(),
-            style: TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
-          ),
-        ),
-        SizedBox(
-          width: 20.0.w,
-        ),
-        new DropdownButton<String>(
-          value: dropDownMenuGender,
-          icon: Icon(Icons.arrow_downward),
-          iconSize: 24,
-          elevation: 16,
-          style: TextStyle(color: Colors.deepPurple),
-          underline: Container(
-            height: 2,
-            color: Colors.deepPurpleAccent,
-          ),
-          onChanged: (String newValue) {
-            setState(() {
-              dropDownMenuGender = newValue;
-            });
-          },
-          items: <String>['Male', 'Female'].map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
-        )
-      ],
-    );
-  }
-
-  //-----------------------Drop Down Menu Widget Type---------------------------
-  Widget DropDownMenuType() {
-    return Row(
-      children: [
-        Container(
-          padding: EdgeInsets.only(left: 50.0, right: 50.0),
-          child: Text(
-            "type".tr().toString(),
-            style: TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
-          ),
-        ),
-        SizedBox(
-          width: 20.0.w,
-        ),
-        new DropdownButton<int>(
-          items: typeOptions
-              .map(
-                (description, value) {
-                  return MapEntry(
-                    description,
-                    DropdownMenuItem<int>(
-                      value: value,
-                      child: Text(description),
-                    ),
-                  );
-                },
-              )
-              .values
-              .toList(),
-          value: typeOptionDefault,
-          onChanged: (newValue) {
-            setState(() {
-              typeOptionDefault = newValue;
-              print(typeOptionDefault);
-            });
-          },
-        ),
-      ],
-    );
-  }
+  // //-> Get Selected item from drop down menu from gender
+  // Widget dropDownMenuGenderWidget() {
+  //   return Row(
+  //     children: [
+  //       Container(
+  //         padding: EdgeInsets.only(left: 50.0, right: 50.0),
+  //         child: Text(
+  //           "gender".tr().toString(),
+  //           style: TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
+  //         ),
+  //       ),
+  //       SizedBox(
+  //         width: 20.0.w,
+  //       ),
+  //       new DropdownButton<String>(
+  //         value: dropDownMenuGender,
+  //         icon: Icon(Icons.arrow_downward),
+  //         iconSize: 24,
+  //         elevation: 16,
+  //         style: TextStyle(color: Colors.deepPurple),
+  //         underline: Container(
+  //           height: 2,
+  //           color: Colors.deepPurpleAccent,
+  //         ),
+  //         onChanged: (String newValue) {
+  //           setState(() {
+  //             dropDownMenuGender = newValue;
+  //           });
+  //         },
+  //         items: <String>['Male', 'Female'].map<DropdownMenuItem<String>>((String value) {
+  //           return DropdownMenuItem<String>(
+  //             value: value,
+  //             child: Text(value),
+  //           );
+  //         }).toList(),
+  //       )
+  //     ],
+  //   );
+  // }
+  //
+  // //-----------------------Drop Down Menu Widget Type---------------------------
+  // Widget DropDownMenuType() {
+  //   return Row(
+  //     children: [
+  //       Container(
+  //         padding: EdgeInsets.only(left: 50.0, right: 50.0),
+  //         child: Text(
+  //           "type".tr().toString(),
+  //           style: TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
+  //         ),
+  //       ),
+  //       SizedBox(
+  //         width: 20.0.w,
+  //       ),
+  //       new DropdownButton<int>(
+  //         items: typeOptions
+  //             .map(
+  //               (description, value) {
+  //                 return MapEntry(
+  //                   description,
+  //                   DropdownMenuItem<int>(
+  //                     value: value,
+  //                     child: Text(description),
+  //                   ),
+  //                 );
+  //               },
+  //             )
+  //             .values
+  //             .toList(),
+  //         value: typeOptionDefault,
+  //         onChanged: (newValue) {
+  //           setState(() {
+  //             typeOptionDefault = newValue;
+  //             print(typeOptionDefault);
+  //           });
+  //         },
+  //       ),
+  //     ],
+  //   );
+  // }
 //------------------------------------------------------------------------------
 } //end class
-//done
+//TODO: 1- SEND ITEMS to server 2- get the location from map

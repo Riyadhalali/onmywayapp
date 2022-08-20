@@ -1,3 +1,4 @@
+import 'package:alatareekeh/provider/global.dart';
 import 'package:alatareekeh/ui/addappointment.dart';
 import 'package:alatareekeh/ui/checkappversion.dart';
 import 'package:alatareekeh/ui/forgetpassword.dart';
@@ -23,6 +24,7 @@ import 'package:alatareekeh/ui/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 
 void main() async {
@@ -67,41 +69,44 @@ class MyApp extends StatelessWidget {
             // print('your app language is:$lang');
             //initialize SizerUtil()
             SizerUtil().init(constraints, orientation); //initialize SizerUtil
-            return MaterialApp(
-              builder: EasyLoading.init(), // init the easy loading
-              debugShowCheckedModeBanner: false,
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              initialRoute: SplashScreen.id, // the default screen that will start
-              theme: ThemeData.light(),
-              routes: {
-                //-> we must add all routes
-                SplashScreen.id: (context) => SplashScreen(),
-                LanguageSelect.id: (context) => LanguageSelect(),
-                PrivacyPolicy.id: (context) => PrivacyPolicy(), // privacy policy route screen
-                HomePage.id: (context) => HomePage(),
-                SignIn.id: (context) => SignIn(),
-                Register.id: (context) => Register(),
-                ForgetPassword.id: (context) => ForgetPassword(),
-                Navigation.id: (context) => Navigation(),
-                AddSeekService.id: (context) => AddSeekService(),
-                MyAppointment.id: (context) => MyAppointment(),
-                MyServices.id: (context) => MyServices(),
-                Settings.id: (context) => Settings(),
-                SeekedServices.id: (context) => SeekedServices(),
-                Maps.id: (context) => Maps(),
-                AddAppointment.id: (context) => AddAppointment(),
-                SeekService.id: (context) => SeekService(),
-                SeekedTab.id: (context) => SeekedTab(),
-                ProvidedTab.id: (context) => ProvidedTab(),
-                Search.id: (context) => Search(),
-                SearchResults.id: (context) => SearchResults(),
-                CheckAppVersion.id: (context) => CheckAppVersion(),
-                MapPicker.id: (context) => MapPicker(),
+            return MultiProvider(
+              providers: [ChangeNotifierProvider(create: (_) => Global())],
+              child: MaterialApp(
+                builder: EasyLoading.init(), // init the easy loading
+                debugShowCheckedModeBanner: false,
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                initialRoute: SplashScreen.id, // the default screen that will start
+                theme: ThemeData.light(),
+                routes: {
+                  //-> we must add all routes
+                  SplashScreen.id: (context) => SplashScreen(),
+                  LanguageSelect.id: (context) => LanguageSelect(),
+                  PrivacyPolicy.id: (context) => PrivacyPolicy(), // privacy policy route screen
+                  HomePage.id: (context) => HomePage(),
+                  SignIn.id: (context) => SignIn(),
+                  Register.id: (context) => Register(),
+                  ForgetPassword.id: (context) => ForgetPassword(),
+                  Navigation.id: (context) => Navigation(),
+                  AddSeekService.id: (context) => AddSeekService(),
+                  MyAppointment.id: (context) => MyAppointment(),
+                  MyServices.id: (context) => MyServices(),
+                  Settings.id: (context) => Settings(),
+                  SeekedServices.id: (context) => SeekedServices(),
+                  Maps.id: (context) => Maps(),
+                  AddAppointment.id: (context) => AddAppointment(),
+                  SeekService.id: (context) => SeekService(),
+                  SeekedTab.id: (context) => SeekedTab(),
+                  ProvidedTab.id: (context) => ProvidedTab(),
+                  Search.id: (context) => Search(),
+                  SearchResults.id: (context) => SearchResults(),
+                  CheckAppVersion.id: (context) => CheckAppVersion(),
+                  MapPicker.id: (context) => MapPicker(),
 
-                //AuthPage.id: (context) => AuthPage(),
-              },
+                  //AuthPage.id: (context) => AuthPage(),
+                },
+              ),
             );
           },
         );

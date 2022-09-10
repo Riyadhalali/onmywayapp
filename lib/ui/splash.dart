@@ -2,11 +2,7 @@ import 'dart:async';
 
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/ui/navigationbar.dart';
-import 'package:alatareekeh/ui/privacypolicy.dart';
-import 'package:alatareekeh/ui/signin.dart';
 import 'package:flutter/material.dart';
-
-import 'languageselect.dart';
 
 class SplashScreen extends StatefulWidget {
   static String id = 'splash_screen'; // a global static for calling from any activity
@@ -35,27 +31,28 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future onDoneLoading() async {
+    Navigator.pushNamed(context, Navigation.id);
     // Navigator.pushNamed(context, Search.id);
-    String userId;
-    String selected_lang;
-    String privacypolicy;
-
-    userId = await sharedPref.LoadData('userID');
-    selected_lang = await sharedPref.LoadData('selectedlanguage');
-    privacypolicy = await sharedPref.LoadData('privacypolicystate');
-
-    if ((selected_lang == 'en' || selected_lang == 'ar') &&
-        (privacypolicy == 'privacypolicyaccepted' && userId != null)) {
-      Navigator.pushNamed(context, Navigation.id);
-    } else if ((selected_lang == 'en' || selected_lang == 'ar') &&
-        (privacypolicy == 'privacypolicyaccepted' && userId == null)) {
-      Navigator.pushNamed(context, SignIn.id);
-    } else if ((selected_lang == 'en' || selected_lang == 'ar') &&
-        (privacypolicy == null && userId == null)) {
-      Navigator.pushNamed(context, PrivacyPolicy.id);
-    } else {
-      Navigator.pushNamed(context, LanguageSelect.id);
-    }
+    // String userId;
+    // String selected_lang;
+    // String privacypolicy;
+    //
+    // userId = await sharedPref.LoadData('userID');
+    // selected_lang = await sharedPref.LoadData('selectedlanguage');
+    // privacypolicy = await sharedPref.LoadData('privacypolicystate');
+    //
+    // if ((selected_lang == 'en' || selected_lang == 'ar') &&
+    //     (privacypolicy == 'privacypolicyaccepted' && userId != null)) {
+    //   Navigator.pushNamed(context, Navigation.id);
+    // } else if ((selected_lang == 'en' || selected_lang == 'ar') &&
+    //     (privacypolicy == 'privacypolicyaccepted' && userId == null)) {
+    //   Navigator.pushNamed(context, SignIn.id);
+    // } else if ((selected_lang == 'en' || selected_lang == 'ar') &&
+    //     (privacypolicy == null && userId == null)) {
+    //   Navigator.pushNamed(context, PrivacyPolicy.id);
+    // } else {
+    //   Navigator.pushNamed(context, LanguageSelect.id);
+    // }
   } // end if
 
   //----------------------------------------------------------------------------

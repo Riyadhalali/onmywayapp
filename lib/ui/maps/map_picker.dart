@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alatareekeh/provider/global.dart';
+import 'package:alatareekeh/ui/maps/map_mylocationanddestination.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,6 +46,8 @@ class _MapPickerState extends State<MapPicker> {
   FocusNode endFocusNode;
   LatLng currentLocation;
   LatLng destinationLocation;
+  final wheretoGo = TextEditingController();
+  FocusNode focusNode;
 
   //-----------------------Functions----------------------------------------
   Future<Position> getDeviceLocation() async {
@@ -104,6 +107,49 @@ class _MapPickerState extends State<MapPicker> {
     googlePlace = GooglePlace(kGoogleApiKey);
     startFocusNode = FocusNode();
     endFocusNode = FocusNode();
+    focusNode = FocusNode();
+
+    //-> init show modal bottom sheet
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.015,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.only(left: 55.0, right: 55.0),
+                    child: Focus(
+                      onFocusChange: (hasFocus) {
+                        // do something when text field is selected
+                        Navigator.pushReplacementNamed(context, MapMyLocationAndDestination.id);
+                        ///TODO: pass my location to the page
+                      },
+                      child: TextFormField(
+                        focusNode: focusNode, //  autofocus: true,
+                        textAlign: TextAlign.start,
+                        controller: wheretoGo, // the variable that will contain input user data
+                        decoration: InputDecoration(
+                          filled: true, // to change the color of textinputfilled
+
+                          border: InputBorder.none,
+                          fillColor: Color(0xFFEFEFF3),
+                          hintText: "wheretogo".tr().toString(),
+                          //   helperText: "Please put your password",
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
+          });
+    });
   }
 
   @override
@@ -114,7 +160,11 @@ class _MapPickerState extends State<MapPicker> {
 
     startFocusNode.dispose();
     endFocusNode.dispose();
+    focusNode.dispose();
   }
+
+  final _controllerPush =
+      ScrollController(); // controller for pushing content up when user selects the text field
 
   @override
   Widget build(BuildContext context) {
@@ -307,6 +357,15 @@ class _MapPickerState extends State<MapPicker> {
                       color: Colors.black,
                     ),
                   ),
+                  ElevatedButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return Container();
+                            });
+                      },
+                      child: Text("Where To Go >>"))
 
                   // Positioned(
                   //   bottom: 30,

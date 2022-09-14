@@ -5,6 +5,7 @@ import 'package:alatareekeh/ui/forgetpassword.dart';
 import 'package:alatareekeh/ui/home.dart';
 import 'package:alatareekeh/ui/languageselect.dart';
 import 'package:alatareekeh/ui/maps.dart';
+import 'package:alatareekeh/ui/maps/map_mylocationanddestination.dart';
 import 'package:alatareekeh/ui/maps/map_picker.dart';
 import 'package:alatareekeh/ui/myappointments.dart';
 import 'package:alatareekeh/ui/myservices.dart';
@@ -103,6 +104,7 @@ class MyApp extends StatelessWidget {
                   SearchResults.id: (context) => SearchResults(),
                   CheckAppVersion.id: (context) => CheckAppVersion(),
                   MapPicker.id: (context) => MapPicker(),
+                  MapMyLocationAndDestination.id: (context) => MapMyLocationAndDestination()
 
                   //AuthPage.id: (context) => AuthPage(),
                 },

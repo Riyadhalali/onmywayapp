@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:alatareekeh/provider/global.dart';
+import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/maps/map_mylocationanddestination.dart';
+import 'package:alatareekeh/utils/utils.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -128,7 +130,7 @@ class _MapPickerState extends State<MapPicker> {
                       onFocusChange: (hasFocus) {
                         // do something when text field is selected
                         Navigator.pushReplacementNamed(context, MapMyLocationAndDestination.id);
-                        ///TODO: pass my location to the page
+                        //TODO: pass my location to the page
                       },
                       child: TextFormField(
                         focusNode: focusNode, //  autofocus: true,
@@ -157,7 +159,6 @@ class _MapPickerState extends State<MapPicker> {
     // TODO: implement dispose
     super.dispose();
     mapController.dispose();
-
     startFocusNode.dispose();
     endFocusNode.dispose();
     focusNode.dispose();
@@ -192,130 +193,13 @@ class _MapPickerState extends State<MapPicker> {
       return SafeArea(
         child: Column(
           children: [
-            // Container(
-            //   color: Colors.red,
-            //   child: Column(
-            //     children: [
-            //       Container(
-            //         color: Colors.blue,
-            //         child: TextField(
-            //           controller: _startSearchFieldController,
-            //           autofocus: false,
-            //           focusNode: startFocusNode,
-            //           style: TextStyle(fontSize: 24),
-            //           decoration: InputDecoration(
-            //               hintText: 'Start Point',
-            //               hintStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 24),
-            //               filled: true,
-            //               fillColor: Colors.grey[200],
-            //               border: InputBorder.none),
-            //           onChanged: (value) {
-            //             if (value.isNotEmpty) {
-            //               autoCompleteSearch(value);
-            //             } else {
-            //               // clear out the results
-            //               setState(() {
-            //                 predictions = [];
-            //                 startPosition = null;
-            //               });
-            //             }
-            //           },
-            //         ),
-            //       ),
-            //       TextField(
-            //         controller: _endSearchFieldController,
-            //         autofocus: false,
-            //         focusNode: endFocusNode,
-            //         style: TextStyle(fontSize: 24),
-            //         decoration: InputDecoration(
-            //             hintText: 'End Point',
-            //             hintStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 24),
-            //             filled: true,
-            //             fillColor: Colors.grey[200],
-            //             border: InputBorder.none),
-            //         onChanged: (value) {
-            //           if (value.isNotEmpty) {
-            //             autoCompleteSearch(value);
-            //           } else {
-            //             // clear out the results
-            //             setState(() {
-            //               predictions = [];
-            //               endPosition = null;
-            //             });
-            //           }
-            //         },
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // ListView.builder(
-            //     shrinkWrap: true,
-            //     itemCount: predictions.length,
-            //     itemBuilder: (context, index) {
-            //       return ListTile(
-            //         leading: CircleAvatar(
-            //           child: Icon(
-            //             Icons.pin_drop,
-            //             color: Colors.white,
-            //           ),
-            //         ),
-            //         title: Text(predictions[index].description.toString()),
-            //         onTap: () async {
-            //           // get the place id from the predictions
-            //           final placeID = predictions[index].placeId;
-            //
-            //           // pass the place id to get the details
-            //           final details = await googlePlace.details.get(placeID);
-            //           //-> i think from here we can navigate to the place
-            //           double latNew = details.result.geometry.location.lat;
-            //           double lngNew = details.result.geometry.location.lng;
-            //
-            //           print("latNew: $latNew");
-            //
-            //           if (details != null && details.result != null && mounted) {
-            //             if (startFocusNode.hasFocus) {
-            //               // animate camera to location
-            //               final GoogleMapController controller = await _controller.future;
-            //               controller.animateCamera(CameraUpdate.newCameraPosition(
-            //                   CameraPosition(target: LatLng(latNew, lngNew), zoom: 15.0)));
-            //               setState(() async {
-            //                 startPosition = details.result;
-            //
-            //                 _startSearchFieldController.text = details.result.name;
-            //
-            //                 predictions = []; // empty list when done selection
-            //               });
-            //             } else {
-            //               final GoogleMapController controller = await _controller.future;
-            //               controller.animateCamera(CameraUpdate.newCameraPosition(
-            //                   CameraPosition(target: LatLng(latNew, lngNew), zoom: 15.0)));
-            //               setState(() {
-            //                 endPosition = details.result;
-            //                 _endSearchFieldController.text = details.result.name;
-            //                 predictions = []; // empty list when done selection
-            //               });
-            //             }
-            //             if (startPosition != null && endPosition != null) {
-            //               //TODO: go to another screen with the search results
-            //               //   Navigator.push(
-            //               //       context,
-            //               //       MaterialPageRoute(
-            //               //           builder: (context) => MapsPlacesBySearch(
-            //               //             startPosition: startPosition,
-            //               //             endPosition: endPosition,
-            //               //             currentLocation: currentLocation,
-            //               //           )));
-            //             }
-            //           }
-            //         },
-            //       );
-            //  }),
             Expanded(
               child: Stack(
                 children: [
                   GoogleMap(
                     onTap: (latlng) {},
-                    // mapType: MapType.terrain,  // if your using styles you must delete this line because it will override the styles
+                    mapType: MapType
+                        .terrain, // if your using styles you must delete this line because it will override the styles
                     initialCameraPosition: CameraPosition(
                       target: LatLng(currentPosition.latitude, currentPosition.longitude),
                       zoom: 15.0,
@@ -329,11 +213,11 @@ class _MapPickerState extends State<MapPicker> {
                     onMapCreated: (GoogleMapController controller) {
                       _controller.complete(controller);
                       // change style of controller
-                      controller.setMapStyle(_mapStyle);
+                      //   controller.setMapStyle(_mapStyle);
                     },
                     onCameraMove: (CameraPosition newPosition) {
                       DESTINATION_LOCATION = newPosition.target;
-                      //   print("destination new is : ${DESTINATION_LOCATION}");
+                      //    print("destination new is : ${DESTINATION_LOCATION}");
                     },
                     padding: const EdgeInsets.all(0),
                     buildingsEnabled: true,
@@ -357,61 +241,39 @@ class _MapPickerState extends State<MapPicker> {
                       color: Colors.black,
                     ),
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Container();
-                            });
-                      },
-                      child: Text("Where To Go >>"))
+                  Positioned(
+                    bottom: 10,
+                    right: 10,
+                    left: 10,
+                    // right: MediaQuery.of(context).size.width * 0.5,
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
+                        onPressed: () async {
+                          //TODO: save the location to provider,and pass of user that wants to go to
+                          print(DESTINATION_LOCATION);
+                          Utils utils = new Utils();
+                          //must use vpn to work
+                          //-> using gecoding method
+                          String locationReturned = await WebServices.getAddressFromCordinates(
+                              "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE",
+                              DESTINATION_LOCATION.latitude.toString(),
+                              DESTINATION_LOCATION.longitude.toString());
+                          print(locationReturned);
 
-                  // Positioned(
-                  //   bottom: 30,
-                  //   left: 30,
-                  //   child: Container(
-                  //     color: Colors.white,
-                  //     width: MediaQuery.of(context).size.width * 0.8,
-                  //     child: Row(
-                  //       children: [
-                  //         //-> i used the consumer widget so i can update just widget not all application
-                  //         Consumer<Global>(builder: (context, showIndicator, _) {
-                  //           return Visibility(
-                  //             visible: showIndicator.showProgressInMap,
-                  //             child: Padding(
-                  //               padding: const EdgeInsets.all(8.0),
-                  //               child: CircularProgressIndicator(),
-                  //             ),
-                  //           );
-                  //         }),
-                  //         IconButton(
-                  //           onPressed: () async {
-                  //             //  var positionNew = await _determinePosition();
-                  //             globalProvider.showProgress(true);
-                  //             final GoogleMapController controller = await _controller.future;
-                  //             controller.animateCamera(CameraUpdate.newCameraPosition(
-                  //                 CameraPosition(
-                  //                     target: LatLng(DESTINATION_LOCATION.latitude,
-                  //                         DESTINATION_LOCATION.longitude),
-                  //                     zoom: 15.0)));
-                  //             // print(
-                  //             //     "new position is ${DESTINATION_LOCATION.latitude} and ${DESTINATION_LOCATION.longitude} ");
-                  //
-                  //             //-> get the place from cordinates using geocoding but must use vpn to work
-                  //             List<Placemark> placemarks = await placemarkFromCoordinates(
-                  //                 DESTINATION_LOCATION.latitude, DESTINATION_LOCATION.longitude);
-                  //
-                  //             print("placemarks : ${placemarks}");
-                  //
-                  //             globalProvider.showProgress(false);
-                  //           },
-                  //           icon: const Icon(Icons.done),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
+                          // try {
+                          //   List<Placemark> placemarks = await placemarkFromCoordinates(
+                          //     DESTINATION_LOCATION.latitude,
+                          //     DESTINATION_LOCATION.longitude,
+                          //   );
+                          //   print(placemarks[0]);
+                          //   //    utils.toastMessage(placemarks[0].name.toString());
+                          // } catch (error) {
+                          //   utils.toastMessage(error);
+                          // }
+                        },
+                        child: Text("Confirm Location")),
+                  )
                 ],
               ),
             ),

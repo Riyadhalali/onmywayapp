@@ -10,6 +10,7 @@ import 'package:alatareekeh/services/getlogindata.dart';
 import 'package:alatareekeh/services/getmyappointments.dart';
 import 'package:alatareekeh/services/getmyservices.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
+import 'package:alatareekeh/utils/utils.dart';
 import 'package:http/http.dart' as http;
 
 import 'getprovdiedservices.dart';
@@ -315,5 +316,25 @@ class WebServices {
       throw 'error in getting app versiom method webservice';
     }
   }
+
+  //------------------Geocoding Google API--------------------------------------
+
+  static Future<String> getAddressFromCordinates(String apiKey, String lat, String lng) async {
+    var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey";
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        String data = response.body;
+        var decodedData = jsonDecode(data); // decoding datawork
+        var message = decodedData['results'][1]["formatted_address"];
+
+        return message;
+      }
+    } catch (e) {
+      Utils utils = new Utils();
+      utils.toastMessage(e);
+    }
+  }
+
 //------------------------------------------------------------------------------
 } // end class

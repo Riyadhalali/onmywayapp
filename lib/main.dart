@@ -1,4 +1,5 @@
 import 'package:alatareekeh/provider/global.dart';
+import 'package:alatareekeh/provider/mapProvider.dart';
 import 'package:alatareekeh/ui/addappointment.dart';
 import 'package:alatareekeh/ui/checkappversion.dart';
 import 'package:alatareekeh/ui/forgetpassword.dart';
@@ -7,6 +8,7 @@ import 'package:alatareekeh/ui/languageselect.dart';
 import 'package:alatareekeh/ui/maps.dart';
 import 'package:alatareekeh/ui/maps/map_mylocationanddestination.dart';
 import 'package:alatareekeh/ui/maps/map_picker.dart';
+import 'package:alatareekeh/ui/maps/maps_places_by_search.dart';
 import 'package:alatareekeh/ui/myappointments.dart';
 import 'package:alatareekeh/ui/myservices.dart';
 import 'package:alatareekeh/ui/navigationbar.dart';
@@ -71,7 +73,10 @@ class MyApp extends StatelessWidget {
             //initialize SizerUtil()
             SizerUtil().init(constraints, orientation); //initialize SizerUtil
             return MultiProvider(
-              providers: [ChangeNotifierProvider(create: (_) => Global())],
+              providers: [
+                ChangeNotifierProvider(create: (_) => Global()),
+                ChangeNotifierProvider(create: (_) => MapProvider())
+              ],
               child: MaterialApp(
                 builder: EasyLoading.init(), // init the easy loading
                 debugShowCheckedModeBanner: false,
@@ -103,8 +108,11 @@ class MyApp extends StatelessWidget {
                   Search.id: (context) => Search(),
                   SearchResults.id: (context) => SearchResults(),
                   CheckAppVersion.id: (context) => CheckAppVersion(),
-                  MapPicker.id: (context) => MapPicker(),
-                  MapMyLocationAndDestination.id: (context) => MapMyLocationAndDestination()
+                  MapPicker.id: (context) => MapPicker(), // user pick location page
+                  MapMyLocationAndDestination.id: (context) =>
+                      MapMyLocationAndDestination(), // user select his location and destination and then we go to the maps places by search
+                  MapsPlacesBySearch.id: (context) =>
+                      MapsPlacesBySearch() // this page show the polylines between places that user selected
 
                   //AuthPage.id: (context) => AuthPage(),
                 },

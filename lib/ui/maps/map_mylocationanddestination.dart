@@ -1,3 +1,4 @@
+import 'package:alatareekeh/ui/maps/maps_places_by_search.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
@@ -150,11 +151,10 @@ class _MapMyLocationAndDestinationState extends State<MapMyLocationAndDestinatio
                   itemCount: predictions.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                        leading: CircleAvatar(
-                          child: Icon(
-                            Icons.pin_drop,
-                            color: Colors.white,
-                          ),
+                        trailing: Icon(Icons.arrow_circle_right_outlined),
+                        leading: Icon(
+                          Icons.location_on,
+                          color: Colors.amberAccent,
                         ),
                         title: Text(predictions[index].description.toString()),
                         onTap: () async {
@@ -175,11 +175,26 @@ class _MapMyLocationAndDestinationState extends State<MapMyLocationAndDestinatio
                                 myLocation.text = details.result.name;
 
                                 // predictions = []; // empty list when done selection
-                                ///TODO: we can clear the results when we done selecting the location
                               });
-                            } else {
-                              endPosition = details.result;
-                              myDestination.text = details.result.name;
+                            }
+                            if (myDestinationFocusNode.hasFocus && myLocation.text.isNotEmpty) {
+                              setState(() async {
+                                endPosition = details.result;
+
+                                myDestination.text = details.result.name;
+
+                                predictions = []; // empty list when done selection
+                                ///TODO: we can clear the results when we done selecting the location and navigate to the path and show the path and draw the polylines
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MapsPlacesBySearch(
+                                              startPosition: startPosition,
+                                              endPosition: endPosition,
+                                              placeToGo: myDestination.text,
+                                              //  currentLocation: currentLocation,
+                                            )));
+                              });
                             }
                           }
                         });

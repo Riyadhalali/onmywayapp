@@ -318,7 +318,7 @@ class WebServices {
   }
 
   //------------------Geocoding Google API--------------------------------------
-
+  //> we can get  all data we need for place
   static Future<String> getAddressFromCordinates(String apiKey, String lat, String lng) async {
     var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$lng&key=$apiKey";
     try {
@@ -326,9 +326,27 @@ class WebServices {
       if (response.statusCode == 200) {
         String data = response.body;
         var decodedData = jsonDecode(data); // decoding datawork
-        var message = decodedData['results'][1]["formatted_address"];
-
+        // var message = decodedData['results'][0]["formatted_address"];
+        var message = decodedData['results'][0]["place_id"]; // get the place id
         return message;
+      }
+    } catch (e) {
+      Utils utils = new Utils();
+      utils.toastMessage(e);
+    }
+  }
+
+  static Future<String> getPlaceNameBasedInPlaceId(String placeID, String apiKey) async {
+    //-> ref: https://developers.google.com/maps/documentation/places/web-service/details
+    var url =
+        "https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Crating%2Cformatted_phone_number&place_id=$placeID&key=$apiKey";
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        String data = response.body;
+        var decodedData = jsonDecode(data);
+        var placeName = decodedData['result']["name"]; // get the place id
+        return placeName;
       }
     } catch (e) {
       Utils utils = new Utils();

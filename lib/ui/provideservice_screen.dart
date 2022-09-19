@@ -2,11 +2,13 @@ import 'package:alatareekeh/components/textinputfieldwithiconroundedcorners.dart
 import 'package:alatareekeh/components/timedatepicker.dart';
 import 'package:alatareekeh/components/togglebutton2.dart';
 import 'package:alatareekeh/constants/colors.dart';
+import 'package:alatareekeh/provider/mapProvider.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/maps/map_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //-> this page for providing service so i am a provider of services
 class AddSeekService extends StatefulWidget {
@@ -41,9 +43,10 @@ class _AddSeekServiceState extends State<AddSeekService> {
   String dropdownValue = 'One';
 
   //----------------------Variables----------------------
+
   ColorsApp colorsApp = new ColorsApp();
   final usernameController = TextEditingController();
-  final fromController = TextEditingController();
+  var fromController = TextEditingController();
   final toController = TextEditingController();
   final spaceController = TextEditingController();
   final phoneController = TextEditingController();
@@ -111,6 +114,12 @@ class _AddSeekServiceState extends State<AddSeekService> {
     super.initState();
     LoadUserData(); // shared pref
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    fromController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +133,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
 
   //------------------------------Column Element------------------------------
   Widget columnElements() {
+    MapProvider mapProvider = Provider.of<MapProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -154,7 +164,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
             },
             child: TextInputFieldWithIconRoundedCorners(
               prefixIconColor: colorsApp.timePickerBorder,
-              controller_text: fromController,
+              controller_text: mapProvider.addServicePageFrom,
               prefixIcon: "assets/ui/addservice/from.png",
               show_password: false,
               //  icon_widget: Icon(Icons.location_on),

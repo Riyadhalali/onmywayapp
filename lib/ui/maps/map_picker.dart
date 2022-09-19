@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alatareekeh/provider/global.dart';
+import 'package:alatareekeh/provider/mapProvider.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/maps/map_mylocationanddestination.dart';
 import 'package:alatareekeh/utils/utils.dart';
@@ -50,6 +51,7 @@ class _MapPickerState extends State<MapPicker> {
   LatLng destinationLocation;
   final wheretoGo = TextEditingController();
   FocusNode focusNode;
+  String placeId, placeName;
 
   //-----------------------Functions----------------------------------------
   Future<Position> getDeviceLocation() async {
@@ -186,6 +188,7 @@ class _MapPickerState extends State<MapPicker> {
 
   //------------------------Map----------------------------------------------------
   Widget buildMap() {
+    MapProvider mapProvider = Provider.of<MapProvider>(context);
     return LayoutBuilder(builder: (context, constraints) {
       Global globalProvider = Provider.of<Global>(context);
       var maxWidth = constraints.biggest.width;
@@ -254,23 +257,34 @@ class _MapPickerState extends State<MapPicker> {
                           print(DESTINATION_LOCATION);
                           Utils utils = new Utils();
                           //must use vpn to work
-                          //-> using gecoding method
-                          String locationReturned = await WebServices.getAddressFromCordinates(
-                              "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE",
-                              DESTINATION_LOCATION.latitude.toString(),
-                              DESTINATION_LOCATION.longitude.toString());
-                          print(locationReturned);
+                          //-> using Google APi geocoding
+                          try {
+                            placeId = await WebServices.getAddressFromCordinates(
+                                "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE",
+                                DESTINATION_LOCATION.latitude.toString(),
+                                DESTINATION_LOCATION.longitude.toString());
+                            //  print(placeId);
+                            //-> get the place name using google api place id but we must get the place id
+                            placeName = await WebServices.getPlaceNameBasedInPlaceId(
+                                placeId, "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE");
+                            utils.toastMessage(placeName);
+                          } catch (error) {
+                            utils.toastMessage(error); // display the error message
+                          }
+                          //-> this method is using geocoding package
+//                           try {
+//                             List<Placemark> placemarks = await placemarkFromCoordinates(
+//                               DESTINATION_LOCATION.latitude,
+//                               DESTINATION_LOCATION.longitude,
+//                             );
+//                             print(placemarks[0]);
+//                             //    utils.toastMessage(placemarks[0].name.toString());
+//                           } catch (error) {
+//                             utils.toastMessage(error);
+//                           }
 
-                          // try {
-                          //   List<Placemark> placemarks = await placemarkFromCoordinates(
-                          //     DESTINATION_LOCATION.latitude,
-                          //     DESTINATION_LOCATION.longitude,
-                          //   );
-                          //   print(placemarks[0]);
-                          //   //    utils.toastMessage(placemarks[0].name.toString());
-                          // } catch (error) {
-                          //   utils.toastMessage(error);
-                          // }
+                          mapProvider.addServicePageFromPlace(placeName);
+                          Navigator.of(context).pop(); // to be in the provide service page
                         },
                         child: Text("Confirm Location")),
                   )

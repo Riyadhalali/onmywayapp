@@ -1,10 +1,13 @@
-import 'package:alatareekeh/ui/maps/map_picker.dart';
+import 'package:alatareekeh/provider/mapProvider.dart';
+import 'package:alatareekeh/ui/maps/map_picker_from.dart';
+import 'package:alatareekeh/ui/provideservice_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:provider/provider.dart';
 
 import 'maps_utils.dart';
 
@@ -102,6 +105,8 @@ class _MapsPlacesBySearchState extends State<MapsPlacesBySearch> {
   //-------------------------Floating Action Bar------------------------------------
   Widget buildFloatingActionBar() {
     final isPortrait = MediaQuery.of(context).orientation == Orientation.portrait;
+
+    MapProvider mapProvider = Provider.of<MapProvider>(context);
     return FloatingSearchBar(
       automaticallyImplyBackButton: true, // to hide back button
       hint: widget.placeToGo,
@@ -131,7 +136,10 @@ class _MapsPlacesBySearchState extends State<MapsPlacesBySearch> {
           child: CircularButton(
             icon: const Icon(Icons.check),
             onPressed: () {
-              ///Confirm Location and go to the provid service page
+              mapProvider.addServicePageFromPlace(widget.startPosition.name);
+              mapProvider.addServicePageToPlace(widget.endPosition.name);
+
+              Navigator.of(context).pushReplacementNamed(AddSeekService.id);
             },
           ),
         ),

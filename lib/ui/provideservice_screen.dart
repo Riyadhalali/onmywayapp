@@ -5,7 +5,8 @@ import 'package:alatareekeh/constants/colors.dart';
 import 'package:alatareekeh/provider/mapProvider.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
-import 'package:alatareekeh/ui/maps/map_picker.dart';
+import 'package:alatareekeh/ui/maps/map_picker_from.dart';
+import 'package:alatareekeh/ui/maps/map_picker_to.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -114,11 +115,12 @@ class _AddSeekServiceState extends State<AddSeekService> {
     super.initState();
     LoadUserData(); // shared pref
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
+
     super.dispose();
-    fromController.dispose();
   }
 
   @override
@@ -157,32 +159,40 @@ class _AddSeekServiceState extends State<AddSeekService> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
           ),
-          InkWell(
-            onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("hello")));
-              Navigator.of(context).pushNamed(MapPicker.id);
-            },
-            child: TextInputFieldWithIconRoundedCorners(
-              prefixIconColor: colorsApp.timePickerBorder,
-              controller_text: mapProvider.addServicePageFrom,
-              prefixIcon: "assets/ui/addservice/from.png",
-              show_password: false,
-              //  icon_widget: Icon(Icons.location_on),
-              hint_text: "from".tr().toString(),
-              FunctionToDo: () {
-                print("Hello");
+          TextInputFieldWithIconRoundedCorners(
+            prefixIconColor: colorsApp.timePickerBorder,
+            controller_text:
+                mapProvider.addServicePageFrom, // the controller is in the provider class
+            prefixIcon: "assets/ui/addservice/from.png",
+            show_password: false,
+            //  icon_widget: Icon(Icons.location_on),
+            suffixIcon: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(MapPicker.id);
               },
+              icon: Icon(Icons.share_location),
             ),
+            hint_text: "from".tr().toString(),
+            FunctionToDo: () {
+              // print("Hello");
+            },
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
           ),
           TextInputFieldWithIconRoundedCorners(
             prefixIconColor: colorsApp.timePickerBorder,
-            controller_text: toController,
+            controller_text:
+                mapProvider.addServicePageTo, // the controller is in the provider class
             prefixIcon: "assets/ui/addservice/to.png",
             show_password: false,
             //  icon_widget: Icon(Icons.location_on),
+            suffixIcon: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(MapPickerTo.id);
+              },
+              icon: Icon(Icons.share_location),
+            ),
             hint_text: "to".tr().toString(),
             FunctionToDo: () {
               print("Hello");

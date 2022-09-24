@@ -8,6 +8,7 @@ class TextInputFieldWithIconRoundedCorners extends StatelessWidget {
   final Color prefixIconColor;
   final String prefixIcon;
   final bool show_password;
+  final IconButton suffixIcon;
   Function FunctionToDo;
 
   TextInputFieldWithIconRoundedCorners(
@@ -18,7 +19,8 @@ class TextInputFieldWithIconRoundedCorners extends StatelessWidget {
       this.show_password,
       this.FunctionToDo,
       this.prefixIcon,
-      this.prefixIconColor});
+      this.prefixIconColor,
+      this.suffixIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class TextInputFieldWithIconRoundedCorners extends StatelessWidget {
               size: 5.0,
             ),
           ),
+          suffixIcon: suffixIcon,
           border: OutlineInputBorder(
               borderSide: BorderSide(width: 0, style: BorderStyle.none),
               borderRadius: BorderRadius.circular(30)),

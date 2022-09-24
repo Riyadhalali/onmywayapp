@@ -18,9 +18,10 @@ import 'package:provider/provider.dart';
 class MapPicker extends StatefulWidget {
   static const id = 'map_picker';
   double latitudePassed, longitudePassed;
+  bool placeFromOrTo;
   String appointmentId;
 
-  MapPicker({this.appointmentId, this.latitudePassed, this.longitudePassed});
+  MapPicker({this.appointmentId, this.latitudePassed, this.longitudePassed, this.placeFromOrTo});
   @override
   _MapPickerState createState() => _MapPickerState();
 }
@@ -160,7 +161,7 @@ class _MapPickerState extends State<MapPicker> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    mapController.dispose();
+    // mapController.dispose();
     startFocusNode.dispose();
     endFocusNode.dispose();
     focusNode.dispose();
@@ -267,6 +268,7 @@ class _MapPickerState extends State<MapPicker> {
                             //-> get the place name using google api place id but we must get the place id
                             placeName = await WebServices.getPlaceNameBasedInPlaceId(
                                 placeId, "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE");
+                            //-> here i already saved the lat and long and i get the place id
                             utils.toastMessage(placeName);
                           } catch (error) {
                             utils.toastMessage(error); // display the error message

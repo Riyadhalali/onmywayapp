@@ -1,3 +1,4 @@
+import 'package:alatareekeh/ui/maps/maps_places_by_search.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -146,7 +147,7 @@ class _MapsSearchScreenState extends State<MapsSearchScreen> {
                           setState(() {
                             startPosition = details.result;
                             _startSearchFieldController.text = details.result.name;
-                            predictions = []; // empty list when done selection
+                            //   predictions = []; // empty list when done selection
                           });
                         } else {
                           setState(() {
@@ -157,14 +158,14 @@ class _MapsSearchScreenState extends State<MapsSearchScreen> {
                         }
                         if (startPosition != null && endPosition != null) {
                           //TODO: go to another screen with the search results
-                          //   Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => MapsPlacesBySearch(
-                          //             startPosition: startPosition,
-                          //             endPosition: endPosition,
-                          //             currentLocation: currentLocation,
-                          //           )));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MapsPlacesBySearch(
+                                        startPosition: startPosition,
+                                        endPosition: endPosition,
+                                        // currentLocation: currentLocation,
+                                      )));
                         }
                       }
                     },

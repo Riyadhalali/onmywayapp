@@ -7,7 +7,8 @@ import 'package:alatareekeh/ui/home.dart';
 import 'package:alatareekeh/ui/languageselect.dart';
 import 'package:alatareekeh/ui/maps.dart';
 import 'package:alatareekeh/ui/maps/map_mylocationanddestination.dart';
-import 'package:alatareekeh/ui/maps/map_picker.dart';
+import 'package:alatareekeh/ui/maps/map_picker_from.dart';
+import 'package:alatareekeh/ui/maps/map_picker_to.dart';
 import 'package:alatareekeh/ui/maps/maps_places_by_search.dart';
 import 'package:alatareekeh/ui/myappointments.dart';
 import 'package:alatareekeh/ui/myservices.dart';
@@ -109,6 +110,7 @@ class MyApp extends StatelessWidget {
                   SearchResults.id: (context) => SearchResults(),
                   CheckAppVersion.id: (context) => CheckAppVersion(),
                   MapPicker.id: (context) => MapPicker(), // user pick location page
+                  MapPickerTo.id: (context) => MapPickerTo(), // user pick location page
                   MapMyLocationAndDestination.id: (context) =>
                       MapMyLocationAndDestination(), // user select his location and destination and then we go to the maps places by search
                   MapsPlacesBySearch.id: (context) =>

@@ -6,6 +6,7 @@ class MapProvider extends ChangeNotifier {
   final addServicePageTo = TextEditingController(); // to
   String destinationLat;
   String destinationLng;
+  final serviceTime = TextEditingController();
 //in the add service from text field
   void addServicePageFromPlace(String value) {
     addServicePageFrom.text = value;
@@ -16,6 +17,12 @@ class MapProvider extends ChangeNotifier {
   //in the add service to text field
   void addServicePageToPlace(String value) {
     addServicePageTo.text = value;
+    notifyListeners();
+  }
+
+  //-> in provide service date controller
+  void serviceTimeProvidedService(String value) {
+    serviceTime.text = value;
     notifyListeners();
   }
 } // end  class

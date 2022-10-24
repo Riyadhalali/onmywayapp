@@ -1,15 +1,23 @@
 import 'package:alatareekeh/components/textinputfieldwithiconroundedcorners.dart';
 import 'package:alatareekeh/components/timedatepicker.dart';
-import 'package:alatareekeh/components/togglebutton2.dart';
+import 'package:alatareekeh/components/togglebuttonmalefemale.dart';
+import 'package:alatareekeh/components/togglebuttonpersonpackage.dart';
+import 'package:alatareekeh/components/togglebuttonpublicprivate.dart';
 import 'package:alatareekeh/constants/colors.dart';
+import 'package:alatareekeh/provider/global.dart';
 import 'package:alatareekeh/provider/mapProvider.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/maps/map_picker_from.dart';
 import 'package:alatareekeh/ui/maps/map_picker_to.dart';
+import 'package:alatareekeh/utils/utils.dart';
+import 'package:date_format/date_format.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+
+import 'navigationbar.dart';
 
 //-> this page for providing service so i am a provider of services
 class AddSeekService extends StatefulWidget {
@@ -22,6 +30,8 @@ class _AddSeekServiceState extends State<AddSeekService> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   WebServices webServices = new WebServices();
   SharedPref sharedPref = SharedPref();
+  DateTimePickerClass dateTimePickerClass = new DateTimePickerClass();
+  String serviceDate;
 
   var message;
   String dropDownMenuGender =
@@ -42,6 +52,12 @@ class _AddSeekServiceState extends State<AddSeekService> {
   };
   int typeOptionDefault = 1; // one is for adding service
   String dropdownValue = 'One';
+  String dropDownMenuPersonPackage = ' '; // for package or person
+  String dropDownMenuPublicPrivate = ' '; // for package or person
+  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  DateTime selectedDate = DateTime.now();
+
+  Utils utils = Utils();
 
   //----------------------Variables----------------------
 
@@ -51,57 +67,74 @@ class _AddSeekServiceState extends State<AddSeekService> {
   final toController = TextEditingController();
   final spaceController = TextEditingController();
   final phoneController = TextEditingController();
+  final dateController = TextEditingController();
+  final timeController = TextEditingController();
 
 //------------------------------------------------------------------------------
-  //-> this method to get selected time from datetimepicker statfull widget
-  // void getdatetime() async {
-  //   //-> to make sure that user select date
-  //   if (DateTimePickerClass.valueselected == null) {
-  //     _scaffoldKey.currentState.showSnackBar(SnackBar(
-  //       content: Text("pleasefillalldata".tr().toString()),
-  //       duration: Duration(seconds: 3),
-  //       backgroundColor: Colors.amber,
-  //     ));
-  //
-  //     //
-  //   } else {
-  //     setState(() {
-  //       _usernameController.text.isEmpty ? validateUsername = true : validateUsername = false;
-  //
-  //       _fromController.text.isEmpty ? validateFrom = true : validateFrom = false;
-  //
-  //       _toController.text.isEmpty ? validateTo = true : validateTo = false;
-  //
-  //       _spaceController.text.isEmpty ? validateSpace = true : validateSpace = false;
-  //
-  //       _phoneController.text.isEmpty ? validatephone = true : validatephone = false;
-  //     });
-  //
-  //     if (validateUsername || validateFrom || validateTo || validatephone) {
-  //       return;
-  //     }
-  //     EasyLoading.show(status: "loading".tr().toString());
-  //     message = await webServices.addSeekService(
-  //         userID,
-  //         typeOptionDefault, // value of dropdown menu
-  //         _phoneController.text,
-  //         _spaceController.text,
-  //         DateTimePickerClass.valueselected,
-  //         dropDownMenuGender,
-  //         _fromController.text,
-  //         _toController.text,
-  //         _usernameController.text);
-  //
-  //     EasyLoading.dismiss();
-  //     _scaffoldKey.currentState.showSnackBar(SnackBar(
-  //       backgroundColor: Colors.amber,
-  //       content: Text(message),
-  //       duration: Duration(seconds: 3),
-  //     ));
-  //   }
-  // }
+  // -> this method to get selected time from datetimepicker statfull widget
+  void sendRequest() async {
+    MapProvider mapProvider = Provider.of<MapProvider>(context, listen: false);
 
-//------------------------------------------------------------------------------
+    Global globalProviders = Provider.of<Global>(context, listen: false);
+
+    //-> for male female toggle buttons
+    if (globalProviders.indexToggleButtonMalefemale == 0) {
+      dropDownMenuGender = "Male";
+    } else {
+      dropDownMenuGender = "Female"; // index == 1 from provider
+    }
+
+    if (globalProviders.indexToggleButtonPersonPackage == 0) {
+      dropDownMenuPersonPackage = "Package";
+    } else {
+      dropDownMenuPersonPackage = "Person"; // index == 1 from provider
+    }
+
+    if (globalProviders.indexToggleButtonPublicPrivate == 0) {
+      dropDownMenuPublicPrivate = "؛Public";
+    } else {
+      dropDownMenuPublicPrivate = "Private"; // index == 1 from provider
+    }
+
+    setState(() {
+      usernameController.text.isEmpty ? validateUsername = true : validateUsername = false;
+
+      mapProvider.addServicePageFrom.text.isEmpty ? validateFrom = true : validateFrom = false;
+
+      mapProvider.addServicePageTo.text.isEmpty ? validateTo = true : validateTo = false;
+
+      spaceController.text.isEmpty ? validateSpace = true : validateSpace = false;
+
+      phoneController.text.isEmpty ? validatephone = true : validatephone = false;
+    });
+
+    if (validateUsername || validateFrom || validateTo || validatephone) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please fill all data")));
+      return;
+    }
+    utils.showProcessingDialog("Loading".tr().toString(), context);
+    webServices
+        .addSeekService(
+            userID,
+            typeOptionDefault, // value of dropdown menu
+            phoneController.text,
+            spaceController.text,
+            dateController.text + " " + timeController.text,
+            dropDownMenuGender,
+            mapProvider.addServicePageFrom.text,
+            mapProvider.addServicePageTo.text,
+            usernameController.text)
+        .then((value) {
+      message = value;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
+      Navigator.of(context).pop();
+      Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
+    }).catchError((onError) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(onError)));
+    });
+  }
+
+  //------------------------------------------------------------------------------
   //-------------------------------Load User Data---------------------------------
   //-> Shared Preferences for Loading User id
   void LoadUserData() async {
@@ -112,6 +145,12 @@ class _AddSeekServiceState extends State<AddSeekService> {
   @override
   void initState() {
     // TODO: implement initState
+
+    dateController.text = DateFormat.yMd().format(DateTime.now());
+
+    timeController.text = formatDate(
+        DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
+        [hh, ':', nn, " ", am]).toString();
     super.initState();
     LoadUserData(); // shared pref
   }
@@ -122,6 +161,44 @@ class _AddSeekServiceState extends State<AddSeekService> {
 
     super.dispose();
   }
+
+//-> function for selecting date
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2000, 8),
+        lastDate: DateTime(2100));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        dateController.text =
+            DateFormat.yMd().format(selectedDate); // to format the selected date and time
+        //  print(dateController.text);
+      });
+    }
+  }
+
+  String _hour, _minute, _time;
+  Future<Null> _selectTime(BuildContext context) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (picked != null)
+      setState(() {
+        selectedTime = picked;
+        _hour = selectedTime.hour.toString();
+        _minute = selectedTime.minute.toString();
+        _time = _hour + ' : ' + _minute;
+        timeController.text = _time;
+
+        timeController.text = formatDate(
+            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
+            [hh, ':', nn, " ", am]).toString();
+      });
+  }
+//https://medium.flutterdevs.com/date-and-time-picker-in-flutter-72141e7531c
 
   @override
   Widget build(BuildContext context) {
@@ -152,6 +229,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
             controller_text: usernameController,
             prefixIcon: "assets/ui/addservice/username.png",
             show_password: false,
+
             //  icon_widget: Icon(Icons.location_on),
             hint_text: "username".tr().toString(),
             FunctionToDo: () {},
@@ -215,10 +293,46 @@ class _AddSeekServiceState extends State<AddSeekService> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),
-          DateTimePickerClass(
-            backgroundColor: colorsApp.timePickerBorder,
-            textColor: Colors.white,
+          TextInputFieldWithIconRoundedCorners(
+            prefixIconColor: colorsApp.timePickerBorder,
+            controller_text: dateController, // the controller is in the provider class
+            prefixIcon: "assets/ui/addservice/date.png",
+            show_password: false,
+            //  icon_widget: Icon(Icons.location_on),
+            suffixIcon: IconButton(
+              onPressed: () => _selectDate(context),
+              icon: Icon(Icons.date_range),
+            ),
+            hint_text: "to".tr().toString(),
+            FunctionToDo: () {
+              print("Hello");
+            },
           ),
+
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
+          ),
+          TextInputFieldWithIconRoundedCorners(
+            prefixIconColor: colorsApp.timePickerBorder,
+            controller_text: timeController, // the controller is in the provider class
+            prefixIcon: "assets/ui/addservice/time.png",
+            show_password: false,
+            //  icon_widget: Icon(Icons.location_on),
+            suffixIcon: IconButton(
+              onPressed: () => _selectTime(context),
+              icon: Icon(Icons.date_range),
+            ),
+            hint_text: "to".tr().toString(),
+            FunctionToDo: () {
+              print("Hello");
+            },
+          ),
+
+          // DateTimePickerClass(
+          //   backgroundColor: colorsApp.timePickerBorder,
+          //   textColor: Colors.white,
+          //   //  nowDate: DateTime.now().toString(),
+          // ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),
@@ -228,8 +342,9 @@ class _AddSeekServiceState extends State<AddSeekService> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ToggleButton2("assets/ui/search/male.png", "assets/ui/search/female.png"),
-                ToggleButton2("assets/ui/search/package.png", "assets/ui/search/person.png"),
+                ToggleButtonMaleFemale("assets/ui/search/male.png", "assets/ui/search/female.png"),
+                ToggleButtonpersonPackage(
+                    "assets/ui/search/package.png", "assets/ui/search/person.png"),
               ],
             ),
           ),
@@ -239,7 +354,8 @@ class _AddSeekServiceState extends State<AddSeekService> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ToggleButton2("assets/ui/search/public.png", "assets/ui/search/private.png"),
+                ToggleButtonPublicPrivate(
+                    "assets/ui/search/public.png", "assets/ui/search/private.png"),
                 customInputField(), // for space
               ],
             ),
@@ -250,9 +366,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
           ),
 
           FloatingActionButton(
-            onPressed: () {
-              // TODO: send item to seek
-            },
+            onPressed: sendRequest,
             backgroundColor: colorsApp.selectedColor,
             child: Icon(
               Icons.add,
@@ -311,6 +425,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
       ),
     );
   }
+}
 //------------------------------Add Seek Service----------------------------
 //-> Add or Seek Sevice Container
 //   Widget addSeekServiceContainer() {
@@ -395,87 +510,88 @@ class _AddSeekServiceState extends State<AddSeekService> {
 //     );
 //   }
 
-  //----------------------------------------------------------------------------
-  // //-> Get Selected item from drop down menu from gender
-  // Widget dropDownMenuGenderWidget() {
-  //   return Row(
-  //     children: [
-  //       Container(
-  //         padding: EdgeInsets.only(left: 50.0, right: 50.0),
-  //         child: Text(
-  //           "gender".tr().toString(),
-  //           style: TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
-  //         ),
-  //       ),
-  //       SizedBox(
-  //         width: 20.0.w,
-  //       ),
-  //       new DropdownButton<String>(
-  //         value: dropDownMenuGender,
-  //         icon: Icon(Icons.arrow_downward),
-  //         iconSize: 24,
-  //         elevation: 16,
-  //         style: TextStyle(color: Colors.deepPurple),
-  //         underline: Container(
-  //           height: 2,
-  //           color: Colors.deepPurpleAccent,
-  //         ),
-  //         onChanged: (String newValue) {
-  //           setState(() {
-  //             dropDownMenuGender = newValue;
-  //           });
-  //         },
-  //         items: <String>['Male', 'Female'].map<DropdownMenuItem<String>>((String value) {
-  //           return DropdownMenuItem<String>(
-  //             value: value,
-  //             child: Text(value),
-  //           );
-  //         }).toList(),
-  //       )
-  //     ],
-  //   );
-  // }
-  //
-  // //-----------------------Drop Down Menu Widget Type---------------------------
-  // Widget DropDownMenuType() {
-  //   return Row(
-  //     children: [
-  //       Container(
-  //         padding: EdgeInsets.only(left: 50.0, right: 50.0),
-  //         child: Text(
-  //           "type".tr().toString(),
-  //           style: TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
-  //         ),
-  //       ),
-  //       SizedBox(
-  //         width: 20.0.w,
-  //       ),
-  //       new DropdownButton<int>(
-  //         items: typeOptions
-  //             .map(
-  //               (description, value) {
-  //                 return MapEntry(
-  //                   description,
-  //                   DropdownMenuItem<int>(
-  //                     value: value,
-  //                     child: Text(description),
-  //                   ),
-  //                 );
-  //               },
-  //             )
-  //             .values
-  //             .toList(),
-  //         value: typeOptionDefault,
-  //         onChanged: (newValue) {
-  //           setState(() {
-  //             typeOptionDefault = newValue;
-  //             print(typeOptionDefault);
-  //           });
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
+//----------------------------------------------------------------------------
+// //-> Get Selected item from drop down menu from gender
+// Widget dropDownMenuGenderWidget() {
+//   return Row(
+//     children: [
+//       Container(
+//         padding: EdgeInsets.only(left: 50.0, right: 50.0),
+//         child: Text(
+//           "gender".tr().toString(),
+//           style: TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
+//         ),
+//       ),
+//       SizedBox(
+//         width: 20.0.w,
+//       ),
+//       new DropdownButton<String>(
+//         value: dropDownMenuGender,
+//         icon: Icon(Icons.arrow_downward),
+//         iconSize: 24,
+//         elevation: 16,
+//         style: TextStyle(color: Colors.deepPurple),
+//         underline: Container(
+//           height: 2,
+//           color: Colors.deepPurpleAccent,
+//         ),
+//         onChanged: (String newValue) {
+//           setState(() {
+//             dropDownMenuGender = newValue;
+//           });
+//         },
+//         items: <String>['Male', 'Female'].map<DropdownMenuItem<String>>((String value) {
+//           return DropdownMenuItem<String>(
+//             value: value,
+//             child: Text(value),
+//           );
+//         }).toList(),
+//       )
+//     ],
+//   );
+// }
+//
+// //-----------------------Drop Down Menu Widget Type---------------------------
+// Widget DropDownMenuType() {
+//   return Row(
+//     children: [
+//       Container(
+//         padding: EdgeInsets.only(left: 50.0, right: 50.0),
+//         child: Text(
+//           "type".tr().toString(),
+//           style: TextStyle(fontSize: 20.0.sp, fontWeight: FontWeight.bold, color: Colors.black38),
+//         ),
+//       ),
+//       SizedBox(
+//         width: 20.0.w,
+//       ),
+//       new DropdownButton<int>(
+//         items: typeOptions
+//             .map(
+//               (description, value) {
+//                 return MapEntry(
+//                   description,
+//                   DropdownMenuItem<int>(
+//                     value: value,
+//                     child: Text(description),
+//                   ),
+//                 );
+//               },
+//             )
+//             .values
+//             .toList(),
+//         value: typeOptionDefault,
+//         onChanged: (newValue) {
+//           setState(() {
+//             typeOptionDefault = newValue;
+//             print(typeOptionDefault);
+//           });
+//         },
+//       ),
+//     ],
+//   );
+// }
 //------------------------------------------------------------------------------
-} //end class
-//TODO: 1- SEND ITEMS to server 2- get the location from map
+//end class
+
+//TODO: send new data to api for person or package abd public etc...

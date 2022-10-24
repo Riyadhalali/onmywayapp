@@ -11,7 +11,7 @@ import 'package:sizer/sizer.dart';
 
 import '../components/Button.dart';
 import '../components/togglebutton.dart';
-import '../components/togglebutton2.dart';
+import '../components/togglebuttonmalefemale.dart';
 
 class Search extends StatefulWidget {
   static const id = 'search_page';
@@ -111,12 +111,13 @@ class _SearchState extends State<Search> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ToggleButton2("assets/ui/search/male.png", "assets/ui/search/female.png"),
-                ToggleButton2("assets/ui/search/package.png", "assets/ui/search/person.png"),
+                ToggleButtonMaleFemale("assets/ui/search/male.png", "assets/ui/search/female.png"),
+                ToggleButtonMaleFemale(
+                    "assets/ui/search/package.png", "assets/ui/search/person.png"),
               ],
             ),
           ),
-          ToggleButton2("assets/ui/search/public.png", "assets/ui/search/private.png"),
+          ToggleButtonMaleFemale("assets/ui/search/public.png", "assets/ui/search/private.png"),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),

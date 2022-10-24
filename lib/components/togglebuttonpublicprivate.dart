@@ -1,19 +1,21 @@
 import 'package:alatareekeh/constants/colors.dart';
+import 'package:alatareekeh/provider/global.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class ToggleButton2 extends StatefulWidget {
+class ToggleButtonPublicPrivate extends StatefulWidget {
   //Function function;
   String imageAssetFirst;
   String imageAssetSecond;
-  ToggleButton2(this.imageAssetFirst, this.imageAssetSecond);
+  ToggleButtonPublicPrivate(this.imageAssetFirst, this.imageAssetSecond);
 
   // ToggleButton({this.function});
 //TODO: using provider when user select choice to update the selection
   @override
-  State<ToggleButton2> createState() => _ToggleButton2State();
+  State<ToggleButtonPublicPrivate> createState() => _ToggleButtonPublicPrivateState();
 }
 
-class _ToggleButton2State extends State<ToggleButton2> {
+class _ToggleButtonPublicPrivateState extends State<ToggleButtonPublicPrivate> {
   ColorsApp colorsApp = new ColorsApp();
   bool changeColor = false;
   List<bool> isSelected;
@@ -27,6 +29,7 @@ class _ToggleButton2State extends State<ToggleButton2> {
 
   @override
   Widget build(BuildContext context) {
+    Global globalProviders = Provider.of<Global>(context, listen: false);
     return ToggleButtons(
       borderRadius: BorderRadius.circular(50),
       fillColor: Colors.transparent, // to delete the blue color around the selection
@@ -34,7 +37,6 @@ class _ToggleButton2State extends State<ToggleButton2> {
       renderBorder: true, // to delete the border around the toggle buttons
       selectedColor: colorsApp.selectedColor,
       onPressed: (int index) {
-        print("the item that is pressed");
         setState(() {
           for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
             if (buttonIndex == index) {
@@ -47,6 +49,8 @@ class _ToggleButton2State extends State<ToggleButton2> {
               changeColor = false;
             }
           }
+          globalProviders.changeIndexToggleButtonPublicPrivate(index);
+          //print(index);
         });
       },
       children: <Widget>[

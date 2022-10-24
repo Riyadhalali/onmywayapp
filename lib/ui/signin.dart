@@ -82,18 +82,24 @@ class _SignInState extends State<SignIn> {
     WebServices.LoginPost(_phonecontroller.text.toString(), _passwordcontroller.text.toString())
         .then((value) {
       //-> saving message and id from server
-      user_id = value.id;
-      print(user_id);
+
       message = value.message;
-      Navigator.of(context).pop();
-      // //-> save id to shared pref
-      sharedPref.setData('userID', user_id); // save user id to shared pref
-      sharedPref.setData('phone', _phonecontroller.text); // save the phone number of user
-      sharedPref.setData('password', _passwordcontroller.text); //save the password of user
+
       if (message.toString().contains('login success')) {
-        Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
+        user_id = value.id;
+        if (user_id != null) {
+          // //-> save id to shared pref
+          sharedPref.setData('userID', user_id); // save user id to shared pref
+          sharedPref.setData('phone', _phonecontroller.text); // save the phone number of user
+          sharedPref.setData('password', _passwordcontroller.text); //save the password of user
+          print(user_id);
+          Navigator.of(context).pop();
+          Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value.message)));
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Something Wrong..")));
+        }
       }
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value.message)));
     }).catchError((error) {
       print(error);
       Navigator.of(context).pop();

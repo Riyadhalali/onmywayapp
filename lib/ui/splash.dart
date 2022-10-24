@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:alatareekeh/services/sharedpref.dart';
-import 'package:alatareekeh/ui/navigationbar.dart';
+import 'package:alatareekeh/ui/signin.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future onDoneLoading() async {
-    Navigator.pushNamed(context, Navigation.id);
+    Navigator.pushNamed(context, SignIn.id);
     // Navigator.pushNamed(context, Search.id);
     // String userId;
     // String selected_lang;

@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import '../components/textinputfieldwithiconroundedcorners.dart';
-import '../components/togglebutton2.dart';
+import '../components/togglebuttonmalefemale.dart';
 
 //-> this page for sekking service so i am a customer or provider
 class SeekService extends StatefulWidget {
@@ -203,8 +203,9 @@ class _SeekServiceState extends State<SeekService> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ToggleButton2("assets/ui/search/male.png", "assets/ui/search/female.png"),
-                ToggleButton2("assets/ui/search/package.png", "assets/ui/search/person.png"),
+                ToggleButtonMaleFemale("assets/ui/search/male.png", "assets/ui/search/female.png"),
+                ToggleButtonMaleFemale(
+                    "assets/ui/search/package.png", "assets/ui/search/person.png"),
               ],
             ),
           ),
@@ -214,7 +215,8 @@ class _SeekServiceState extends State<SeekService> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ToggleButton2("assets/ui/search/public.png", "assets/ui/search/private.png"),
+                ToggleButtonMaleFemale(
+                    "assets/ui/search/public.png", "assets/ui/search/private.png"),
                 customInputField(),
               ],
             ),

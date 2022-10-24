@@ -2,6 +2,9 @@ import 'package:alatareekeh/constants/colors.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/mapProvider.dart';
 
 class DateTimePickerClass extends StatefulWidget {
   static String valueselected = null; // to access this variable from another class
@@ -11,7 +14,10 @@ class DateTimePickerClass extends StatefulWidget {
   DateTimePickerClass({this.backgroundColor, this.textColor});
 
   // static DateTime now = DateTime.now();
-  // static String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+  //static String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
+  // String get initialValue {
+  //   return initialValue;
+  // }
 
   @override
   _DateTimePickerClassState createState() => _DateTimePickerClassState();
@@ -22,6 +28,7 @@ class _DateTimePickerClassState extends State<DateTimePickerClass> {
   ColorsApp colorsApp = new ColorsApp();
   @override
   Widget build(BuildContext context) {
+    MapProvider mapProvider = Provider.of<MapProvider>(context);
     return Container(
       width: MediaQuery.of(context).size.width * 0.7,
       decoration: BoxDecoration(
@@ -36,8 +43,9 @@ class _DateTimePickerClassState extends State<DateTimePickerClass> {
         type: DateTimePickerType.dateTimeSeparate,
         style: TextStyle(color: widget.textColor, fontSize: 20.0, fontWeight: FontWeight.bold),
         dateMask: 'd /M/ yyyy',
-        // initialValue: DateTime.now().toString(),
-        initialValue: DateTime.now().toString(),
+        initialValue: "_",
+        //    initialValue: widget.nowDate,
+
         firstDate: DateTime(2000),
         lastDate: DateTime(2100),
         icon: Icon(
@@ -55,12 +63,16 @@ class _DateTimePickerClassState extends State<DateTimePickerClass> {
         },
         onChanged: (val) => {DateTimePickerClass.valueselected = val},
         // to set the variable and be accessed from another classes
-        validator: (val) {
-          print(val);
-          return null;
-        },
+        // validator: (val) {
+        //   if (val != null) {
+        //     return null;
+        //   } else {
+        //     return 'Date Field is Empty';
+        //   }
+        // },
         onSaved: (val) => {
-          DateTimePickerClass.valueselected = val
+          //  DateTimePickerClass.valueselected = val
+          mapProvider.serviceTimeProvidedService(val)
           // to set the variable and be accessed from another classes
         }, // pass data to the function
       ),

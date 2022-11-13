@@ -7,13 +7,13 @@ import 'package:provider/provider.dart';
 import '../provider/mapProvider.dart';
 
 class DateTimePickerClass extends StatefulWidget {
-  static String valueselected = null; // to access this variable from another class
+  static String valueselected;
   Color backgroundColor;
   Color textColor;
 
   DateTimePickerClass({this.backgroundColor, this.textColor});
 
-  // static DateTime now = DateTime.now();
+  static DateTime now = DateTime.now();
   //static String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
   // String get initialValue {
   //   return initialValue;
@@ -44,7 +44,7 @@ class _DateTimePickerClassState extends State<DateTimePickerClass> {
         style: TextStyle(color: widget.textColor, fontSize: 20.0, fontWeight: FontWeight.bold),
         dateMask: 'd /M/ yyyy',
         initialValue: "_",
-        //    initialValue: widget.nowDate,
+        //  initialValue: DateTime.now().toString(),
 
         firstDate: DateTime(2000),
         lastDate: DateTime(2100),
@@ -61,7 +61,10 @@ class _DateTimePickerClassState extends State<DateTimePickerClass> {
           // }
           return true;
         },
-        onChanged: (val) => {DateTimePickerClass.valueselected = val},
+        onChanged: (val) => {
+          // DateTimePickerClass.valueselected = val
+          mapProvider.serviceTimeProvidedService(val)
+        },
         // to set the variable and be accessed from another classes
         // validator: (val) {
         //   if (val != null) {
@@ -71,7 +74,7 @@ class _DateTimePickerClassState extends State<DateTimePickerClass> {
         //   }
         // },
         onSaved: (val) => {
-          //  DateTimePickerClass.valueselected = val
+          // DateTimePickerClass.valueselected = val
           mapProvider.serviceTimeProvidedService(val)
           // to set the variable and be accessed from another classes
         }, // pass data to the function

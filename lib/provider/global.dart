@@ -22,6 +22,7 @@ class Global extends ChangeNotifier {
     notifyListeners();
   }
 
+  //-> toggle btton index in pages provide service for public and private
   void changeIndexToggleButtonPublicPrivate(int value) {
     indexToggleButtonPublicPrivate = value;
     notifyListeners();

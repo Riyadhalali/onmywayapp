@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 class MapProvider extends ChangeNotifier {
   final addServicePageFrom = TextEditingController(); // from
   final addServicePageTo = TextEditingController(); // to
+  final searchPageFromController = TextEditingController();
+  final searchPageToController = TextEditingController();
+
   String destinationLat;
   String destinationLng;
   final serviceTime = TextEditingController();
@@ -24,5 +27,16 @@ class MapProvider extends ChangeNotifier {
   void serviceTimeProvidedService(String value) {
     serviceTime.text = value;
     notifyListeners();
+  }
+
+  //-> in search page from controller
+  void searchPageFrom(String value) {
+    searchPageFromController.text = value;
+    notifyListeners(); // notify listners
+  }
+
+  void searchPageTo(String value) {
+    searchPageToController.text = value;
+    notifyListeners(); // notify listners
   }
 } // end  class

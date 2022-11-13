@@ -126,7 +126,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
             usernameController.text)
         .then((value) {
       message = value;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value.toString())));
       Navigator.of(context).pop();
       Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
     }).catchError((onError) {
@@ -157,8 +157,6 @@ class _AddSeekServiceState extends State<AddSeekService> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-
     super.dispose();
   }
 
@@ -286,9 +284,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
             show_password: false,
             //  icon_widget: Icon(Icons.location_on),
             hint_text: "phone".tr().toString(),
-            FunctionToDo: () {
-              print("Hello");
-            },
+            FunctionToDo: () {},
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
@@ -410,7 +406,7 @@ class _AddSeekServiceState extends State<AddSeekService> {
       child: TextField(
         //  autofocus: true,
         textAlign: TextAlign.center,
-        obscureText: true, // to show password or not
+        obscureText: false, // to show password or not
         controller: spaceController, // the variable that will contain input user data
         decoration: InputDecoration(
           filled: true,

@@ -1,10 +1,18 @@
-import 'package:alatareekeh/components/timedatepicker.dart';
+import 'package:alatareekeh/components/togglebuttonpersonpackage.dart';
+import 'package:alatareekeh/components/togglebuttonpublicprivate.dart';
 import 'package:alatareekeh/constants/colors.dart';
+import 'package:alatareekeh/provider/global.dart';
+import 'package:alatareekeh/provider/mapProvider.dart';
 import 'package:alatareekeh/services/sharedpref.dart';
 import 'package:alatareekeh/services/webservices.dart';
+import 'package:alatareekeh/ui/maps/map_picker_from.dart';
+import 'package:alatareekeh/ui/maps/map_picker_to.dart';
+import 'package:alatareekeh/ui/navigationbar.dart';
+import 'package:alatareekeh/utils/utils.dart';
+import 'package:date_format/date_format.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:provider/provider.dart';
 
 import '../components/textinputfieldwithiconroundedcorners.dart';
 import '../components/togglebuttonmalefemale.dart';
@@ -44,58 +52,86 @@ class _SeekServiceState extends State<SeekService> {
     "Package": 2,
   };
   int typeOptionDefault = 2; // 2 is for seeking service
+  String dropdownValue = 'One';
+  String dropDownMenuPersonPackage = ' '; // for package or person
+  String dropDownMenuPublicPrivate = ' '; // for package or person
+
+  TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
+  DateTime selectedDate = DateTime.now();
+
+  Utils utils = Utils();
   //--------------------------------------------Variables------------------------------------
   ColorsApp colorsApp = new ColorsApp();
   final usernameController = TextEditingController();
-  final fromController = TextEditingController();
+  var fromController = TextEditingController();
   final toController = TextEditingController();
   final spaceController = TextEditingController();
   final phoneController = TextEditingController();
+  final dateController = TextEditingController();
+  final timeController = TextEditingController();
 
-  //-> this method to get selected time from datetimepicker statfull widget
-  void getdatetime() async {
-    //-> to make sure that user select date
-    if (DateTimePickerClass.valueselected == null) {
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        content: Text("pleasefillalldata".tr().toString()),
-        duration: Duration(seconds: 3),
-        backgroundColor: Colors.amber,
-      ));
+  //------------------------------------------------------------------------------
+  // -> this method to get selected time from datetimepicker statfull widget
+  void sendRequest() async {
+    MapProvider mapProvider = Provider.of<MapProvider>(context, listen: false);
+
+    Global globalProviders = Provider.of<Global>(context, listen: false);
+
+    //-> for male female toggle buttons
+    if (globalProviders.indexToggleButtonMalefemale == 0) {
+      dropDownMenuGender = "Male";
     } else {
-      setState(() {
-        _usernameController.text.isEmpty ? validateUsername = true : validateUsername = false;
-
-        _fromController.text.isEmpty ? validateFrom = true : validateFrom = false;
-
-        _toController.text.isEmpty ? validateTo = true : validateTo = false;
-
-        _spaceController.text.isEmpty ? validateSpace = true : validateSpace = false;
-
-        _phoneController.text.isEmpty ? validatephone = true : validatephone = false;
-      });
-
-      if (validateUsername || validateFrom || validateTo || validateSpace || validatephone) {
-        return;
-      }
-      EasyLoading.show(status: "loading".tr().toString());
-      message = await webServices.addSeekService(
-          userID,
-          typeOptionDefault, // value of dropdown menu
-          _phoneController.text,
-          _spaceController.text,
-          DateTimePickerClass.valueselected,
-          dropDownMenuGender,
-          _fromController.text,
-          _toController.text,
-          _usernameController.text);
-      // print(message);
-      EasyLoading.dismiss();
-      _scaffoldKey.currentState.showSnackBar(SnackBar(
-        backgroundColor: Colors.amber,
-        content: Text(message),
-        duration: Duration(seconds: 3),
-      ));
+      dropDownMenuGender = "Female"; // index == 1 from provider
     }
+
+    if (globalProviders.indexToggleButtonPersonPackage == 0) {
+      dropDownMenuPersonPackage = "Package";
+    } else {
+      dropDownMenuPersonPackage = "Person"; // index == 1 from provider
+    }
+
+    if (globalProviders.indexToggleButtonPublicPrivate == 0) {
+      dropDownMenuPublicPrivate = "؛Public";
+    } else {
+      dropDownMenuPublicPrivate = "Private"; // index == 1 from provider
+    }
+
+    setState(() {
+      usernameController.text.isEmpty ? validateUsername = true : validateUsername = false;
+
+      mapProvider.addServicePageFrom.text.isEmpty ? validateFrom = true : validateFrom = false;
+
+      mapProvider.addServicePageTo.text.isEmpty ? validateTo = true : validateTo = false;
+
+      spaceController.text.isEmpty ? validateSpace = true : validateSpace = false;
+
+      phoneController.text.isEmpty ? validatephone = true : validatephone = false;
+    });
+
+    // if (validateUsername || validateFrom || validateTo || validatephone) {
+    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("please fill all data")));
+    //   return;
+    // }
+    utils.showProcessingDialog("Loading".tr().toString(), context);
+    webServices
+        .addSeekService(
+            userID,
+            typeOptionDefault, // value of dropdown menu
+            phoneController.text,
+            spaceController.text,
+            dateController.text + " " + timeController.text,
+            dropDownMenuGender,
+            mapProvider.addServicePageFrom.text,
+            mapProvider.addServicePageTo.text,
+            usernameController.text)
+        .then((value) {
+      message = value;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value)));
+      Navigator.of(context).pop();
+      Navigator.pushNamed(context, Navigation.id); // if user exists go to main page
+    }).catchError((onError) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(onError)));
+    });
   }
 
 //-------------------------------Load User Data---------------------------------
@@ -108,7 +144,11 @@ class _SeekServiceState extends State<SeekService> {
 //----------------------------Init State----------------------------------------
   @override
   void initState() {
-    // TODO: implement initState
+    dateController.text = DateFormat.yMd().format(DateTime.now());
+
+    timeController.text = formatDate(
+        DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
+        [hh, ':', nn, " ", am]).toString();
     super.initState();
     LoadUserData(); // shared pref
   }
@@ -123,8 +163,47 @@ class _SeekServiceState extends State<SeekService> {
     );
   } // end build
 
+  //-> function for selecting date
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2000, 8),
+        lastDate: DateTime(2100));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+        dateController.text =
+            DateFormat.yMd().format(selectedDate); // to format the selected date and time
+        //  print(dateController.text);
+      });
+    }
+  }
+
+  String _hour, _minute, _time;
+  Future<Null> _selectTime(BuildContext context) async {
+    final TimeOfDay picked = await showTimePicker(
+      context: context,
+      initialTime: selectedTime,
+    );
+    if (picked != null)
+      setState(() {
+        selectedTime = picked;
+        _hour = selectedTime.hour.toString();
+        _minute = selectedTime.minute.toString();
+        _time = _hour + ' : ' + _minute;
+        timeController.text = _time;
+
+        timeController.text = formatDate(
+            DateTime(2019, 08, 1, selectedTime.hour, selectedTime.minute),
+            [hh, ':', nn, " ", am]).toString();
+      });
+  }
+
+//https://medium.flutterdevs.com/date-and-time-picker-in-flutter-72141e7531c
   //------------------------------Column Element------------------------------
   Widget columnElements() {
+    MapProvider mapProvider = Provider.of<MapProvider>(context);
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -143,9 +222,7 @@ class _SeekServiceState extends State<SeekService> {
             show_password: false,
             //  icon_widget: Icon(Icons.location_on),
             hint_text: "username".tr().toString(),
-            FunctionToDo: () {
-              print("Hello");
-            },
+            FunctionToDo: () {},
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
@@ -157,9 +234,13 @@ class _SeekServiceState extends State<SeekService> {
             show_password: false,
             //  icon_widget: Icon(Icons.location_on),
             hint_text: "from".tr().toString(),
-            FunctionToDo: () {
-              print("Hello");
-            },
+            suffixIcon: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(MapPicker.id);
+              },
+              icon: Icon(Icons.share_location),
+            ),
+            FunctionToDo: () {},
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
@@ -169,6 +250,12 @@ class _SeekServiceState extends State<SeekService> {
             controller_text: toController,
             prefixIcon: "assets/ui/addservice/to.png",
             show_password: false,
+            suffixIcon: IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(MapPickerTo.id);
+              },
+              icon: Icon(Icons.share_location),
+            ),
             //  icon_widget: Icon(Icons.location_on),
             hint_text: "to".tr().toString(),
             FunctionToDo: () {
@@ -185,17 +272,46 @@ class _SeekServiceState extends State<SeekService> {
             show_password: false,
             //  icon_widget: Icon(Icons.location_on),
             hint_text: "phone".tr().toString(),
+            FunctionToDo: () {},
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.025,
+          ),
+          TextInputFieldWithIconRoundedCorners(
+            prefixIconColor: colorsApp.timePickerBorder,
+            controller_text: dateController, // the controller is in the provider class
+            prefixIcon: "assets/ui/addservice/date.png",
+            show_password: false,
+            //  icon_widget: Icon(Icons.location_on),
+            suffixIcon: IconButton(
+              onPressed: () => _selectDate(context),
+              icon: Icon(Icons.date_range),
+            ),
+            hint_text: "to".tr().toString(),
             FunctionToDo: () {
               print("Hello");
             },
           ),
+          // DateTimePickerClass(
+          //     backgroundColor: colorsApp.timePickerBorder2, textColor: Colors.black),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.025,
           ),
-          DateTimePickerClass(
-              backgroundColor: colorsApp.timePickerBorder2, textColor: Colors.black),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.025,
+
+          TextInputFieldWithIconRoundedCorners(
+            prefixIconColor: colorsApp.timePickerBorder,
+            controller_text: timeController, // the controller is in the provider class
+            prefixIcon: "assets/ui/addservice/time.png",
+            show_password: false,
+            //  icon_widget: Icon(Icons.location_on),
+            suffixIcon: IconButton(
+              onPressed: () => _selectTime(context),
+              icon: Icon(Icons.date_range),
+            ),
+            hint_text: "to".tr().toString(),
+            FunctionToDo: () {
+              print("Hello");
+            },
           ),
 
           Padding(
@@ -204,7 +320,7 @@ class _SeekServiceState extends State<SeekService> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ToggleButtonMaleFemale("assets/ui/search/male.png", "assets/ui/search/female.png"),
-                ToggleButtonMaleFemale(
+                ToggleButtonpersonPackage(
                     "assets/ui/search/package.png", "assets/ui/search/person.png"),
               ],
             ),
@@ -215,7 +331,7 @@ class _SeekServiceState extends State<SeekService> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ToggleButtonMaleFemale(
+                ToggleButtonPublicPrivate(
                     "assets/ui/search/public.png", "assets/ui/search/private.png"),
                 customInputField(),
               ],
@@ -227,6 +343,7 @@ class _SeekServiceState extends State<SeekService> {
           ),
 
           FloatingActionButton(
+            onPressed: sendRequest,
             backgroundColor: colorsApp.timePickerBorder,
             child: Icon(
               Icons.add,
@@ -270,7 +387,7 @@ class _SeekServiceState extends State<SeekService> {
       child: TextField(
         //  autofocus: true,
         textAlign: TextAlign.center,
-        obscureText: true, // to show password or not
+        obscureText: false, // to show password or not
         controller: spaceController, // the variable that will contain input user data
         decoration: InputDecoration(
           filled: true,
@@ -285,185 +402,6 @@ class _SeekServiceState extends State<SeekService> {
       ),
     );
   }
-
-//------------------------------Add Seek Service----------------------------
-//-> Add or Seek Sevice Container
-//   Widget addSeekServiceContainer() {
-//     return Stack(
-//       children: [
-//         Container(
-//           height: MediaQuery.of(context).size.height,
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(50.0),
-//             color: Color(0xFFf2f2f2),
-//           ),
-//         ),
-//         Column(
-//           children: [
-//             SizedBox(
-//               height: 2.0.h,
-//             ),
-//             TextInputField(
-//               hint_text: 'username'.tr().toString(),
-//               show_password: false,
-//               controller_text: _usernameController,
-//               error_msg: validateUsername
-//                   ? "valuecannotbeempty".tr().toString()
-//                   : null,
-//             ),
-//             SizedBox(
-//               height: 1.0.h,
-//             ),
-//             TextInputField(
-//               hint_text: 'from'.tr().toString(),
-//               show_password: false,
-//               controller_text: _fromController,
-//               error_msg:
-//                   validateFrom ? "valuecannotbeempty".tr().toString() : null,
-//             ),
-//             SizedBox(
-//               height: 1.0.h,
-//             ),
-//             TextInputField(
-//               hint_text: 'to'.tr().toString(),
-//               show_password: false,
-//               controller_text: _toController,
-//               error_msg:
-//                   validateTo ? "valuecannotbeempty".tr().toString() : null,
-//             ),
-//             SizedBox(
-//               height: 1.0.h,
-//             ),
-//             DateTimePickerClass(),
-//             SizedBox(
-//               height: 1.0.h,
-//             ),
-//             dropDownMenuGenderWidget(),
-//             SizedBox(
-//               height: 1.0.h,
-//             ),
-//             DropDownMenuType(),
-//             SizedBox(
-//               height: 1.0.h,
-//             ),
-//             TextInputField(
-//               hint_text: 'space'.tr().toString(),
-//               show_password: false,
-//               controller_text: _spaceController,
-//               error_msg:
-//                   validateSpace ? "valuecannotbeempty".tr().toString() : null,
-//             ),
-//             SizedBox(
-//               height: 1.0.h,
-//             ),
-//             TextInputField(
-//               hint_text: 'phone'.tr().toString(),
-//               show_password: false,
-//               controller_text: _phoneController,
-//               error_msg:
-//                   validatephone ? "valuecannotbeempty".tr().toString() : null,
-//             ),
-//             SizedBox(
-//               height: 1.0.h,
-//             ),
-//             RasiedButton(
-//               labeltext: "submit".tr().toString(),
-//               FunctionToDO: getdatetime,
-//             ),
-//           ],
-//         ),
-//       ],
-//     );
-//   }
-
-  //----------------------------------------------------------------------------
-  //-> Get Selected item from drop down menu from gender
-  // Widget dropDownMenuGenderWidget() {
-  //   return Row(
-  //     children: [
-  //       Container(
-  //         padding: EdgeInsets.only(left: 50.0, right: 50.0),
-  //         child: Text(
-  //           "gender".tr().toString(),
-  //           style: TextStyle(
-  //               fontSize: 20.0.sp,
-  //               fontWeight: FontWeight.bold,
-  //               color: Colors.black38),
-  //         ),
-  //       ),
-  //       SizedBox(
-  //         width: 20.0.w,
-  //       ),
-  //       new DropdownButton<String>(
-  //         value: dropDownMenuGender,
-  //         icon: Icon(Icons.arrow_downward),
-  //         iconSize: 24,
-  //         elevation: 16,
-  //         style: TextStyle(color: Colors.deepPurple),
-  //         underline: Container(
-  //           height: 2,
-  //           color: Colors.deepPurpleAccent,
-  //         ),
-  //         onChanged: (String newValue) {
-  //           setState(() {
-  //             dropDownMenuGender = newValue;
-  //           });
-  //         },
-  //         items: <String>['Male', 'Female']
-  //             .map<DropdownMenuItem<String>>((String value) {
-  //           return DropdownMenuItem<String>(
-  //             value: value,
-  //             child: Text(value),
-  //           );
-  //         }).toList(),
-  //       )
-  //     ],
-  //   );
-  // }
-
-  //-----------------------Drop Down Menu Widget Type---------------------------
-  // Widget DropDownMenuType() {
-  //   return Row(
-  //     children: [
-  //       Container(
-  //         padding: EdgeInsets.only(left: 50.0, right: 50.0),
-  //         child: Text(
-  //           "type".tr().toString(),
-  //           style: TextStyle(
-  //               fontSize: 20.0.sp,
-  //               fontWeight: FontWeight.bold,
-  //               color: Colors.black38),
-  //         ),
-  //       ),
-  //       SizedBox(
-  //         width: 20.0.w,
-  //       ),
-  //       new DropdownButton<int>(
-  //         items: typeOptions
-  //             .map(
-  //               (description, value) {
-  //                 return MapEntry(
-  //                   description,
-  //                   DropdownMenuItem<int>(
-  //                     value: value,
-  //                     child: Text(description),
-  //                   ),
-  //                 );
-  //               },
-  //             )
-  //             .values
-  //             .toList(),
-  //         value: typeOptionDefault,
-  //         onChanged: (newValue) {
-  //           setState(() {
-  //             typeOptionDefault = newValue;
-  //             print(typeOptionDefault);
-  //           });
-  //         },
-  //       ),
-  //     ],
-  //   );
-  // }
-//------------------------------------------------------------------------------
 } //end class
 //done
+//TODO:L

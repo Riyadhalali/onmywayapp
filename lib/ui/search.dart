@@ -2,8 +2,12 @@ import 'package:alatareekeh/components/Button.dart';
 import 'package:alatareekeh/components/textinputfieldwithiconroundedcorners.dart';
 import 'package:alatareekeh/components/timedatepicker.dart';
 import 'package:alatareekeh/constants/colors.dart';
-import 'package:alatareekeh/ui/maps/map_picker_from.dart';
+import 'package:alatareekeh/services/GetSearchResults.dart';
+import 'package:alatareekeh/services/webservices.dart';
+import 'package:alatareekeh/ui/maps/map_picker_search_from.dart';
+import 'package:alatareekeh/ui/maps/map_picker_search_to.dart';
 import 'package:alatareekeh/ui/searchresults.dart';
+import 'package:alatareekeh/utils/utils.dart';
 import 'package:date_format/date_format.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -42,11 +46,23 @@ class _SearchState extends State<Search> {
 
   TimeOfDay selectedTime = TimeOfDay(hour: 00, minute: 00);
   DateTime selectedDate = DateTime.now();
+  Utils utils = Utils();
 
   List<bool> isSelectedServiceType;
   List<bool> isSelectedGenderType;
   List<bool> isSelectedCarryType;
   List<bool> isSelectedPrivacyType;
+
+  MapProvider _mapProvider;
+  WebServices webServices = new WebServices();
+
+  List<GetSearchResults> searchResultsList;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mapProvider.clearData(); // defined in init state then called here
+  }
 
   @override
   void initState() {
@@ -58,6 +74,15 @@ class _SearchState extends State<Search> {
     isSelectedGenderType = [true, false];
     isSelectedCarryType = [true, false];
     isSelectedPrivacyType = [true, false];
+
+    //-> to format date and time
+    dateController.text = DateFormat.yMd().format(DateTime.now());
+
+    timeController.text = formatDate(
+        DateTime(2019, 08, 1, DateTime.now().hour, DateTime.now().minute),
+        [hh, ':', nn, " ", am]).toString();
+
+    _mapProvider = Provider.of(context, listen: false);
 
     // it will zero it
   }
@@ -96,16 +121,69 @@ class _SearchState extends State<Search> {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => SearchResults(
-          serviceType: serviceType.toString(),
+          serviceType: serviceType.toString(), // provided or seeked
           from: _fromController.text,
           to: _toController.text,
-          gender: gender,
+          gender: gender, // male or female
           date: datetobesend,
         ),
       ),
     );
     // WebServices.Search_Services(serviceType.toString(), _fromController.text,
     //     _toController.text, gender, datetobesend);
+  }
+
+//api request
+  void sendRequest() async {
+    String _from = ""; // private variables
+    String _to = ""; // private variables
+
+    setState(() {
+      _mapProvider.searchPageFromController.text.isEmpty
+          ? validateFrom = true
+          : validateFrom = false;
+
+      _mapProvider.searchPageToController.text.isEmpty ? validateTo = true : validateTo = false;
+    });
+
+    // to make sure the user select the from and to destination
+    if (validateFrom || validateTo) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("please fill data".tr().toString()),
+      ));
+      return; // return and don't do anything
+    }
+
+    //-> if user selects maps place make from as lat and lng or if user selects place by typing name we send to server the place name
+
+    if (_mapProvider.destinationFromSearchPageLng.isNotEmpty &&
+        _mapProvider.destinationFromSearchPageLat.isNotEmpty) {
+      _from = _mapProvider.destinationFromSearchPageLat +
+          "," +
+          _mapProvider.destinationFromSearchPageLng;
+    } else {
+      _from = _mapProvider.searchPageFromController.text;
+    }
+
+    if (_mapProvider.destinationToSearchPageLng.isNotEmpty &&
+        _mapProvider.destinationToSearchPageLat.isNotEmpty) {
+      _to = _mapProvider.destinationToSearchPageLat + "," + _mapProvider.destinationToSearchPageLng;
+    } else {
+      _to = _mapProvider.searchPageToController.text;
+    }
+
+    utils.showProcessingDialog("Loading".tr().toString(), context);
+
+    searchResultsList = await WebServices.Search_Services(privacyType, _from, _to, genderType,
+            dateController.text + " " + timeController.text, carryType, privacyType)
+        .then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(value.toString())));
+      print(searchResultsList);
+      Navigator.of(context).pop();
+      //TODO: pass search results to home page and  show results on main page
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+    });
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -223,16 +301,7 @@ class _SearchState extends State<Search> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.01,
           ),
-          // TextInputFieldWithIconRoundedCorners(
-          //   controller_text: fromController,
-          //   show_password: false,
-          //   prefixIcon: "assets/ui/addservice/add_service.png",
-          //   // icon_widget: Icon(Icons.location_on),
-          //   hint_text: "from".tr().toString(),
-          //   FunctionToDo: () {
-          //     print("Hello");
-          //   },
-          // ),
+
           TextInputFieldWithIconRoundedCorners(
             prefixIconColor: colorApp.timePickerBorder,
             controller_text:
@@ -242,7 +311,7 @@ class _SearchState extends State<Search> {
             //  icon_widget: Icon(Icons.location_on),
             suffixIcon: IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(MapPicker.id);
+                Navigator.of(context).pushNamed(MapPickerSearchFrom.id);
               },
               icon: Icon(Icons.share_location),
             ),
@@ -273,7 +342,7 @@ class _SearchState extends State<Search> {
             //  icon_widget: Icon(Icons.location_on),
             suffixIcon: IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(MapPicker.id);
+                Navigator.of(context).pushNamed(MapPickerSearchTo.id);
               },
               icon: Icon(Icons.share_location),
             ),
@@ -288,7 +357,7 @@ class _SearchState extends State<Search> {
           Button(
             colour: colorApp.buttonColor,
             textColor: Colors.black,
-            onPressed: SearchData,
+            onPressed: sendRequest,
             text: "Search",
           ),
           //     TextButtonWithIcon(),

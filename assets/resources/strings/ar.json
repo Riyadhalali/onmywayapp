@@ -60,7 +60,7 @@
   "noresultsfound" : "لا توجد نتائج",
   "retry": "إعادة المحاولة",
   "exit_warning": "اضغط للخلف للخروج من البرنامج",
-  "Search" : "بحث",
+  "search" : "بحث",
   "Sign in With Facebook": "الدخول باستخدام فيسبوك",
   "Sign in With Google": "الدخول باستخدام غوغل",
   "confirm_password": "تأكيد كلمة السر",
@@ -70,7 +70,8 @@
   "wheretogo": "أين تريد الذهاب ؟ ",
   "edit location" : "تعديل الموقع",
   "date": "التاريخ",
-  "time": "الوقت"
+  "time": "الوقت",
+  "please fill data": "يرجى تعبئة جميع الحقول"
 
 
 

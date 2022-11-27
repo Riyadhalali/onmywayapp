@@ -281,14 +281,16 @@ class WebServices {
   }
 
 //---------------------------Search Services------------------------------------
-  static Future<List<GetSearchResults>> Search_Services(
-      String type, String from, String to, String gender, String date) async {
+  static Future<List<GetSearchResults>> Search_Services(String type, String from, String to,
+      String gender, String date, String carryType, String privacyType) async {
     var url = Constants.api_link +
         'Search_services?type=$type' +
         '&from=$from' +
         '&to=$to' +
         '&gender=$gender' +
-        '&date=$date';
+        '&date=$date' +
+        '&carryType=$carryType' +
+        '&privacyType=$privacyType';
     try {
       final response = await http.get(Uri.parse(url));
 

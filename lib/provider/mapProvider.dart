@@ -9,6 +9,10 @@ class MapProvider extends ChangeNotifier {
 
   String destinationLat;
   String destinationLng;
+  String destinationFromSearchPageLat;
+  String destinationFromSearchPageLng;
+  String destinationToSearchPageLat;
+  String destinationToSearchPageLng;
   final serviceTime = TextEditingController();
 //in the add service from text field
   void addServicePageFromPlace(String value) {
@@ -30,13 +34,29 @@ class MapProvider extends ChangeNotifier {
   }
 
   //-> in search page from controller
-  void searchPageFrom(String value) {
-    searchPageFromController.text = value;
-    notifyListeners(); // notify listners
+  void searchPageFrom(String lat, String lng) {
+    //  searchPageFromController.text = value; //
+    destinationFromSearchPageLat = lat; //save lat and lng
+    destinationFromSearchPageLng = lng; // save lat and lng
+    if (lat.isNotEmpty || lat.isNotEmpty) searchPageFromController.text = "place Selected";
+
+    notifyListeners(); // notify listeners
   }
 
-  void searchPageTo(String value) {
-    searchPageToController.text = value;
-    notifyListeners(); // notify listners
+  void searchPageTo(String lat, String lng) {
+    destinationToSearchPageLat = lat;
+    destinationToSearchPageLng = lng;
+    if (lat.isNotEmpty && lng.isNotEmpty) searchPageToController.text = "place selected";
+    notifyListeners(); // notify listeners
+  }
+
+  // to clear data when we exit
+  void clearData() {
+    searchPageFromController.text = "";
+    searchPageToController.text = "";
+    destinationFromSearchPageLat = "";
+    destinationFromSearchPageLng = "";
+    destinationToSearchPageLat = "";
+    destinationToSearchPageLng = "";
   }
 } // end  class

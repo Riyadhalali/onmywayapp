@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:alatareekeh/constants/constants.dart';
 import 'package:alatareekeh/provider/global.dart';
 import 'package:alatareekeh/provider/mapProvider.dart';
-import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/utils/utils.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 //search page from when user select new place
 
 class MapPickerSearchFrom extends StatefulWidget {
-  static const id = 'map_picker';
+  static const id = 'map_picker_search_from';
   double latitudePassed, longitudePassed;
   bool placeFromOrTo;
   String appointmentId;
@@ -28,7 +28,7 @@ class MapPickerSearchFrom extends StatefulWidget {
 }
 
 class _MapPickerSearchFromState extends State<MapPickerSearchFrom> {
-  LatLng SOURCE_LOCATION = LatLng(35.1367571, 36.787285); // المنطقة الصناعية - حماه
+  // LatLng SOURCE_LOCATION = LatLng(35.1367571, 36.); // المنطقة الصناعية - حماه
   Completer<GoogleMapController> _controller = Completer();
   Position currentPosition;
   double lat, long;
@@ -80,7 +80,8 @@ class _MapPickerSearchFromState extends State<MapPickerSearchFrom> {
 
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
     currentPosition = position; // must update this line
-
+    DESTINATION_LOCATION = LatLng(
+        currentPosition.latitude, currentPosition.longitude); // update now destination location
     _markers.add(Marker(
         //  icon: Icon(Icons.location_on),
         onTap: () {
@@ -108,9 +109,8 @@ class _MapPickerSearchFromState extends State<MapPickerSearchFrom> {
   @override
   void initState() {
     super.initState();
-    String kGoogleApiKey =
-        "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE"; // google api keys project named is SARC
-    googlePlace = GooglePlace(kGoogleApiKey);
+
+    googlePlace = GooglePlace(Constants.kGoogleKey);
     startFocusNode = FocusNode();
     endFocusNode = FocusNode();
     focusNode = FocusNode();
@@ -253,27 +253,27 @@ class _MapPickerSearchFromState extends State<MapPickerSearchFrom> {
                     // right: MediaQuery.of(context).size.width * 0.5,
                     child: ElevatedButton(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
+                            backgroundColor: MaterialStateProperty.all<Color>(Colors.yellow)),
                         onPressed: () async {
                           //TODO: save the location to provider,and pass of user that wants to go to
-                          print(DESTINATION_LOCATION);
+                          print(DESTINATION_LOCATION.longitude);
                           Utils utils = new Utils();
                           //must use vpn to work
                           //-> using Google APi geocoding
-                          try {
-                            placeId = await WebServices.getAddressFromCordinates(
-                                "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE",
-                                DESTINATION_LOCATION.latitude.toString(),
-                                DESTINATION_LOCATION.longitude.toString());
-                            //  print(placeId);
-                            //-> get the place name using google api place id but we must get the place id
-                            placeName = await WebServices.getPlaceNameBasedInPlaceId(
-                                placeId, "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE");
-                            //-> here i already saved the lat and long and i get the place id
-                            utils.toastMessage(placeName);
-                          } catch (error) {
-                            utils.toastMessage(error); // display the error message
-                          }
+                          /// try {
+                          /// placeId = await WebServices.getAddressFromCordinates(
+                          /// "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE",
+                          ///  DESTINATION_LOCATION.latitude.toString(),
+                          ///    DESTINATION_LOCATION.longitude.toString());
+                          /// //  print(placeId);
+                          ///  //-> get the place name using google api place id but we must get the place id
+                          ///  placeName = await WebServices.getPlaceNameBasedInPlaceId(
+                          ///     placeId, "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE");
+                          ///  //-> here i already saved the lat and long and i get the place id
+                          ///   utils.toastMessage(placeName);
+                          ///  } catch (error) {
+                          ///    utils.toastMessage(error); // display the error message
+                          ///   }
                           //-> this method is using geocoding package
 //                           try {
 //                             List<Placemark> placemarks = await placemarkFromCoordinates(
@@ -286,7 +286,8 @@ class _MapPickerSearchFromState extends State<MapPickerSearchFrom> {
 //                             utils.toastMessage(error);
 //                           }
 
-                          mapProvider.searchPageFrom(placeName);
+                          mapProvider.searchPageFrom(DESTINATION_LOCATION.latitude.toString(),
+                              DESTINATION_LOCATION.longitude.toString());
                           Navigator.of(context).pop(); // to be in the provide service page
                         },
                         child: Text("Confirm Location")),

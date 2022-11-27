@@ -1,9 +1,8 @@
 import 'dart:async';
 
+import 'package:alatareekeh/constants/constants.dart';
 import 'package:alatareekeh/provider/global.dart';
 import 'package:alatareekeh/provider/mapProvider.dart';
-import 'package:alatareekeh/services/webservices.dart';
-import 'package:alatareekeh/ui/maps/map_mylocationanddestination.dart';
 import 'package:alatareekeh/utils/utils.dart';
 import 'package:custom_info_window/custom_info_window.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -18,7 +17,7 @@ import 'package:provider/provider.dart';
 // map picker search page to
 
 class MapPickerSearchTo extends StatefulWidget {
-  static const id = 'map_picker_to';
+  static const id = 'map_picker_search_to';
   double latitudePassed, longitudePassed;
   bool placeFromOrTo;
   String appointmentId;
@@ -82,6 +81,7 @@ class _MapPickerSearchToState extends State<MapPickerSearchTo> {
 
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
     currentPosition = position; // must update this line
+    DESTINATION_LOCATION = LatLng(position.latitude, position.longitude); // update current position
 
     _markers.add(Marker(
         //  icon: Icon(Icons.location_on),
@@ -110,54 +110,53 @@ class _MapPickerSearchToState extends State<MapPickerSearchTo> {
   @override
   void initState() {
     super.initState();
-    String kGoogleApiKey =
-        "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE"; // google api keys project named is SARC
-    googlePlace = GooglePlace(kGoogleApiKey);
+
+    googlePlace = GooglePlace(Constants.kGoogleKey); //
     startFocusNode = FocusNode();
     endFocusNode = FocusNode();
     focusNode = FocusNode();
 
     //-> init show modal bottom sheet
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) {
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.015,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.only(left: 55.0, right: 55.0),
-                    child: Focus(
-                      onFocusChange: (hasFocus) {
-                        // do something when text field is selected
-                        Navigator.pushReplacementNamed(context, MapMyLocationAndDestination.id);
-                        //TODO: pass my location to the page
-                      },
-                      child: TextFormField(
-                        focusNode: focusNode, //  autofocus: true,
-                        textAlign: TextAlign.start,
-                        controller: wheretoGo, // the variable that will contain input user data
-                        decoration: InputDecoration(
-                          filled: true, // to change the color of textinputfilled
-
-                          border: InputBorder.none,
-                          fillColor: Color(0xFFEFEFF3),
-                          hintText: "wheretogo".tr().toString(),
-                          //   helperText: "Please put your password",
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            );
-          });
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) async {
+    //   showModalBottomSheet(
+    //       context: context,
+    //       builder: (BuildContext context) {
+    //         return Container(
+    //           height: MediaQuery.of(context).size.height * 0.1,
+    //           child: Column(
+    //             children: [
+    //               SizedBox(
+    //                 height: MediaQuery.of(context).size.height * 0.015,
+    //               ),
+    //               Container(
+    //                 width: MediaQuery.of(context).size.width,
+    //                 padding: EdgeInsets.only(left: 55.0, right: 55.0),
+    //                 child: Focus(
+    //                   onFocusChange: (hasFocus) {
+    //                     // do something when text field is selected
+    //                     Navigator.pushReplacementNamed(context, MapMyLocationAndDestination.id);
+    //                     //TODO: pass my location to the page
+    //                   },
+    //                   child: TextFormField(
+    //                     focusNode: focusNode, //  autofocus: true,
+    //                     textAlign: TextAlign.start,
+    //                     controller: wheretoGo, // the variable that will contain input user data
+    //                     decoration: InputDecoration(
+    //                       filled: true, // to change the color of textinputfilled
+    //
+    //                       border: InputBorder.none,
+    //                       fillColor: Color(0xFFEFEFF3),
+    //                       hintText: "wheretogo".tr().toString(),
+    //                       //   helperText: "Please put your password",
+    //                     ),
+    //                   ),
+    //                 ),
+    //               )
+    //             ],
+    //           ),
+    //         );
+    //       });
+    // });
   }
 
   @override
@@ -258,24 +257,24 @@ class _MapPickerSearchToState extends State<MapPickerSearchTo> {
                             backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
                         onPressed: () async {
                           //TODO: save the location to provider,and pass of user that wants to go to
-                          print(DESTINATION_LOCATION);
+                          //  print(DESTINATION_LOCATION);
                           Utils utils = new Utils();
                           //must use vpn to work
                           //-> using Google APi geocoding
-                          try {
-                            placeId = await WebServices.getAddressFromCordinates(
-                                "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE",
-                                DESTINATION_LOCATION.latitude.toString(),
-                                DESTINATION_LOCATION.longitude.toString());
-                            //  print(placeId);
-                            //-> get the place name using google api place id but we must get the place id
-                            placeName = await WebServices.getPlaceNameBasedInPlaceId(
-                                placeId, "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE");
-                            //-> here i already saved the lat and long and i get the place id
-                            utils.toastMessage(placeName);
-                          } catch (error) {
-                            utils.toastMessage(error); // display the error message
-                          }
+                          // try {
+                          //   placeId = await WebServices.getAddressFromCordinates(
+                          //       "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE",
+                          //       DESTINATION_LOCATION.latitude.toString(),
+                          //       DESTINATION_LOCATION.longitude.toString());
+                          //   //  print(placeId);
+                          //   //-> get the place name using google api place id but we must get the place id
+                          //   placeName = await WebServices.getPlaceNameBasedInPlaceId(
+                          //       placeId, "AIzaSyA54WuN4cuPPdhHB5hW-ibaYJGF7ZB_1mE");
+                          //   //-> here i already saved the lat and long and i get the place id
+                          //   utils.toastMessage(placeName);
+                          // } catch (error) {
+                          //   utils.toastMessage(error); // display the error message
+                          // }
                           //-> this method is using geocoding package
 //                           try {
 //                             List<Placemark> placemarks = await placemarkFromCoordinates(
@@ -288,7 +287,8 @@ class _MapPickerSearchToState extends State<MapPickerSearchTo> {
 //                             utils.toastMessage(error);
 //                           }
 
-                          mapProvider.searchPageTo(placeName);
+                          mapProvider.searchPageTo(DESTINATION_LOCATION.latitude.toString(),
+                              DESTINATION_LOCATION.longitude.toString());
 
                           Navigator.of(context).pop(); // to be in the provide service page
                         },

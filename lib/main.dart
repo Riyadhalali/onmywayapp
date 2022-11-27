@@ -8,6 +8,8 @@ import 'package:alatareekeh/ui/languageselect.dart';
 import 'package:alatareekeh/ui/maps.dart';
 import 'package:alatareekeh/ui/maps/map_mylocationanddestination.dart';
 import 'package:alatareekeh/ui/maps/map_picker_from.dart';
+import 'package:alatareekeh/ui/maps/map_picker_search_from.dart';
+import 'package:alatareekeh/ui/maps/map_picker_search_to.dart';
 import 'package:alatareekeh/ui/maps/map_picker_to.dart';
 import 'package:alatareekeh/ui/maps/maps_places_by_search.dart';
 import 'package:alatareekeh/ui/myappointments.dart';
@@ -113,8 +115,10 @@ class MyApp extends StatelessWidget {
                   MapPickerTo.id: (context) => MapPickerTo(), // user pick location page
                   MapMyLocationAndDestination.id: (context) =>
                       MapMyLocationAndDestination(), // user select his location and destination and then we go to the maps places by search
-                  MapsPlacesBySearch.id: (context) =>
-                      MapsPlacesBySearch() // this page show the polylines between places that user selected
+                  MapsPlacesBySearch.id: (context) => MapsPlacesBySearch(),
+                  MapPickerSearchFrom.id: (context) => MapPickerSearchFrom(),
+                  MapPickerSearchTo.id: (context) => MapPickerSearchTo(),
+                  // this page show the polylines between places that user selected
 
                   //AuthPage.id: (context) => AuthPage(),
                 },

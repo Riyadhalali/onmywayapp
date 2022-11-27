@@ -1,5 +1,4 @@
 import 'package:alatareekeh/services/GetSearchResults.dart';
-import 'package:alatareekeh/services/webservices.dart';
 import 'package:alatareekeh/ui/addappointment.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,8 +22,8 @@ class _SearchResultsState extends State<SearchResults> {
   List<GetSearchResults> searchResultsList;
   //-----------------------------Get Search Results-----------------------------
   Future<List<GetSearchResults>> fetchsearchresults() async {
-    searchResultsList = await WebServices.Search_Services(
-        widget.serviceType, widget.from, widget.to, widget.gender, widget.date);
+    // searchResultsList = await WebServices.Search_Services(
+    //     widget.serviceType, widget.from, widget.to, widget.gender, widget.date);
     return searchResultsList;
   }
 //------------------------------------------------------------------------------
@@ -91,8 +90,7 @@ class _SearchResultsState extends State<SearchResults> {
                                   ': ' +
                                   list.servicePickup.toString(),
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic),
+                                  fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                             ),
                           ],
                         ),
@@ -103,8 +101,7 @@ class _SearchResultsState extends State<SearchResults> {
                                   ': ' +
                                   list.serviceDestination.toString(),
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic),
+                                  fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                             ),
                           ],
                         ),
@@ -112,12 +109,9 @@ class _SearchResultsState extends State<SearchResults> {
                           children: [
                             Flexible(
                               child: Text(
-                                'servicedate'.tr().toString() +
-                                    ': ' +
-                                    list.serviceDate.toString(),
+                                'servicedate'.tr().toString() + ': ' + list.serviceDate.toString(),
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FontStyle.italic),
+                                    fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                               ),
                             ),
                           ],
@@ -125,12 +119,9 @@ class _SearchResultsState extends State<SearchResults> {
                         Row(
                           children: [
                             Text(
-                              'servicespace'.tr().toString() +
-                                  ': ' +
-                                  list.serviceSpace,
+                              'servicespace'.tr().toString() + ': ' + list.serviceSpace,
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic),
+                                  fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
                             ),
                           ],
                         ),
@@ -149,8 +140,7 @@ class _SearchResultsState extends State<SearchResults> {
                               providerSpace: list.serviceSpace,
                               date: list.serviceDate,
                               providerPickup: list.servicePickup.toString(),
-                              providerDistination:
-                                  list.serviceDestination.toString(),
+                              providerDistination: list.serviceDestination.toString(),
                               providerServiceId: list.serviceId.toString(),
                             ),
                           ),

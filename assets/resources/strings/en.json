@@ -45,7 +45,7 @@
   "location": "Location of appointment",
   "youcannotaddappointment": "You can't add Appointment to your self please select other user",
   "deleting": "Deleting ... ",
-  "Search": "Search",
+  "search": "Search",
   "pleasefillalldata": "Please Fill all Data and Date",
   "searchresults": "Search Results",
   "loading": "Loading ..",
@@ -70,7 +70,8 @@
   "wheretogo": "Where To Go?",
   "edit location" : "Edit location",
   "date": "Date",
-  "time": "Time"
+  "time": "Time",
+  "please fill data": "Please Fill Data"
 
 
 
